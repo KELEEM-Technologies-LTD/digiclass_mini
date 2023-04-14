@@ -10,4 +10,4 @@ export default function PrivateRoute() {
   );
 }
 
-//minor chan
+//minor
