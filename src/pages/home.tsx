@@ -1,54 +1,48 @@
-import { Container, Image, Navbar } from "react-bootstrap";
-import GeneralContext from "../context/gen";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { Container, Row, Spinner } from "react-bootstrap";
+import { useNavigate, useParams } from "react-router-dom";
+import CourseCard from "../components/course_card";
 import LoadingOverLay from "../components/loader";
-import LogoutIcon from "@mui/icons-material/Logout";
+import NavBar from "../components/navbar";
+import GeneralContext from "../context/gen";
 import { StorageBox } from "../core/storage";
 
 export default function Home() {
-  const { loading, theme, user } = useContext(GeneralContext);
+  const navigate = useNavigate();
+  const { loading, user, courseLoading, courses, corpid, setCorpId } =
+    useContext(GeneralContext);
+
+  const { corp_id } = useParams();
+  useEffect(() => {
+    if (StorageBox.retrieveUserData()?.corporate_id !== corp_id) {
+      // console.log("Logout and ");
+      StorageBox.clearStorage();
+      window.location.href = `/sign-in/${corp_id}`;
+    }
+    if (corpid === "") {
+      setCorpId(corp_id);
+    }
+  }, []);
 
   return loading ? (
     <LoadingOverLay />
   ) : (
     <>
-      <Navbar bg="light">
-        <Container>
-          <Navbar.Brand href="#home">
-            <Image
-              src={theme?.img}
-              alt="company name"
-              className="d-inline-block align-top me-2"
-              style={{ width: "200px", height: "50px", objectFit: "cover" }}
-              fluid
-            />
-          </Navbar.Brand>
-          <div>
-            <span
-              style={{
-                color: theme?.primary_color,
-                fontWeight: "bolder",
-                marginRight: "10px",
-              }}
-            >
-              {theme?.name}
-            </span>
-            <LogoutIcon
-              style={{ cursor: "pointer" }}
-              onClick={() => {
-                StorageBox.clearStorage();
-                window.location.href = "/";
-              }}
-            />
-          </div>
-        </Container>
-      </Navbar>
-
+      <NavBar />
       <Container className="mt-5">
         <h5 className="text-center">
           Welcome {user?.first_name}, you can start learning your favorite
           courses now on digiclass.
         </h5>
+        <Row className="mt-3">
+          {courseLoading ? (
+            <Spinner />
+          ) : (
+            courses.map((_d: any, i: number) => (
+              <CourseCard course={_d} key={i} />
+            ))
+          )}
+        </Row>
       </Container>
     </>
   );

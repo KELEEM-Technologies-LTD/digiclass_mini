@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import {
   Col,
   Container,
@@ -13,18 +13,26 @@ import baseService from "../core/baseServices";
 import urls from "../core/base.url";
 import { corp_url } from "../core/corporate.info";
 import { displaySuccess } from "../components/alert";
+import { useParams } from "react-router-dom";
 
 export default function EnterEmail() {
-  const { loading, theme } = useContext(GeneralContext);
+  const { loading, theme, corpid, setCorpId } = useContext(GeneralContext);
   const [email, setEmail] = useState<string>("");
   const [auth, setAuth] = useState<boolean>(false);
+
+  const { corp_id } = useParams();
+  useEffect(() => {
+    if (corpid === "") {
+      setCorpId(corp_id);
+    }
+  }, []);
 
   const send_eamil = async (e: any) => {
     e.preventDefault();
     setAuth(true);
     try {
       const res: any = await baseService.get(
-        urls.resetemail + `/${email}/${corp_url}`
+        urls.resetemail + `/${email}/${corp_url}/${corpid}`
       );
       setAuth(false);
       //   console.log(res.data?.message);

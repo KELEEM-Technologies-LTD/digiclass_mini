@@ -11,13 +11,12 @@ import GeneralContext from "../context/gen";
 import LoadingOverLay from "../components/loader";
 import baseService from "../core/baseServices";
 import urls from "../core/base.url";
-import { corp_url } from "../core/corporate.info";
 import { useParams } from "react-router-dom";
 import { displaySuccess, displayWarning } from "../components/alert";
 
 export default function EnterPwd() {
-  const { loading, theme } = useContext(GeneralContext);
-  const { token } = useParams();
+  const { loading, theme, corpid, setCorpId } = useContext(GeneralContext);
+  const { token, corp_id } = useParams();
   const [pwd, setPwd] = useState<string>("");
   const [c_pwd, setCPwd] = useState<string>("");
   const [auth, setAuth] = useState<boolean>(false);
@@ -32,7 +31,7 @@ export default function EnterPwd() {
       });
       setAuth(false);
       displaySuccess("Password updated successfully, please login", () => {
-        window.location.href = "/";
+        window.location.href = `/sign-in/${corpid}`;
       });
     } catch (error: any) {
       console.log();
@@ -48,6 +47,9 @@ export default function EnterPwd() {
   };
 
   useEffect(() => {
+    if (corpid === "") {
+      setCorpId(corp_id);
+    }
     checkToken();
   }, []);
 
@@ -56,7 +58,7 @@ export default function EnterPwd() {
       await baseService.get(urls.verify + "/" + token);
     } catch (error: any) {
       displayWarning(error?.response?.data?.message, 1000, () => {
-        window.location.href = "/";
+        window.location.href = `/sign-in/${corpid}`;
       });
     }
   };

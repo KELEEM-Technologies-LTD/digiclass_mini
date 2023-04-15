@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -13,17 +13,24 @@ import LoadingOverLay from "../components/loader";
 import GeneralContext from "../context/gen";
 import baseService from "../core/baseServices";
 import urls from "../core/base.url";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { StorageBox } from "../core/storage";
 
 const Signin = () => {
-  const { loading, theme } = useContext(GeneralContext);
+  const { loading, theme, corpid, setCorpId } = useContext(GeneralContext);
   document.title = `${theme?.name} - DigiClass`;
 
   const [auth, setAuth] = useState<boolean>(false);
   const [err, setErr] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+
+  const { corp_id } = useParams();
+  useEffect(() => {
+    if (corpid === "") {
+      setCorpId(corp_id);
+    }
+  }, []);
 
   const signin = async (e: any) => {
     e.preventDefault();
@@ -33,15 +40,18 @@ const Signin = () => {
         username: email,
         password: password,
       });
-      console.log(res.data?.data);
+      // console.log(res.data?.data);
       const response: any = res.data?.data;
-      if (response?.user?.is_corporate) {
+      if (
+        response?.user?.is_corporate &&
+        response?.user?.corporate_id === corpid
+      ) {
         const token = response.token;
         const user = response.user;
         StorageBox.saveUserData(user);
         StorageBox.saveAccessToken(token);
 
-        window.location.href = "/home";
+        window.location.href = `/home/${corpid}`;
       } else {
         setErr(
           "This organization has not authorized you to view content on their page."
@@ -106,7 +116,10 @@ const Signin = () => {
                   </FloatingLabel>
 
                   <div className="text-end">
-                    <Link to="/redeem" className="text-decoration-none">
+                    <Link
+                      to={`/redeem/${corpid}`}
+                      className="text-decoration-none"
+                    >
                       Redeem account
                     </Link>
                   </div>
