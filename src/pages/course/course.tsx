@@ -1,6 +1,6 @@
 import { PhotoSizeSelectSmall } from "@mui/icons-material";
-import { useContext, useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { SetStateAction, useContext, useEffect, useState } from "react";
+import { Col, Container, Nav, Row } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingOverLay from "../../components/loader";
@@ -10,6 +10,8 @@ import urls from "../../core/base.url";
 import baseService from "../../core/baseServices";
 import SingleSection from "./components/sections";
 import { StorageBox } from "../../core/storage";
+import { Box, Tab, Tabs } from "@mui/material";
+import OverView from "./components/overview";
 
 export default function COurse() {
   const { course_id } = useParams();
@@ -61,6 +63,8 @@ export default function COurse() {
     getDetails();
   }, []);
 
+  const [value, setValue] = useState<number>(0);
+
   return loading ? (
     <LoadingOverLay />
   ) : (
@@ -94,6 +98,25 @@ export default function COurse() {
             ))}
           </Col>
         </Row>
+        <Tabs
+          value={value}
+          onChange={(e: any, newValue: any) => setValue(newValue)}
+        >
+          <Tab label="Overview" />
+          <Tab label="Reviews" />
+          <Tab label="Author" />
+          <Tab label="FAQ" />
+          <Tab label="Quiz" />
+          <Tab label="Files" />
+        </Tabs>
+        <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
+          {value === 0 ? <OverView data={course} /> : null}
+          {value === 1 ? <>Reviews</> : null}
+          {value === 2 ? <>Author</> : null}
+          {value === 3 ? <>FAQ</> : null}
+          {value === 4 ? <>Quiz</> : null}
+          {value === 5 ? <>Files</> : null}
+        </div>
       </Container>
     </>
   );

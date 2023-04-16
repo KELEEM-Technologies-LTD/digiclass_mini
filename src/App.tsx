@@ -17,7 +17,7 @@ function App() {
       <Router>
         <ContextProvider>
           <Routes>
-            <Route path="/*" element={<>Page not found</>} />
+            <Route path="/*" element={<>958204d5604f48d4876dd3e535dba5d1</>} />
             {/* <Route path="/:corp_id" element={<SigninPage />} /> */}
             <Route path="/sign-in/:corp_id" element={<SigninPage />} />
             <Route path="/redeem/:corp_id" element={<EnterEmail />} />
