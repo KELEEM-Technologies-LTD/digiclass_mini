@@ -10,7 +10,6 @@ import { Row, Col } from "react-bootstrap";
 
 export default function Faq(props: { data: any }) {
   const { data } = props;
-  console.log(data);
 
   return (
     <>

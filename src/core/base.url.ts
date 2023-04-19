@@ -21,6 +21,7 @@ const urls = {
   updateSection: `${base}:3001/adcourse/sections/complete`,
   getSectionStatus: `${base}:3001/adcourse/sections`,
   faq: `${base}:3031/faq`,
+  getAllCompletedSections: `${base}:3001/adcourse/sections/all`,
 };
 
 export default urls;
