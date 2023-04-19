@@ -6,7 +6,7 @@ interface Config {
   url: string;
   headers: {
     Accept: string;
-    'x-access-token': any;
+    "x-access-token": any;
   };
   data?: any;
 }
@@ -20,21 +20,18 @@ const baseService = {
    * @param {object} data
    * @returns {Promise<Response>}
    */
-  put: async (
-    url: string,
-    data: any
-  ): Promise<AxiosError | AxiosResponse> => {
-    console.log("link of request", url);
+  put: async (url: string, data: any): Promise<AxiosError | AxiosResponse> => {
+    // console.log("link of request", url);
     const config: Config = {
       method: "put",
       url,
       headers: {
         Accept: "application/json",
-        'x-access-token': StorageBox.getAccessToken(),
+        "x-access-token": StorageBox.getAccessToken(),
       },
       data: data,
     };
-    console.log(StorageBox.getAccessToken())
+    // console.log(StorageBox.getAccessToken())
     const response: AxiosResponse = await axios(config);
     return response;
   },
@@ -46,17 +43,14 @@ const baseService = {
    * @param {object} data
    * @returns {Promise<AxiosError | AxiosResponse>}
    */
-  get: async (
-    url: string,
-    data?: any
-  ): Promise<AxiosError | AxiosResponse> => {
+  get: async (url: string, data?: any): Promise<AxiosError | AxiosResponse> => {
     // console.log("link of request", url);
     const config: Config = {
       method: "get",
       url,
       headers: {
         Accept: "application/json",
-        'x-access-token': StorageBox.getAccessToken(),
+        "x-access-token": StorageBox.getAccessToken(),
       },
       data: data,
     };
@@ -72,16 +66,13 @@ const baseService = {
    * @param {object} data
    *
    */
-  post: async (
-    url: string,
-    data: any
-  ): Promise<AxiosError | AxiosResponse> => {
+  post: async (url: string, data: any): Promise<AxiosError | AxiosResponse> => {
     const config: Config = {
       method: "post",
       url,
       headers: {
         Accept: "application/json",
-        'x-access-token': StorageBox.getAccessToken(),
+        "x-access-token": StorageBox.getAccessToken(),
       },
       data: data,
     };
@@ -93,13 +84,13 @@ const baseService = {
     url: string,
     data: any
   ): Promise<AxiosError | AxiosResponse> => {
-    console.log(data);
+    // console.log(data);
     const config: Config = {
       method: "patch",
       url,
       headers: {
         Accept: "application/json",
-        'x-access-token': StorageBox.getAccessToken(),
+        "x-access-token": StorageBox.getAccessToken(),
       },
       data,
     };
@@ -112,7 +103,7 @@ const baseService = {
       url,
       headers: {
         Accept: "application/json",
-        'x-access-token': StorageBox.getAccessToken(),
+        "x-access-token": StorageBox.getAccessToken(),
       },
     };
 

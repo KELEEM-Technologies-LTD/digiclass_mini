@@ -54,8 +54,8 @@ export default function COurse() {
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
-      navigate(-1);
+      // console.log(error);
+      navigate(`/home/${corp_id}`);
     }
   };
 

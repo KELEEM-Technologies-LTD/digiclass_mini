@@ -1,15 +1,16 @@
 import { useContext, useEffect } from "react";
-import { Container, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import CourseCard from "../components/course_card";
 import LoadingOverLay from "../components/loader";
 import NavBar from "../components/navbar";
 import GeneralContext from "../context/gen";
 import { StorageBox } from "../core/storage";
+import { Pagination } from "@mui/material";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { loading, user, courseLoading, courses, corpid, setCorpId } =
+  const { loading, user, courseLoading, courses, corpid, setCorpId, theme } =
     useContext(GeneralContext);
 
   const { corp_id } = useParams();
@@ -29,11 +30,19 @@ export default function Home() {
   ) : (
     <>
       <NavBar />
-      <Container className="mt-5">
-        <h5 className="text-center">
-          Welcome {user?.first_name}, you can start learning your favorite
-          courses now on digiclass.
-        </h5>
+      <div className="flex flex-col font-serif">
+        {/* Header  */}
+        <div
+          className={`flex flex-col bg-[${theme?.primary_color}] md:px-16 px-4 justify-end`}
+        >
+          <div className="flex justify-between items-center">
+            <p className=" text-2xl md:text-4xl md:font-semibold text-white py-7">
+              Courses
+            </p>
+          </div>
+        </div>
+      </div>
+      <Container className="mt-5" fluid>
         <Row className="mt-3">
           {courseLoading ? (
             <Spinner />
@@ -42,6 +51,11 @@ export default function Home() {
               <CourseCard course={_d} key={i} />
             ))
           )}
+        </Row>
+        <Row className="text-center mt-5">
+          <Col md={{ span: 8, offset: 2 }}>
+            <Pagination count={1} variant="outlined" />
+          </Col>
         </Row>
       </Container>
     </>

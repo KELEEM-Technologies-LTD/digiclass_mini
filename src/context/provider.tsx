@@ -47,6 +47,63 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
     get_course();
   }, [corpid]);
 
+  const [read, setRead] = useState<any>([]);
+  const [unread, setUnread] = useState<any>([]);
+  const get_notifications = async () => {
+    const user: any = StorageBox.retrieveUserData();
+    try {
+      const notification_payload: any = await baseService.get(
+        urls.notifications + `/${user.user_id}`
+      );
+      // console.log(notification_payload.data?.payload);
+      const notifications = notification_payload.data?.payload;
+
+      const seenArr: any = notifications.filter((obj: any) =>
+        obj.view?.includes(user.user_id)
+      );
+      setRead(seenArr);
+
+      const notSeenArr: any = notifications.filter(
+        (obj: any) => !obj.view?.includes(user.user_id)
+      );
+
+      // console.log(notifications);
+      setUnread(notSeenArr);
+    } catch (error) {
+      // displayWarning("Error loading notifications");
+    }
+  };
+
+  useEffect(() => {
+    get_notifications();
+  }, []);
+
+  const [myCourseLoading, setMyCourseLoading] = useState<boolean>(true);
+  const [myCourseArray, setMyCourseArray] = useState<any>([]);
+  const [myCourse, setMyCourse] = useState<any>([]);
+  const get_my_course = async () => {
+    try {
+      if (StorageBox.getAccessToken() !== null) {
+        const user: any = StorageBox.retrieveUserData();
+        const response: any = await baseService.get(
+          urls.getmypaidc + `/${user.user_id}`
+        );
+
+        const arr = response.data?.payload?.map((d: any) => d.course_id);
+        setMyCourseArray(arr);
+        setMyCourse(response.data?.payload);
+        setMyCourseLoading(false);
+        // console.log(response.data?.payload);
+        // console.log(arr);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    get_my_course();
+  }, []);
+
   const [player, setPlayer] = useState<boolean>(false);
   const [current, setCurrent] = useState<any>(null);
 
@@ -65,6 +122,16 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
         setPlayer,
         current,
         setCurrent,
+
+        read,
+        unread,
+        get_notifications,
+
+        //Courses
+        myCourseLoading,
+        myCourse,
+        myCourseArray,
+        setMyCourseLoading,
       }}
     >
       {children}
