@@ -93,11 +93,9 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
         setMyCourseArray(arr);
         setMyCourse(response.data?.payload);
         setMyCourseLoading(false);
-        // console.log(response.data?.payload);
-        // console.log(arr);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
   useEffect(() => {

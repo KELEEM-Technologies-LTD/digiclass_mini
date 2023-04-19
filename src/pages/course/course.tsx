@@ -1,6 +1,7 @@
 import { PhotoSizeSelectSmall } from "@mui/icons-material";
-import { SetStateAction, useContext, useEffect, useState } from "react";
-import { Col, Container, Nav, Row } from "react-bootstrap";
+import { Tab, Tabs } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import { Col, Container, Row } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import { useNavigate, useParams } from "react-router-dom";
 import LoadingOverLay from "../../components/loader";
@@ -8,10 +9,11 @@ import NavBar from "../../components/navbar";
 import GeneralContext from "../../context/gen";
 import urls from "../../core/base.url";
 import baseService from "../../core/baseServices";
-import SingleSection from "./components/sections";
 import { StorageBox } from "../../core/storage";
-import { Box, Tab, Tabs } from "@mui/material";
 import OverView from "./components/overview";
+import SingleSection from "./components/sections";
+import Review from "./components/reviews";
+import Faq from "./components/faq";
 
 export default function COurse() {
   const { course_id } = useParams();
@@ -36,10 +38,9 @@ export default function COurse() {
     }
   }, []);
 
+  const [reviews, setReviews] = useState<any>([]);
+  const [faq, setFaq] = useState<any>([]);
   const getDetails = async () => {
-    if (current?.course_id === course_id) {
-      setPlayer(false);
-    }
     try {
       const res: any = await baseService.get(urls.get_single + `/${course_id}`);
       console.log(res.data);
@@ -51,10 +52,20 @@ export default function COurse() {
         course_id: course_id,
       };
       setCurrent(current);
+      setPlayer(false);
+
+      const course_reviews: any = await baseService.get(
+        urls.getReviews + `?course_id=${course_id}`
+      );
+      //   console.log(course_reviews.data?.data?.data);
+      setReviews(course_reviews.data?.data?.data);
+
+      const course_faq: any = await baseService.get(urls.faq + `/${course_id}`);
+      setFaq(course_faq.data?.payload);
 
       setLoading(false);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
       navigate(`/home/${corp_id}`);
     }
   };
@@ -104,18 +115,18 @@ export default function COurse() {
         >
           <Tab label="Overview" />
           <Tab label="Reviews" />
-          <Tab label="Author" />
+          {/* <Tab label="Author" /> */}
           <Tab label="FAQ" />
           <Tab label="Quiz" />
           <Tab label="Files" />
         </Tabs>
         <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
           {value === 0 ? <OverView data={course} /> : null}
-          {value === 1 ? <>Reviews</> : null}
-          {value === 2 ? <>Author</> : null}
-          {value === 3 ? <>FAQ</> : null}
-          {value === 4 ? <>Quiz</> : null}
-          {value === 5 ? <>Files</> : null}
+          {value === 1 ? <Review data={reviews} /> : null}
+          {/* {value === 2 ? <>Author</> : null} */}
+          {value === 2 ? <Faq data={faq} /> : null}
+          {value === 3 ? <>Quiz</> : null}
+          {value === 4 ? <>Files</> : null}
         </div>
       </Container>
     </>

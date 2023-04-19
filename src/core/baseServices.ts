@@ -6,7 +6,7 @@ interface Config {
   url: string;
   headers: {
     Accept: string;
-    "x-access-token": any;
+    authorization: any;
   };
   data?: any;
 }
@@ -27,11 +27,11 @@ const baseService = {
       url,
       headers: {
         Accept: "application/json",
-        "x-access-token": StorageBox.getAccessToken(),
+        authorization: `Bearer ` + StorageBox.getAccessToken(),
       },
       data: data,
     };
-    // console.log(StorageBox.getAccessToken())
+    // console.log(`Bearer ` + StorageBox.getAccessToken())
     const response: AxiosResponse = await axios(config);
     return response;
   },
@@ -50,7 +50,7 @@ const baseService = {
       url,
       headers: {
         Accept: "application/json",
-        "x-access-token": StorageBox.getAccessToken(),
+        authorization: `Bearer ` + StorageBox.getAccessToken(),
       },
       data: data,
     };
@@ -72,7 +72,7 @@ const baseService = {
       url,
       headers: {
         Accept: "application/json",
-        "x-access-token": StorageBox.getAccessToken(),
+        authorization: `Bearer ` + StorageBox.getAccessToken(),
       },
       data: data,
     };
@@ -90,7 +90,7 @@ const baseService = {
       url,
       headers: {
         Accept: "application/json",
-        "x-access-token": StorageBox.getAccessToken(),
+        authorization: `Bearer ` + StorageBox.getAccessToken(),
       },
       data,
     };
@@ -103,7 +103,7 @@ const baseService = {
       url,
       headers: {
         Accept: "application/json",
-        "x-access-token": StorageBox.getAccessToken(),
+        authorization: `Bearer ` + StorageBox.getAccessToken(),
       },
     };
 

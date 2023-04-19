@@ -15,6 +15,7 @@ const MyCourse = React.lazy(() => import("./pages/my-courses"));
 const MyAccount = React.lazy(() => import("./pages/profile/account"));
 const MyBuyNow = React.lazy(() => import("./pages/buy-now"));
 const MyVerifyTransactions = React.lazy(() => import("./pages/verify-payment"));
+const MyPaidCourse = React.lazy(() => import("./pages/my-course/paid-course"));
 function App() {
   return (
     <React.Suspense fallback={<LoadingOverLay />}>
@@ -38,6 +39,10 @@ function App() {
               <Route
                 path="/course/:course_id/:corp_id"
                 element={<CoursesPage />}
+              />
+              <Route
+                path="/my-course/:course_id/:corp_id"
+                element={<MyPaidCourse />}
               />
               <Route
                 path="/check/:corp_id/verifytransaction"

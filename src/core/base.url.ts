@@ -16,6 +16,11 @@ const urls = {
   getmypaidc: `${base}:1098/transactions/listpaid`,
   initiatePyament: `${base}:1098/transactions/initialize`,
   verifyTransactions: `${base}:1098/transactions/verify`,
+
+  getReviews: `${base}:1908/api/v1/reviews`,
+  updateSection: `${base}:3001/adcourse/sections/complete`,
+  getSectionStatus: `${base}:3001/adcourse/sections`,
+  faq: `${base}:3031/faq`,
 };
 
 export default urls;

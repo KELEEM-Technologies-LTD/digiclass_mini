@@ -1,0 +1,22 @@
+import { useContext, useEffect } from "react";
+import GeneralContext from "../../context/gen";
+import { StorageBox } from "../../core/storage";
+import { useParams } from "react-router-dom";
+
+export default function PaidCourse() {
+  const { current, theme, setCurrent, player, setPlayer, corpid, setCorpId } =
+    useContext(GeneralContext);
+  const { corp_id } = useParams();
+  useEffect(() => {
+    if (StorageBox.retrieveUserData().corporate_id !== corp_id) {
+      // console.log("Logout and ");
+      StorageBox.clearStorage();
+      window.location.href = `/sign-in/${corp_id}`;
+    }
+    if (corpid === "") {
+      setCorpId(corp_id);
+    }
+  }, []);
+
+  return <></>;
+}

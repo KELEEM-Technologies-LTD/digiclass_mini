@@ -1,5 +1,5 @@
-import { Fullscreen } from "@mui/icons-material";
-import { useContext } from "react";
+import { Fullscreen, PlayCircleOutline } from "@mui/icons-material";
+import { useContext, useState } from "react";
 import { Card } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import GeneralContext from "../context/gen";
 export default function FloatingPlayer() {
   const navigate = useNavigate();
   const { setPlayer, player, current, corpid } = useContext(GeneralContext);
+  const [playing, setPlaying] = useState<boolean>(true);
 
   return player ? (
     <Card
@@ -22,7 +23,11 @@ export default function FloatingPlayer() {
           <Fullscreen
             style={{ cursor: "pointer" }}
             onClick={() => {
-              navigate(`/course/${current?.course_id}/${corpid}`);
+              navigate(
+                current?.paid === true
+                  ? `/my-course/${current?.course_id}/${corpid}`
+                  : `/course/${current?.course_id}/${corpid}`
+              );
               setPlayer(false);
             }}
           />
@@ -30,7 +35,19 @@ export default function FloatingPlayer() {
         <ReactPlayer
           width="100%"
           height="15em"
-          url={current?.url ?? "https://www.youtube.com/watch?v=TiT-jxk21Yg"}
+          url={current?.url}
+          playIcon={
+            <PlayCircleOutline className="w-4 h-4" style={{ color: "green" }} />
+          }
+          playing={playing}
+          config={{
+            file: {
+              attributes: {
+                controlsList: "nodownload",
+              },
+            },
+          }}
+          controls={true}
         />
       </Card.Body>
     </Card>
