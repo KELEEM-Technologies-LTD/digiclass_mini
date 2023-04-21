@@ -19,7 +19,7 @@ export default function CourseCard(props: { course: any }) {
   const navigate = useNavigate();
   return (
     <>
-      <Col md={4} lg={3} sm={12}>
+      <Col md={4} lg={3} sm={12} className="mb-4">
         <div
           className="relative cursor-pointer flex flex-col rounded-md overflow-hidden shadow-md"
           onClick={() =>

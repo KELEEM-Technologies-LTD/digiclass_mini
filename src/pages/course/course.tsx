@@ -122,7 +122,7 @@ export default function COurse() {
         </Tabs>
         <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
           {value === 0 ? <OverView data={course} /> : null}
-          {value === 1 ? <Review data={reviews} /> : null}
+          {value === 1 ? <Review data={reviews} reload={getDetails} /> : null}
           {/* {value === 2 ? <>Author</> : null} */}
           {value === 2 ? <Faq data={faq} /> : null}
           {value === 3 ? <>Quiz</> : null}

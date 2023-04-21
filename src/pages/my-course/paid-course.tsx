@@ -147,7 +147,7 @@ export default function PaidCourse() {
         </Tabs>
         <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
           {value === 0 ? <OverView data={courseDetail} /> : null}
-          {value === 1 ? <Review data={reviews} /> : null}
+          {value === 1 ? <Review data={reviews} reload={getData} /> : null}
           {/* {value === 2 ? <>Author</> : null} */}
           {value === 2 ? <Faq data={faq} /> : null}
           {value === 3 ? <>Quiz</> : null}

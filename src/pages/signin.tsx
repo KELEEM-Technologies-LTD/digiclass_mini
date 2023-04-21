@@ -76,14 +76,18 @@ const Signin = () => {
           <Row className="justify-content-center">
             <Col md={6} sm={12}>
               <div className="bg-white p-4 text-center">
-                <Image
-                  fluid
-                  src={theme?.img}
-                  alt="Logo"
-                  style={{ height: "100px" }}
-                />
-                <h3>{theme?.name}</h3>
-                <h5 className="mt-3">Sign in</h5>
+                <div className="flex justify-center items-center mb-3">
+                  <Image
+                    fluid
+                    src={theme?.img}
+                    alt="Logo"
+                    style={{ height: "100px" }}
+                  />
+                </div>
+                <h3 className="text-3xl" style={{ fontFamily: "sans-serif" }}>
+                  {theme?.name}
+                </h3>
+                <h5 className="mt-2 text-base">Sign in</h5>
 
                 <small className="text-danger">{err}</small>
                 <Form className="mt-4" onSubmit={signin}>
