@@ -1,4 +1,4 @@
-import { PhotoSizeSelectSmall } from "@mui/icons-material";
+import { ChevronLeft, PhotoSizeSelectSmall } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
@@ -80,55 +80,67 @@ export default function COurse() {
     <LoadingOverLay />
   ) : (
     <>
-      <NavBar />
-      <Container fluid>
-        <Row className="mt-3">
-          <Col md={8}>
-            <div className="d-flex">
-              <ReactPlayer
-                width="100%"
-                height="70vh"
-                url={
-                  current?.url ?? "https://www.youtube.com/watch?v=TiT-jxk21Yg"
-                }
-                playing={!player}
-                controls={true}
-              />
-              <PhotoSizeSelectSmall
-                style={{ color: theme?.primary_color, cursor: "pointer" }}
-                onClick={() => setPlayer(true)}
-              />
+      {/* <NavBar /> */}
+      <div
+        className={`bg-[${theme?.primary_color}] w-full py-6 px-4 flex gap-3`}
+      >
+        <button onClick={() => navigate(-1)} className="text-white">
+          <ChevronLeft />
+          {course?.title}
+        </button>
+      </div>
+      <div style={{ minHeight: "100vh" }}>
+        <div className="flex flex-wrap">
+          <div className="w-full md:w-8/12">
+            {/* <div className="flex"> */}
+            <ReactPlayer
+              width="100%"
+              height="70vh"
+              url={
+                current?.url ?? "https://www.youtube.com/watch?v=TiT-jxk21Yg"
+              }
+              playing={!player}
+              controls={true}
+            />
+            <PhotoSizeSelectSmall
+              style={{ color: theme?.primary_color, cursor: "pointer" }}
+              onClick={() => setPlayer(true)}
+            />
+            {/* </div> */}
+          </div>
+          <div className="w-full md:w-4/12">
+            <div className="px-4 py-3 bg-white">
+              <p className={`text-[${theme?.primary_color}] text-lg`}>
+                Course content
+              </p>
             </div>
-          </Col>
-          <Col md={4}>
-            <div className="text-center">
-              <h5 style={{ color: theme?.primary_color }}>Course Content</h5>
+            <hr className="my-1 mx-5 border-t border-blue-400" />
+            <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
+              {sections.map((_d: any, i: number) => (
+                <SingleSection data={_d} key={i} />
+              ))}
             </div>
-            {sections.map((_d: any, i: number) => (
-              <SingleSection data={_d} key={i} />
-            ))}
-          </Col>
-        </Row>
-        <Tabs
-          value={value}
-          onChange={(e: any, newValue: any) => setValue(newValue)}
-        >
-          <Tab label="Overview" />
-          <Tab label="Reviews" />
-          {/* <Tab label="Author" /> */}
-          <Tab label="FAQ" />
-          <Tab label="Quiz" />
-          <Tab label="Files" />
-        </Tabs>
-        <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
-          {value === 0 ? <OverView data={course} /> : null}
-          {value === 1 ? <Review data={reviews} reload={getDetails} /> : null}
-          {/* {value === 2 ? <>Author</> : null} */}
-          {value === 2 ? <Faq data={faq} /> : null}
-          {value === 3 ? <>Quiz</> : null}
-          {value === 4 ? <>Files</> : null}
+          </div>
         </div>
-      </Container>
+        <Container fluid>
+          <Tabs
+            value={value}
+            onChange={(e: any, newValue: any) => setValue(newValue)}
+          >
+            <Tab label="Overview" />
+            <Tab label="Reviews" />
+            <Tab label="FAQ" />
+            <Tab label="Files" />
+          </Tabs>
+          <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
+            {value === 0 ? <OverView data={course} /> : null}
+            {value === 1 ? <Review data={reviews} reload={getDetails} /> : null}
+            {/* {value === 2 ? <>Author</> : null} */}
+            {value === 2 ? <Faq data={faq} /> : null}
+            {value === 3 ? <>Files</> : null}
+          </div>
+        </Container>
+      </div>
     </>
   );
 }

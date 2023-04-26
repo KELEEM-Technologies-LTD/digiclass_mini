@@ -58,30 +58,28 @@ export default function SingleSection(props: { data: any }) {
 
   return (
     <>
-      <div className="d-flex justify-content-between px-4">
-        <div className="d-flex">
-          {current?.section_name === name ? (
-            <PauseCircle
-              style={{
-                color: theme?.primary_color,
-                marginRight: "5px",
-                cursor: "pointer",
-              }}
-              onClick={handlePlay}
-            />
-          ) : (
-            <PlayCircle
-              style={{
-                color: theme?.primary_color,
-                marginRight: "5px",
-                cursor: "pointer",
-              }}
-              onClick={handlePlay}
-            />
-          )}
-          <p>{name}</p>
+      <div className="flex mb-3 ml-5">
+        {current?.section_name === name ? (
+          <PauseCircle
+            style={{
+              color: theme?.primary_color,
+            }}
+            onClick={handlePlay}
+            className="w-7 h-7 mr-2 cursor-pointer"
+          />
+        ) : (
+          <PlayCircle
+            style={{
+              color: theme?.primary_color,
+            }}
+            className="w-7 h-7 mr-2 cursor-pointer"
+            onClick={handlePlay}
+          />
+        )}
+        <div className="flex flex-col">
+          <p className="text-lg">{name}</p>
         </div>
-        <div>
+        <div className="ml-auto">
           <Form.Check
             type="switch"
             label="Mark as completed"
@@ -90,6 +88,37 @@ export default function SingleSection(props: { data: any }) {
           />
         </div>
       </div>
+
+      {/* <div className="flex mb-3 ml-5">
+        {current?.section_name === name ? (
+          <PauseCircle
+            style={{
+              color: theme?.primary_color,
+              marginRight: "5px",
+            }}
+            onClick={handlePlay}
+            className="w-7 h-7 mr-2 cursor-pointer"
+          />
+        ) : (
+          <PlayCircle
+            style={{
+              color: theme?.primary_color,
+              marginRight: "5px",
+              cursor: "pointer",
+            }}
+            onClick={handlePlay}
+          />
+        )}
+        <p>{name}</p>
+      </div>
+      <div>
+        <Form.Check
+          type="switch"
+          label="Mark as completed"
+          checked={checked}
+          onChange={handleChecked}
+        />
+      </div> */}
     </>
   );
 }
