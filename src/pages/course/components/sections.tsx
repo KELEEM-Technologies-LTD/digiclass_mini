@@ -6,9 +6,9 @@ import { StorageBox } from "../../../core/storage";
 import urls from "../../../core/base.url";
 import baseService from "../../../core/baseServices";
 
-export default function SingleSection(props: { data: any }) {
+export default function SingleSection(props: { data: any; checkStatus: any }) {
   const { theme, setCurrent, current } = useContext(GeneralContext);
-  const { data } = props;
+  const { data, checkStatus } = props;
   const { name, course_id, url, section_id } = data;
   // console.log(data);
 
@@ -33,6 +33,7 @@ export default function SingleSection(props: { data: any }) {
 
       // console.log(res);
       setChecked(!checked);
+      checkStatus();
     } catch (err) {}
   };
 
@@ -43,7 +44,7 @@ export default function SingleSection(props: { data: any }) {
         urls.getSectionStatus + `/${user.user_id}/${section_id}`
       );
 
-      console.log(res.data?.payload);
+      // console.log(res.data?.payload);
       if (res.data?.payload?.length === 0) {
         setChecked(false);
       } else {
@@ -77,9 +78,9 @@ export default function SingleSection(props: { data: any }) {
           />
         )}
         <div className="flex flex-col">
-          <p className="text-lg">{name}</p>
+          <p className="text-sm">{name}</p>
         </div>
-        <div className="ml-auto">
+        <div className="ml-auto text-sm">
           <Form.Check
             type="switch"
             label="Mark as completed"

@@ -1,12 +1,8 @@
-import { useEffect } from "react";
 import { Col, Row, Table } from "react-bootstrap";
 
 export default function OverView(props: { data: any }) {
   const { data } = props;
   const { about, skill_level, language, caption } = data;
-  useEffect(() => {
-    console.log(data);
-  }, []);
 
   return (
     <>

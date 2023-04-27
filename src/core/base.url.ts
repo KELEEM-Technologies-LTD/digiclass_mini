@@ -3,6 +3,7 @@ const urls = {
   user: `${base}:1904/api/v1/users`,
   transactions: `${base}:1098/transactions/list`,
   notifications: `${base}:1099/notification/list`,
+  postNotification: `${base}:1099/notification/sendnotifcation`,
 
   theme: `${base}:3002/additional-instructor/theme`,
   signin: `${base}:2000/api/v1/auth/login`,
@@ -22,6 +23,14 @@ const urls = {
   getSectionStatus: `${base}:3001/adcourse/sections`,
   faq: `${base}:3031/faq`,
   getAllCompletedSections: `${base}:3001/adcourse/sections/all`,
+
+  //quiz
+  results: `${base}:3031/quiz/quiz-results`,
+  quiz_questions: `${base}:3031/quiz/question`,
+  quiz_asnwers: `${base}:3031/quiz/answers`,
+  secondary_upload: `${base}:1101/upload`,
+  scores: `${base}:3031/quiz/scores`,
+  getCerts: `${base}:3001/adcourse/certs`,
 };
 
 export default urls;

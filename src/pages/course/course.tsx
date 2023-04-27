@@ -117,7 +117,7 @@ export default function COurse() {
             <hr className="my-1 mx-5 border-t border-blue-400" />
             <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
               {sections.map((_d: any, i: number) => (
-                <SingleSection data={_d} key={i} />
+                <SingleSection data={_d} key={i} checkStatus={() => {}} />
               ))}
             </div>
           </div>

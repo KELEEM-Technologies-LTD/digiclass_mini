@@ -5,6 +5,8 @@ import "./App.css";
 import PrivateRoute from "./components/HOC";
 import LoadingOverLay from "./components/loader";
 import ContextProvider from "./context/provider";
+import Quiz from "./pages/quiz/quiz";
+import Certificate from "./pages/quiz/ceritificate";
 
 const SigninPage = React.lazy(() => import("./pages/signin"));
 const EnterEmail = React.lazy(() => import("./pages/enter-email"));
@@ -47,6 +49,14 @@ function App() {
               <Route
                 path="/check/:corp_id/verifytransaction"
                 element={<MyVerifyTransactions />}
+              />
+              <Route
+                path="/start-quiz/:corp_id/:course_id"
+                element={<Quiz />}
+              />
+              <Route
+                path="/certifications/:corp_id/:course_id"
+                element={<Certificate />}
               />
             </Route>
           </Routes>

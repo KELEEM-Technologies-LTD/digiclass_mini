@@ -1,20 +1,23 @@
-import { useContext, useEffect, useState } from "react";
-import GeneralContext from "../../context/gen";
-import { StorageBox } from "../../core/storage";
-import { useParams } from "react-router-dom";
-import LoadingOverLay from "../../components/loader";
-import baseService from "../../core/baseServices";
-import urls from "../../core/base.url";
-import NavBar from "../../components/navbar";
-import { Col, Container, Row } from "react-bootstrap";
-import ReactPlayer from "react-player";
-import { PhotoSizeSelectSmall, PlayCircleOutline } from "@mui/icons-material";
-import SingleSection from "../course/components/sections";
+import {
+  ChevronLeft,
+  PhotoSizeSelectSmall,
+  PlayCircleOutline,
+} from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
-import OverView from "../course/components/overview";
-import SinglePaidSection from "./components/section-paid";
-import Review from "../course/components/reviews";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
+import ReactPlayer from "react-player";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import LoadingOverLay from "../../components/loader";
+import GeneralContext from "../../context/gen";
+import urls from "../../core/base.url";
+import baseService from "../../core/baseServices";
+import { StorageBox } from "../../core/storage";
 import Faq from "../course/components/faq";
+import OverView from "../course/components/overview";
+import Review from "../course/components/reviews";
+import SingleSection from "../course/components/sections";
+import { is_course_completed } from "./section_helper";
 
 export default function PaidCourse() {
   const { current, theme, setCurrent, player, setPlayer, corpid, setCorpId } =
@@ -77,83 +80,172 @@ export default function PaidCourse() {
 
       setLoading(false);
     } catch (error: any) {
-      console.log(error.response);
+      console.log(error);
     }
   };
-
   useEffect(() => {
     getData();
   }, []);
 
-  const [value, setValue] = useState<number>(0);
+  useEffect(() => {
+    checkStatus(sections.length);
+  }, [sections]);
 
+  const [completed, setCompleted] = useState<boolean>(false);
+  const checkStatus = async (section_count: number) => {
+    const result = await is_course_completed(
+      course_id as string,
+      section_count
+    );
+    console.log(result);
+    setCompleted(result);
+  };
+
+  const [value, setValue] = useState<number>(0);
+  const navigate = useNavigate();
   return loading ? (
     <LoadingOverLay />
   ) : (
     <>
-      <NavBar />
-      <Container fluid>
-        <Row className="mt-3">
-          <Col md={8}>
-            <div className="d-flex">
-              <ReactPlayer
-                width="100%"
-                height="70vh"
-                url={
-                  current?.url ?? "https://www.youtube.com/watch?v=TiT-jxk21Yg"
-                }
-                playing={false}
-                controls={true}
-                light={courseDetail?.thumbnail}
-                playIcon={
-                  <PlayCircleOutline
-                    className="w-20 h-20 my-40"
-                    style={{ color: "white" }}
-                  />
-                }
-                config={{
-                  file: {
-                    attributes: {
-                      controlsList: "nodownload",
+      {/* <NavBar /> */}
+      <div
+        className={`bg-[${theme?.primary_color}] w-full py-6 px-4 flex gap-3`}
+      >
+        <button onClick={() => navigate(-1)} className="text-white">
+          <ChevronLeft />
+          {courseDetail?.title}
+        </button>
+      </div>
+
+      <div style={{ minHeight: "100vh" }}>
+        <div className="flex flex-wrap">
+          {/* Vidoe Player  */}
+          <div className="w-full md:w-8/12">
+            {completed ? (
+              <Fragment>
+                <div className="w-full h-[60vh] flex items-center justify-center">
+                  {courseDetail.configurations?.quiz_required ? (
+                    <div>
+                      <p>
+                        You have completed {courseDetail?.title} please take a
+                        quiz now
+                      </p>
+                      <div className="mt-2 flex justify-between">
+                        <button
+                          // to="#"
+                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                          onClick={() => setCompleted(false)}
+                        >
+                          Continue watching
+                        </button>
+                        <button
+                          onClick={() =>
+                            navigate(`/start-quiz/${corp_id}/${course_id}`)
+                          }
+                          className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                        >
+                          Start quiz
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <p>
+                        You have completed {courseDetail?.title} your
+                        certificate is ready here
+                      </p>
+                      <div className="mt-2 flex justify-between">
+                        <button
+                          // to="#"
+                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                          onClick={() => setCompleted(false)}
+                        >
+                          Continue watching
+                        </button>
+                        <button
+                          onClick={() =>
+                            navigate(
+                              `/certifications/${courseDetail.course_id}`
+                            )
+                          }
+                          className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                        >
+                          Certificate
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <ReactPlayer
+                  width="100%"
+                  height="70vh"
+                  url={
+                    current?.url ??
+                    "https://www.youtube.com/watch?v=TiT-jxk21Yg"
+                  }
+                  playing={false}
+                  controls={true}
+                  light={courseDetail?.thumbnail}
+                  playIcon={
+                    <PlayCircleOutline
+                      className="w-20 h-20 my-40"
+                      style={{ color: "white" }}
+                    />
+                  }
+                  config={{
+                    file: {
+                      attributes: {
+                        controlsList: "nodownload",
+                      },
                     },
-                  },
-                }}
-              />
-              <PhotoSizeSelectSmall
-                style={{ color: theme?.primary_color, cursor: "pointer" }}
-                onClick={() => setPlayer(true)}
-              />
+                  }}
+                />
+                <PhotoSizeSelectSmall
+                  style={{ color: theme?.primary_color, cursor: "pointer" }}
+                  onClick={() => setPlayer(true)}
+                />
+              </Fragment>
+            )}
+          </div>
+          <div className="w-full md:w-4/12">
+            <div className="px-4 py-3 bg-white">
+              <p className={`text-[${theme?.primary_color}] text-lg`}>
+                Course content
+              </p>
             </div>
-          </Col>
-          <Col md={4}>
-            <div className="text-center">
-              <h5 style={{ color: theme?.primary_color }}>Course Content</h5>
+            <hr className="my-1 mx-5 border-t border-blue-400" />
+            <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
+              {sections.map((_d: any, i: number) => (
+                <SingleSection
+                  data={_d}
+                  key={i}
+                  checkStatus={() => checkStatus(sections.length)}
+                />
+              ))}
             </div>
-            {sections.map((_d: any, i: number) => (
-              <SinglePaidSection key={i} videos={videos} sections={_d} />
-            ))}
-          </Col>
-        </Row>
-        <Tabs
-          value={value}
-          onChange={(e: any, newValue: any) => setValue(newValue)}
-        >
-          <Tab label="Overview" />
-          <Tab label="Reviews" />
-          {/* <Tab label="Author" /> */}
-          <Tab label="FAQ" />
-          <Tab label="Quiz" />
-          <Tab label="Files" />
-        </Tabs>
-        <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
-          {value === 0 ? <OverView data={courseDetail} /> : null}
-          {value === 1 ? <Review data={reviews} reload={getData} /> : null}
-          {/* {value === 2 ? <>Author</> : null} */}
-          {value === 2 ? <Faq data={faq} /> : null}
-          {value === 3 ? <>Quiz</> : null}
-          {value === 4 ? <>Files</> : null}
+          </div>
         </div>
-      </Container>
+        <Container fluid>
+          <Tabs
+            value={value}
+            onChange={(e: any, newValue: any) => setValue(newValue)}
+          >
+            <Tab label="Overview" />
+            <Tab label="Reviews" />
+            <Tab label="FAQ" />
+            <Tab label="Files" />
+          </Tabs>
+          <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
+            {value === 0 ? <OverView data={courseDetail} /> : null}
+            {value === 1 ? <Review data={reviews} reload={getData} /> : null}
+            {value === 2 ? <Faq data={faq} /> : null}
+            {value === 3 ? <>Files</> : null}
+          </div>
+        </Container>
+      </div>
     </>
   );
 }
