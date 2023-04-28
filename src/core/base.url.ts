@@ -31,6 +31,9 @@ const urls = {
   secondary_upload: `${base}:1101/upload`,
   scores: `${base}:3031/quiz/scores`,
   getCerts: `${base}:3001/adcourse/certs`,
+  sendEmail: `${base}:1100/send-email`,
+
+  files: `${base}:3002/additional-instructor/files`,
 };
 
 export default urls;

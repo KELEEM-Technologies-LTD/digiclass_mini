@@ -1,6 +1,6 @@
 import { ChevronLeft, PhotoSizeSelectSmall } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import ReactPlayer from "react-player";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,6 +14,8 @@ import OverView from "./components/overview";
 import SingleSection from "./components/sections";
 import Review from "./components/reviews";
 import Faq from "./components/faq";
+import Files from "../my-course/components/Files";
+import { is_course_completed } from "../my-course/section_helper";
 
 export default function COurse() {
   const { course_id } = useParams();
@@ -23,6 +25,7 @@ export default function COurse() {
   const [playing, setPlaying] = useState(false);
 
   const [loading, setLoading] = useState<boolean>(true);
+  const [courseDetail, setCourseDetail] = useState<any>([]);
   const [sections, setSections] = useState<any>([]);
   const [course, setCourse] = useState<any>([]);
 
@@ -42,8 +45,15 @@ export default function COurse() {
   const [faq, setFaq] = useState<any>([]);
   const getDetails = async () => {
     try {
+      const course_data: any = await baseService.get(
+        urls.getCourses +
+          `/${course_id}?query_fields=title,status,about,caption,short_description,description,about,skill_level,language,price,caption,instructor,configurations,certificate,contract_percentage,status,view_status,updatedAt,thumbnail`
+      );
+      //   console.log(course_data.data?.data);
+      setCourseDetail(course_data.data?.data);
+
       const res: any = await baseService.get(urls.get_single + `/${course_id}`);
-      console.log(res.data);
+      // console.log(res.data);
       setCourse(res.data?.payload?.details);
       setSections(res.data?.payload?.sections);
       const current = {
@@ -65,7 +75,7 @@ export default function COurse() {
 
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       navigate(`/home/${corp_id}`);
     }
   };
@@ -74,8 +84,21 @@ export default function COurse() {
     getDetails();
   }, []);
 
-  const [value, setValue] = useState<number>(0);
+  useEffect(() => {
+    checkStatus(sections.length);
+  }, [sections]);
 
+  const [completed, setCompleted] = useState<boolean>(false);
+  const checkStatus = async (section_count: number) => {
+    const result = await is_course_completed(
+      course_id as string,
+      section_count
+    );
+    // console.log(result);
+    setCompleted(result);
+  };
+
+  const [value, setValue] = useState<number>(0);
   return loading ? (
     <LoadingOverLay />
   ) : (
@@ -92,21 +115,77 @@ export default function COurse() {
       <div style={{ minHeight: "100vh" }}>
         <div className="flex flex-wrap">
           <div className="w-full md:w-8/12">
-            {/* <div className="flex"> */}
-            <ReactPlayer
-              width="100%"
-              height="70vh"
-              url={
-                current?.url ?? "https://www.youtube.com/watch?v=TiT-jxk21Yg"
-              }
-              playing={!player}
-              controls={true}
-            />
-            <PhotoSizeSelectSmall
-              style={{ color: theme?.primary_color, cursor: "pointer" }}
-              onClick={() => setPlayer(true)}
-            />
-            {/* </div> */}
+            {completed ? (
+              <Fragment>
+                <div className="w-full h-[60vh] flex items-center justify-center">
+                  {courseDetail.configurations?.quiz_required ? (
+                    <div>
+                      <p>
+                        You have completed {courseDetail?.title} please take a
+                        quiz now
+                      </p>
+                      <div className="mt-2 flex justify-between">
+                        <button
+                          // to="#"
+                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                          onClick={() => setCompleted(false)}
+                        >
+                          Continue watching
+                        </button>
+                        <button
+                          onClick={() =>
+                            navigate(`/start-quiz/${corp_id}/${course_id}`)
+                          }
+                          className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                        >
+                          Start quiz
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div>
+                      <p>
+                        You have completed {courseDetail?.title} your
+                        certificate is ready here
+                      </p>
+                      <div className="mt-2 flex justify-between">
+                        <button
+                          // to="#"
+                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                          onClick={() => setCompleted(false)}
+                        >
+                          Continue watching
+                        </button>
+                        <button
+                          onClick={() =>
+                            navigate(
+                              `/certifications/${courseDetail.course_id}`
+                            )
+                          }
+                          className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                        >
+                          Certificate
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <ReactPlayer
+                  width="100%"
+                  height="70vh"
+                  url={current?.url}
+                  playing={false}
+                  controls={true}
+                />
+                <PhotoSizeSelectSmall
+                  style={{ color: theme?.primary_color, cursor: "pointer" }}
+                  onClick={() => setPlayer(true)}
+                />
+              </Fragment>
+            )}
           </div>
           <div className="w-full md:w-4/12">
             <div className="px-4 py-3 bg-white">
@@ -117,7 +196,11 @@ export default function COurse() {
             <hr className="my-1 mx-5 border-t border-blue-400" />
             <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
               {sections.map((_d: any, i: number) => (
-                <SingleSection data={_d} key={i} checkStatus={() => {}} />
+                <SingleSection
+                  data={_d}
+                  key={i}
+                  checkStatus={() => checkStatus(sections.length)}
+                />
               ))}
             </div>
           </div>
@@ -137,7 +220,7 @@ export default function COurse() {
             {value === 1 ? <Review data={reviews} reload={getDetails} /> : null}
             {/* {value === 2 ? <>Author</> : null} */}
             {value === 2 ? <Faq data={faq} /> : null}
-            {value === 3 ? <>Files</> : null}
+            {value === 3 ? <Files course_id={course_id} /> : null}
           </div>
         </Container>
       </div>

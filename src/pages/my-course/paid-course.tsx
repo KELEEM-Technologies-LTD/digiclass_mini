@@ -18,6 +18,7 @@ import OverView from "../course/components/overview";
 import Review from "../course/components/reviews";
 import SingleSection from "../course/components/sections";
 import { is_course_completed } from "./section_helper";
+import Files from "./components/Files";
 
 export default function PaidCourse() {
   const { current, theme, setCurrent, player, setPlayer, corpid, setCorpId } =
@@ -182,10 +183,7 @@ export default function PaidCourse() {
                 <ReactPlayer
                   width="100%"
                   height="70vh"
-                  url={
-                    current?.url ??
-                    "https://www.youtube.com/watch?v=TiT-jxk21Yg"
-                  }
+                  url={current?.url}
                   playing={false}
                   controls={true}
                   light={courseDetail?.thumbnail}
@@ -242,7 +240,7 @@ export default function PaidCourse() {
             {value === 0 ? <OverView data={courseDetail} /> : null}
             {value === 1 ? <Review data={reviews} reload={getData} /> : null}
             {value === 2 ? <Faq data={faq} /> : null}
-            {value === 3 ? <>Files</> : null}
+            {value === 3 ? <Files course_id={course_id} /> : null}
           </div>
         </Container>
       </div>

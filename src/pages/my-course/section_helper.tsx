@@ -14,7 +14,7 @@ export const is_course_completed = async (
 
     const com_sec = allcompletesection.data?.payload?.length;
     const per = com_sec / len_sec;
-
+    // console.log(com_sec)
     if (per < 1) {
       return false;
     } else {

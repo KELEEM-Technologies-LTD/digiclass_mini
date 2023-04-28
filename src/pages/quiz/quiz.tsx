@@ -193,11 +193,23 @@ export default function Quiz() {
           let resultStats = "pending";
           if (percentage >= passmark) {
             resultStats = "passed";
+            await baseService.post(urls.sendEmail, {
+              to: user.email,
+              subject: `Quiz results, ${course_configuration?.data?.data?.title}`,
+              text: `Congratulations, Your results for ${course_configuration?.data?.data?.title} has been submitted. The course was passed, the results are available on your course page`,
+            });
+          } else if (percentage <= passmark) {
+            resultStats = "failed";
+
+            await baseService.post(urls.sendEmail, {
+              to: user.email,
+              subject: `Quiz results, ${course_configuration?.data?.data?.title}`,
+              text: `Your results for ${course_configuration?.data?.data?.title} has been reviewed. The course was failed, please await instructor approval to retake the course`,
+            });
           }
 
-          console.log(resultStats);
-          console.log(percentage);
-
+          // console.log(resultStats);
+          // console.log(percentage);
           // console.log(my_results_payload);
           // console.log(objOnly);
           await baseService.post(urls.results, {
@@ -208,14 +220,17 @@ export default function Quiz() {
           });
           // console.log(obj_score);
           // console.log(init);
-          setResult(true);
-          setLoading(false);
 
           await baseService.post(urls.postNotification, {
             target: course_configuration?.data?.data?.instructor,
             heading: `Quiz submission, ${course_configuration?.data?.data?.title}`,
             message: `Quiz submission made for ${course_configuration?.data?.data?.title}, please go to course page to review`,
           });
+
+          //send Email to instructor
+
+          setResult(true);
+          setLoading(false);
           Swal.fire("Submitted!", "Course has been submitted.", "success");
         } catch (error) {
           setLoading(false);
