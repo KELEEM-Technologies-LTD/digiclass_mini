@@ -42,13 +42,13 @@ export default function Certificate() {
       );
 
       if (course_res.data?.data?.certificate !== null) {
-        setCert_url(course_res.data?.data?.certificate);
+        setCert_url(course_res.data?.data?.certificate.replace(/"/g, ""));
       } else {
         const image = process.env.PUBLIC_URL + "/cert.png";
         setCert_url(image);
       }
 
-      console.log(course_res.data?.data?.certificate);
+      // console.log(course_res.data?.data?.certificate.replace(/"/g, ""));
 
       const cert_res: any = await baseService.put(
         urls.getCerts + `/${user.user_id}/${course_id}`,

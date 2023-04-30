@@ -12,7 +12,7 @@ import LoadingOverLay from "../components/loader";
 import baseService from "../core/baseServices";
 import urls from "../core/base.url";
 import { corp_url } from "../core/corporate.info";
-import { displaySuccess } from "../components/alert";
+import { displaySuccess, displayWarning } from "../components/alert";
 import { useParams } from "react-router-dom";
 
 export default function EnterEmail() {
@@ -36,9 +36,16 @@ export default function EnterEmail() {
       );
       setAuth(false);
       //   console.log(res.data?.message);
-      displaySuccess(`${res?.data?.message}`, () => {}, 7000);
-    } catch (error) {
-      console.log(error);
+      displaySuccess(
+        `${res?.data?.message}`,
+        () => {
+          window.location.href = `/sign-in/${corp_id}`;
+        },
+        7000
+      );
+    } catch (error: any) {
+      // console.log(error);
+      displayWarning(error?.response?.data?.message, 5000);
       setAuth(false);
     }
   };

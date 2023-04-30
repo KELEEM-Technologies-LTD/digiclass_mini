@@ -16,7 +16,7 @@ export default function Faq(props: { data: any }) {
       <Row>
         <Col md={8}>
           {data.length === 0 ? (
-            <>There are no FAQs available for this cours</>
+            <>There are no FAQs available for this course</>
           ) : (
             data.map((_d: any, i: number) => <Accord data={_d} key={i} />)
           )}

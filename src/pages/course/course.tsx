@@ -159,7 +159,7 @@ export default function COurse() {
                         <button
                           onClick={() =>
                             navigate(
-                              `/certifications/${courseDetail.course_id}`
+                              `/certifications/${corp_id}/${courseDetail.course_id}`
                             )
                           }
                           className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
@@ -216,7 +216,13 @@ export default function COurse() {
             <Tab label="Files" />
           </Tabs>
           <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
-            {value === 0 ? <OverView data={course} /> : null}
+            {value === 0 ? (
+              <OverView
+                data={course}
+                completed={completed}
+                setCompleted={setCompleted}
+              />
+            ) : null}
             {value === 1 ? <Review data={reviews} reload={getDetails} /> : null}
             {/* {value === 2 ? <>Author</> : null} */}
             {value === 2 ? <Faq data={faq} /> : null}

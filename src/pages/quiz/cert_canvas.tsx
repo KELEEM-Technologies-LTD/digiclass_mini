@@ -11,47 +11,59 @@ export default function CertificateCanvas(props: {
   const canvasRef: any = useRef(null);
 
   useEffect(() => {
-    // console.log(course);
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
+    if (!cert.user_name) {
+      window.location.reload();
+    } else {
+      // console.log(course);
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
 
-    const image = new Image();
-    // image.src =
-    // image.crossOrigin = "anonymous";
-    image.src = process.env.PUBLIC_URL + cert_url;
+      const image = new Image();
+      // image.src =
+      image.crossOrigin = "anonymous";
+      image.src = process.env.PUBLIC_URL + cert_url;
 
-    image.onload = () => {
-      // Draw the image onto the canvas
-      context.drawImage(image, 0, 0, canvas.width, canvas.height);
+      image.onload = () => {
+        // Draw the image onto the canvas
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-      // Set the font and text alignment
-      context.font = "bold 24px Arial";
-      context.textAlign = "center";
-      // context.fillStyle = "red";
+        // Set the font and text alignment
+        context.font = "bold 24px Arial";
+        context.textAlign = "center";
+        // context.fillStyle = "red";
+        const maxWidth = canvas.width / 1.8;
+        const textWidth = context.measureText(course.title).width;
 
-      // Write the text onto the canvas
-      context.fillText(cert.user_name, canvas.width / 2, canvas.height / 2.1);
-      context.fillText(course.title, canvas.width / 2, canvas.height / 1.4);
+        if (textWidth > maxWidth) {
+          const fontSize = Math.floor((24 * maxWidth) / textWidth);
+          context.font = `bold ${fontSize}px Arial`;
+        }
 
-      context.fillText(
-        cert.certificate_code,
-        canvas.width / 1.17,
-        canvas.height / 1.12
-      );
-      context.fillText(
-        moment(cert.date_generated).format("MMM Do, YYYY"),
-        canvas.width / 1.615,
-        canvas.height / 1.12
-      );
+        // Write the text onto the canvas
+        context.fillText(course.title, canvas.width / 2, canvas.height / 1.4);
+        context.font = "bold 24px Arial";
+        context.fillText(cert.user_name, canvas.width / 2, canvas.height / 2.1);
 
-      context.fillText(ins_name, canvas.width / 2.58, canvas.height / 1.12);
+        context.fillText(
+          cert.certificate_code,
+          canvas.width / 1.17,
+          canvas.height / 1.12
+        );
+        context.fillText(
+          moment(cert.date_generated).format("MMM Do, YYYY"),
+          canvas.width / 1.615,
+          canvas.height / 1.12
+        );
 
-      // Convert the canvas to a PNG image and set the src attribute of an <img> tag
-      const dataURL = canvas.toDataURL("image/png");
-      const img = new Image();
-      img.src = dataURL;
-      //   document.getElementById("image-container").appendChild(img);
-    };
+        context.fillText(ins_name, canvas.width / 2.58, canvas.height / 1.12);
+
+        // Convert the canvas to a PNG image and set the src attribute of an <img> tag
+        const dataURL = canvas.toDataURL("image/png");
+        const img = new Image();
+        img.src = dataURL;
+        //   document.getElementById("image-container").appendChild(img);
+      };
+    }
   }, []);
 
   return (

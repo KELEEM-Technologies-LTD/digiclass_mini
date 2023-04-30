@@ -1,6 +1,6 @@
 import { LinearProgress } from "@mui/material";
 import moment from "moment";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { formatCedis } from "../../../components/helpers";
 import { Container } from "react-bootstrap";
 import DataTable from "react-data-table-component";
@@ -11,6 +11,7 @@ export default function Transactions(props: {
   theme: any;
 }) {
   const { loading, theme, transactions } = props;
+  const { corp_id } = useParams();
 
   const columns = [
     {
@@ -25,7 +26,7 @@ export default function Transactions(props: {
           {row.items?.map((_item: any, index: number) => {
             return (
               <li className="mb-3 list-disc" key={index}>
-                <Link to={`/my-course/${_item}`}>
+                <Link to={`/my-course/${_item}/${corp_id}`}>
                   {_item}
                   {/* <CourseNameById id={_item} /> <OpenInNewIcon /> */}
                 </Link>

@@ -191,14 +191,14 @@ export default function Quiz() {
             (parseInt(obj_score) / parseInt(questions?.length)) * 100;
 
           let resultStats = "pending";
-          if (percentage >= passmark) {
+          if (objOnly && percentage >= passmark) {
             resultStats = "passed";
             await baseService.post(urls.sendEmail, {
               to: user.email,
               subject: `Quiz results, ${course_configuration?.data?.data?.title}`,
               text: `Congratulations, Your results for ${course_configuration?.data?.data?.title} has been submitted. The course was passed, the results are available on your course page`,
             });
-          } else if (percentage <= passmark) {
+          } else if (objOnly && percentage <= passmark) {
             resultStats = "failed";
 
             await baseService.post(urls.sendEmail, {
