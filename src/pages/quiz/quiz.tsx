@@ -10,7 +10,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { displaySuccess, displayWarning } from "../../components/alert";
 import GeneralContext from "../../context/gen";
@@ -121,6 +121,10 @@ export default function Quiz() {
         const newCompleted = completed;
         newCompleted[currentQuestion] = true;
         setCompleted(newCompleted);
+        setFile(null);
+        if (inputFileRef.current) {
+          inputFileRef.current.value = "";
+        }
         setMyAnswer("");
         setSubmitting(false);
         displaySuccess("Answer submitted");
@@ -135,6 +139,9 @@ export default function Quiz() {
   const handleNext = () => {
     setMyAnswer("");
     setFile(null);
+    if (inputFileRef.current) {
+      inputFileRef.current.value = "";
+    }
     const total = questions.length;
     const newPage = currentQuestion + 1;
     if (newPage === total) {
@@ -147,6 +154,9 @@ export default function Quiz() {
   const goBack = () => {
     setMyAnswer("");
     setFile(null);
+    if (inputFileRef.current) {
+      inputFileRef.current.value = "";
+    }
     const newStep = currentQuestion === 0 ? 0 : currentQuestion - 1;
     setCurrentQuestion(newStep);
     setShow(false);
@@ -251,6 +261,7 @@ export default function Quiz() {
     }, 1000);
   };
 
+  const inputFileRef = useRef<HTMLInputElement>(null);
   return loading ? (
     <Fragment>
       <LinearProgress />
@@ -405,6 +416,7 @@ export default function Quiz() {
                       className="mt-3"
                       onChange={(e: any) => setFile(e.target.files[0])}
                       accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                      ref={inputFileRef}
                     />
                   </>
                 )}
