@@ -1,13 +1,13 @@
+import { LinearProgress } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
-import GeneralContext from "../../context/gen";
-import { StorageBox } from "../../core/storage";
 import { useNavigate, useParams } from "react-router-dom";
+import { displayWarning } from "../../components/alert";
+import GeneralContext from "../../context/gen";
 import urls from "../../core/base.url";
 import baseService from "../../core/baseServices";
-import { LinearProgress } from "@mui/material";
-import { displayWarning } from "../../components/alert";
-import { Image } from "react-bootstrap";
+import { StorageBox } from "../../core/storage";
 import CertificateCanvas from "./cert_canvas";
+import { ChevronLeft } from "@mui/icons-material";
 
 export default function Certificate() {
   const { theme, corpid, setCorpId } = useContext(GeneralContext);
@@ -78,6 +78,14 @@ export default function Certificate() {
     <LinearProgress />
   ) : (
     <>
+      <div
+        className={`bg-[${theme?.primary_color}] w-full py-6 px-4 flex gap-3`}
+      >
+        <button onClick={() => navigate(-1)} className="text-white">
+          <ChevronLeft />
+          Certification for {course?.title}
+        </button>
+      </div>
       <CertificateCanvas
         cert={cert}
         course={course}

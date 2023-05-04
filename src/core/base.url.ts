@@ -34,6 +34,8 @@ const urls = {
   sendEmail: `${base}:1100/send-email`,
 
   files: `${base}:3002/additional-instructor/files`,
+
+  hidden_courses: `${base}:3002/additional-instructor/enrolled-courses`,
 };
 
 export default urls;

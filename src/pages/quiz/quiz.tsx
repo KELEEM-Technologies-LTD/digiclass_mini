@@ -222,10 +222,14 @@ export default function Quiz() {
           // console.log(percentage);
           // console.log(my_results_payload);
           // console.log(objOnly);
+
+          const numberOfATypes = questions.filter(
+            (question:any) => question.q_type === "type_a"
+          );
           await baseService.post(urls.results, {
             user_id: user?.user_id,
             course_id: course_id,
-            obj_score: obj_score + ` correct MCQ answer(s)`,
+            obj_score: `${obj_score}/${numberOfATypes?.length} correct MCQ answer(s)`,
             result_status: resultStats,
           });
           // console.log(obj_score);

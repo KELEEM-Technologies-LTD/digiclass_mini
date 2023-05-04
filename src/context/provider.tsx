@@ -4,6 +4,7 @@ import baseService from "../core/baseServices";
 import { StorageBox } from "../core/storage";
 import GeneralContext from "./gen";
 import FloatingPlayer from "../components/floating_player";
+import { errorHelper } from "../components/helpers";
 
 export default function ContextProvider(props: { children: React.ReactNode }) {
   const { children } = props;
@@ -105,6 +106,29 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
   const [player, setPlayer] = useState<boolean>(false);
   const [current, setCurrent] = useState<any>(null);
 
+  /**
+   * Handle hidden course
+   */
+  const [hiddenLoading, setHiddenLoading] = useState<boolean>(true);
+  const [hiddenCourses, setHiddenCourses] = useState<any>([]);
+  const get_hidden_course = async () => {
+    try {
+      const res: any = await baseService.get(
+        urls.hidden_courses + `/${StorageBox.retrieveUserData().user_id}`
+      );
+
+      console.log(res?.data?.payload);
+      setHiddenCourses(res?.data?.payload);
+      setHiddenLoading(false);
+    } catch (error) {
+      errorHelper(error);
+    }
+  };
+
+  useEffect(() => {
+    get_hidden_course();
+  }, []);
+
   return (
     <GeneralContext.Provider
       value={{
@@ -132,6 +156,10 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
         myCourse,
         myCourseArray,
         setMyCourseLoading,
+
+        //Hidden Courses
+        hiddenLoading,
+        hiddenCourses,
       }}
     >
       {children}

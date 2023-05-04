@@ -1,4 +1,6 @@
-import { useContext, useEffect, useState } from "react";
+import { Search } from "@mui/icons-material";
+import { Pagination } from "@mui/material";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { ButtonGroup, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 import CourseCard from "../components/course_card";
@@ -6,8 +8,6 @@ import LoadingOverLay from "../components/loader";
 import NavBar from "../components/navbar";
 import GeneralContext from "../context/gen";
 import { StorageBox } from "../core/storage";
-import { Pagination } from "@mui/material";
-import { Search } from "@mui/icons-material";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -21,6 +21,8 @@ export default function Home() {
     theme,
     setCourses,
     setCourseLoading,
+    hiddenCourses,
+    hiddenLoading,
   } = useContext(GeneralContext);
 
   const { corp_id } = useParams();
@@ -149,6 +151,16 @@ export default function Home() {
           </>
         ) : (
           <></>
+        )}
+        {hiddenLoading ? null : hiddenCourses.length === 0 ? null : (
+          <Fragment>
+            <p className="my-3 text-2xl">Courses made available to you</p>
+            <Row>
+              {hiddenCourses.map((_d: any, i: number) => {
+                return <CourseCard course={_d} key={i} />;
+              })}
+            </Row>
+          </Fragment>
         )}
       </Container>
     </>
