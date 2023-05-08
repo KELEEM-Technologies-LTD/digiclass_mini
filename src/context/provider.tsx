@@ -35,7 +35,7 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
   const get_course = async () => {
     if (corpid !== "") {
       try {
-        const res: any = await baseService.get(urls.courses + `/${corpid}`);
+        const res: any = await baseService.get(urls.courses + `/${corpid}?`);
         // console.log(res.data?.payload);
         setCourses(res.data?.payload);
         setCourseLoading(false);

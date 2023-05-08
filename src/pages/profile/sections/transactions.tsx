@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { formatCedis } from "../../../components/helpers";
 import { Container } from "react-bootstrap";
 import DataTable from "react-data-table-component";
+import CourseName from "./getCourseNameById";
 
 export default function Transactions(props: {
   loading: boolean;
@@ -12,6 +13,8 @@ export default function Transactions(props: {
 }) {
   const { loading, theme, transactions } = props;
   const { corp_id } = useParams();
+
+  console.log(transactions);
 
   const columns = [
     {
@@ -27,7 +30,7 @@ export default function Transactions(props: {
             return (
               <li className="mb-3 list-disc" key={index}>
                 <Link to={`/my-course/${_item}/${corp_id}`}>
-                  {_item}
+                  <CourseName course_id={_item} />
                   {/* <CourseNameById id={_item} /> <OpenInNewIcon /> */}
                 </Link>
               </li>
@@ -44,7 +47,7 @@ export default function Transactions(props: {
     },
     {
       name: "Date",
-      cell: (row: any) => moment(row.add_date).format("Do MMM YYYY"),
+      cell: (row: any) => moment(row.add_date).format("LLL"),
       width: "15%",
     },
   ];
