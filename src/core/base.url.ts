@@ -32,6 +32,7 @@ const urls = {
   scores: `${base}:3031/quiz/scores`,
   getCerts: `${base}:3001/adcourse/certs`,
   sendEmail: `${base}:1100/send-email`,
+  request_reseat: `${base}:3031/quiz/request-reseat`,
 
   files: `${base}:3002/additional-instructor/files`,
 

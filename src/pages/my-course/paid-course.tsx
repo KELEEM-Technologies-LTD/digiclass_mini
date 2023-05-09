@@ -19,6 +19,7 @@ import Review from "../course/components/reviews";
 import SingleSection from "../course/components/sections";
 import { is_course_completed } from "./section_helper";
 import Files from "./components/Files";
+import moment from "moment";
 
 export default function PaidCourse() {
   const { current, theme, setCurrent, player, setPlayer, corpid, setCorpId } =
@@ -41,6 +42,9 @@ export default function PaidCourse() {
   const [videos, setVideos] = useState<any>([]);
   const [sections, setSections] = useState<any>([]);
   const [faq, setFaq] = useState<any>([]);
+
+  const [graded, setGraded] = useState<boolean>(false);
+  const [grade_message, setGrade_message] = useState<any>(<></>);
   const getData = async () => {
     try {
       const course_data: any = await baseService.get(
@@ -49,6 +53,109 @@ export default function PaidCourse() {
       );
       //   console.log(course_data.data?.data);
       setCourseDetail(course_data.data?.data);
+
+      if (course_data.data?.data?.configurations?.quiz_required) {
+        const user: any = StorageBox.retrieveUserData();
+
+        const res_result: any = await baseService.get(
+          urls.results + `/${user?.user_id}/${course_id}`
+        );
+
+        const result_status = res_result.data?.payload?.result_status;
+        if (result_status === "passed") {
+          setGraded(true);
+          setGrade_message(
+            <div>
+              <p>
+                You have completed {course_data.data?.data?.title} your
+                certificate is ready here
+              </p>
+              <div className="mt-2 flex justify-between">
+                <button
+                  // to="#"
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                  onClick={() => {
+                    setCompleted(false);
+                    setGraded(false);
+                  }}
+                >
+                  Continue watching
+                </button>
+                <button
+                  onClick={() =>
+                    navigate(
+                      `/certifications/${corp_id}/${course_data.data?.data.course_id}`
+                    )
+                  }
+                  className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                >
+                  Certificate
+                </button>
+              </div>
+            </div>
+          );
+        } else if (result_status === "pending") {
+          setGraded(true);
+          setGrade_message(
+            <div>
+              <p>Quiz submitted, please await instructor review</p>
+              <div className="mt-2 flex justify-between">
+                <button
+                  // to="#"
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                  onClick={() => {
+                    setCompleted(false);
+                    setGraded(false);
+                  }}
+                >
+                  Continue watching
+                </button>
+              </div>
+            </div>
+          );
+        } else if (result_status === "failed") {
+          const timeFromDB = res_result.data?.payload?.date_added;
+          const reseatDays = parseInt(
+            course_data.data?.data?.configurations?.reseat
+          );
+          const futureDate = moment(timeFromDB).add(reseatDays, "days");
+          const newTimestamp = futureDate.format();
+
+          if (moment().isAfter(futureDate)) {
+            console.log("time expired");
+            await baseService.put(
+              urls.request_reseat + `/${user?.user_id}/${course_id}`,
+              {}
+            );
+            window.location.reload();
+          }
+
+          setGraded(true);
+          setGrade_message(
+            <div>
+              <p className="p-4">
+                You have completed {course_data.data?.data?.title}, however you
+                did no meet the course requirements for a pass, contact
+                instructor to schedule a retake of the quiz <br />
+                Quiz would be available on{" "}
+                {moment(newTimestamp).format("Do MMMM YYYY, HH:MM:SS")}
+              </p>
+              <div className="mt-2 flex justify-between">
+                <button
+                  // to="#"
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                  onClick={() => {
+                    setCompleted(false);
+                    setGraded(false);
+                  }}
+                >
+                  Continue watching
+                </button>
+              </div>
+            </div>
+          );
+        }
+      }
 
       const course_reviews: any = await baseService.get(
         urls.getReviews + `?course_id=${course_id}`
@@ -98,7 +205,7 @@ export default function PaidCourse() {
       course_id as string,
       section_count
     );
-    console.log(result);
+    // console.log(result);
     setCompleted(result);
   };
 
@@ -122,7 +229,11 @@ export default function PaidCourse() {
         <div className="flex flex-wrap">
           {/* Vidoe Player  */}
           <div className="w-full md:w-8/12">
-            {completed ? (
+            {graded ? (
+              <div className="w-full h-[60vh] flex items-center justify-center">
+                {grade_message}
+              </div>
+            ) : completed ? (
               <Fragment>
                 <div className="w-full h-[60vh] flex items-center justify-center">
                   {courseDetail.configurations?.quiz_required ? (
