@@ -18,13 +18,15 @@ const MyAccount = React.lazy(() => import("./pages/profile/account"));
 const MyBuyNow = React.lazy(() => import("./pages/buy-now"));
 const MyVerifyTransactions = React.lazy(() => import("./pages/verify-payment"));
 const MyPaidCourse = React.lazy(() => import("./pages/my-course/paid-course"));
+const MyError404 = React.lazy(() => import("./pages/error404"));
+const MyMessages = React.lazy(() => import("./pages/messages/messages"));
 function App() {
   return (
     <React.Suspense fallback={<LoadingOverLay />}>
       <Router>
         <ContextProvider>
           <Routes>
-            <Route path="/*" element={<>958204d5604f48d4876dd3e535dba5d1</>} />
+            <Route path="/*" element={<MyError404 />} />
             {/* <Route path="/:corp_id" element={<SigninPage />} /> */}
             <Route path="/sign-in/:corp_id" element={<SigninPage />} />
             <Route path="/redeem/:corp_id" element={<EnterEmail />} />
@@ -38,6 +40,7 @@ function App() {
                 path="/buy-now/:courseid/:corp_id"
                 element={<MyBuyNow />}
               />
+              <Route path="/messages/:corp_id" element={<MyMessages />} />
               <Route
                 path="/course/:course_id/:corp_id"
                 element={<CoursesPage />}

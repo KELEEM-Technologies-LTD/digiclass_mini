@@ -37,6 +37,11 @@ const urls = {
   files: `${base}:3002/additional-instructor/files`,
 
   hidden_courses: `${base}:3002/additional-instructor/enrolled-courses`,
+  corporate_ids: `${base}:3002/additional-instructor/corporate-ids`,
+
+  chatlist: `${base}:9110/simple-chat/chats`,
+  conversations: `${base}:9110/simple-chat/messages`,
+  getMsgName: `${base}:3000/messages/name`,
 };
 
 export default urls;

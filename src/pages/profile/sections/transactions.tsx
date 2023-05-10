@@ -14,7 +14,7 @@ export default function Transactions(props: {
   const { loading, theme, transactions } = props;
   const { corp_id } = useParams();
 
-  console.log(transactions);
+  // console.log(transactions);
 
   const columns = [
     {

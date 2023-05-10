@@ -9,7 +9,7 @@ export default function Notifications() {
   const { read, unread, theme } = useContext(GeneralContext);
 
   return (
-    <>
+    <Container>
       <Row>
         <Col md={{ span: 8, offset: 1 }}>
           {unread.map((_d: any, i: number) => (
@@ -24,7 +24,7 @@ export default function Notifications() {
           ))}
         </Col>
       </Row>
-    </>
+    </Container>
   );
 }
 

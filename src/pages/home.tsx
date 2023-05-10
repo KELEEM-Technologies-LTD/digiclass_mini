@@ -85,8 +85,8 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex justify-between my-5">
-        <div>
+      <div className="flex flex-col md:flex-row justify-between my-5">
+        <div className="text-center">
           <ButtonGroup className="px-3">
             {tabs.map((_d, i) => (
               <button
@@ -107,7 +107,7 @@ export default function Home() {
             ))}
           </ButtonGroup>
         </div>
-        <div className="flex items-center">
+        <div className="flex mt-2 md:mt-0 items-center">
           <input
             type="text"
             placeholder="Search..."

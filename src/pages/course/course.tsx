@@ -78,15 +78,15 @@ export default function COurse() {
         if (result_status === "passed") {
           setGraded(true);
           setGrade_message(
-            <div>
+            <Container>
               <p>
                 You have completed {course_data.data?.data?.title} your
                 certificate is ready here
               </p>
-              <div className="mt-2 flex justify-between">
+              <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
                 <button
                   // to="#"
-                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
                   onClick={() => {
                     setCompleted(false);
                     setGraded(false);
@@ -105,17 +105,17 @@ export default function COurse() {
                   Certificate
                 </button>
               </div>
-            </div>
+            </Container>
           );
         } else if (result_status === "pending") {
           setGraded(true);
           setGrade_message(
-            <div>
+            <Container>
               <p>Quiz submitted, please await instructor review</p>
-              <div className="mt-2 flex justify-between">
+              <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
                 <button
                   // to="#"
-                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
                   onClick={() => {
                     setCompleted(false);
                     setGraded(false);
@@ -124,7 +124,7 @@ export default function COurse() {
                   Continue watching
                 </button>
               </div>
-            </div>
+            </Container>
           );
         } else if (result_status === "failed") {
           const timeFromDB = res_result.data?.payload?.date_added;
@@ -145,7 +145,7 @@ export default function COurse() {
 
           setGraded(true);
           setGrade_message(
-            <div>
+            <Container>
               <p className="p-4">
                 You have completed {course_data.data?.data?.title}, however you
                 did no meet the course requirements for a pass, contact
@@ -153,10 +153,10 @@ export default function COurse() {
                 Quiz would be available on{" "}
                 {moment(newTimestamp).format("Do MMMM YYYY, HH:MM:SS")}
               </p>
-              <div className="mt-2 flex justify-between">
+              <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
                 <button
                   // to="#"
-                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                  className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
                   onClick={() => {
                     setCompleted(false);
                     setGraded(false);
@@ -165,7 +165,7 @@ export default function COurse() {
                   Continue watching
                 </button>
               </div>
-            </div>
+            </Container>
           );
         }
       }
@@ -234,10 +234,10 @@ export default function COurse() {
                         You have completed {courseDetail?.title} please take a
                         quiz now
                       </p>
-                      <div className="mt-2 flex justify-between">
+                      <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
                         <button
                           // to="#"
-                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
                           onClick={() => setCompleted(false)}
                         >
                           Continue watching
@@ -258,10 +258,10 @@ export default function COurse() {
                         You have completed {courseDetail?.title} your
                         certificate is ready here
                       </p>
-                      <div className="mt-2 flex justify-between">
+                      <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
                         <button
                           // to="#"
-                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979]"
+                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
                           onClick={() => setCompleted(false)}
                         >
                           Continue watching

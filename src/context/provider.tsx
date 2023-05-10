@@ -101,7 +101,7 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
   };
   useEffect(() => {
     get_my_course();
-  }, []);
+  }, [StorageBox.getAccessToken()]);
 
   const [player, setPlayer] = useState<boolean>(false);
   const [current, setCurrent] = useState<any>(null);
@@ -112,16 +112,18 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
   const [hiddenLoading, setHiddenLoading] = useState<boolean>(true);
   const [hiddenCourses, setHiddenCourses] = useState<any>([]);
   const get_hidden_course = async () => {
-    try {
-      const res: any = await baseService.get(
-        urls.hidden_courses + `/${StorageBox.retrieveUserData().user_id}`
-      );
+    if (StorageBox.retrieveUserData()) {
+      try {
+        const res: any = await baseService.get(
+          urls.hidden_courses + `/${StorageBox.retrieveUserData().user_id}`
+        );
 
-      console.log(res?.data?.payload);
-      setHiddenCourses(res?.data?.payload);
-      setHiddenLoading(false);
-    } catch (error) {
-      errorHelper(error);
+        // console.log(res?.data?.payload);
+        setHiddenCourses(res?.data?.payload);
+        setHiddenLoading(false);
+      } catch (error) {
+        errorHelper(error);
+      }
     }
   };
 

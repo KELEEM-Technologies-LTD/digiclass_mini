@@ -1,0 +1,34 @@
+import { Avatar } from "@mui/material";
+import { Badge } from "react-bootstrap";
+
+const ContactCardNew = (props: {
+  onClick: () => void;
+  current: any;
+  thisCurrent?: any;
+}) => {
+  const { onClick, current, thisCurrent } = props;
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center w-full px-5 py-2 transition-colors duration-200 gap-x-2 hover:bg-blue-100 focus:outline-none ${
+        thisCurrent === current ? "bg-blue-100" : ""
+      }`}
+    >
+      {current?.profile_pic ? (
+        <Avatar src={current?.profile_pic} alt="" />
+      ) : (
+        <Avatar />
+      )}
+      <div className="text-left rtl:text-right">
+        <h1 className="text-sm font-medium text-blue-700 capitalize dark:text-white">
+          {current?.first_name}
+        </h1>
+        {current?.unread_count !== 0 ? (
+          <Badge>{current?.unread_count}</Badge>
+        ) : null}
+      </div>
+    </button>
+  );
+};
+
+export default ContactCardNew;
