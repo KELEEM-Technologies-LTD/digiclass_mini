@@ -3,7 +3,7 @@ const urls = {
   user: `${base}:1904/api/v1/users`,
   transactions: `${base}:1098/transactions/list`,
   notifications: `${base}:1099/notification/list`,
-  postNotification: `${base}:1099/notification/sendnotifcation`,
+  postNotification: `${base}:1099/notification/send-notification`,
 
   theme: `${base}:3002/additional-instructor/theme`,
   signin: `${base}:2000/api/v1/auth/login`,
