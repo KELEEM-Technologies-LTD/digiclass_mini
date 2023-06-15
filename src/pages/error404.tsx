@@ -10,12 +10,10 @@ export default function Error404() {
 
   const get_data = async () => {
     try {
-      if (StorageBox.getAccessToken()) {
-        const response: any = await baseService.get(urls.corporate_ids);
-        console.log(response.data?.payload);
-        setCorporateIds(response.data?.payload);
-        setLoading(false);
-      }
+      const response: any = await baseService.get(urls.corporate_ids);
+      console.log(response.data?.payload);
+      setCorporateIds(response.data?.payload);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
