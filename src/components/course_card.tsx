@@ -3,6 +3,7 @@ import { Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import GeneralContext from "../context/gen";
 import { formatCedis } from "./helpers";
+import { CurrencyContext } from "../context/CurrencyContext";
 
 export default function CourseCard(props: { course: any }) {
   const { course } = props;
@@ -16,7 +17,9 @@ export default function CourseCard(props: { course: any }) {
     price,
   } = course;
   const { theme, corpid, myCourseArray } = useContext(GeneralContext);
+  const { convertValue, convertOldValue } = useContext(CurrencyContext);
   const navigate = useNavigate();
+
   return (
     <>
       <Col md={4} lg={3} sm={12} className="mb-4">
@@ -70,10 +73,10 @@ export default function CourseCard(props: { course: any }) {
             </div>
             <div className="flex justify-between items-center">
               <p className="text-base text-[black] font-bold">
-                {formatCedis(price)}
+                {formatCedis(price, "GHS")}
               </p>
               <p className="text-primary-600 text-sm line-through">
-                {formatCedis(price * 1.35)}
+                {formatCedis(price, "GHS")}
               </p>
             </div>
           </div>

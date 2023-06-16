@@ -17,6 +17,7 @@ import { formatCedis } from "../components/helpers";
 import NavBar from "../components/navbar";
 import { displayLoading, displayWarning } from "../components/alert";
 import GeneralContext from "../context/gen";
+import { CurrencyContext } from "../context/CurrencyContext";
 
 const BuyNow = () => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -27,6 +28,7 @@ const BuyNow = () => {
 
   const { courseid, corp_id } = useParams();
   const { corpid, setCorpId } = useContext(GeneralContext);
+  const { convertValue } = useContext(CurrencyContext);
 
   useEffect(() => {
     if (StorageBox.retrieveUserData()?.corporate_id !== corp_id) {
@@ -113,7 +115,7 @@ const BuyNow = () => {
                           component="h3"
                           align="right"
                         >
-                          {formatCedis(item.price)}
+                          {formatCedis(item.price, "GHS")}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -133,7 +135,7 @@ const BuyNow = () => {
                           component="h3"
                           align="right"
                         >
-                          {formatCedis(item.price)}
+                          {formatCedis(item.price, "GHS")}
                         </Typography>
                       </Grid>
                     </Grid>

@@ -1,10 +1,10 @@
 import { StorageBox } from "../core/storage";
 import { displayWarning } from "./alert";
 
-export const formatCedis = (number: number) => {
+export const formatCedis = (number: number, code: string) => {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "GHS",
+    currency: code,
   }).format(number);
 };
 

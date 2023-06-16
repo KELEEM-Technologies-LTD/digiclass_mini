@@ -198,15 +198,15 @@ function ReviewCard(props: { review: any }) {
   const { theme } = useContext(GeneralContext);
 
   return (
-    <div className="flex gap-4 my-6 ">
+    <div className="flex gap-lg-4 gap-3 my-6 border">
       <div className=" ">
-        <div className="flex items-center justify-center h-12 w-12 rounded-full bg-secondary-700 ">
+        <div className="flex items-center justify-center h-12 w-12 border rounded-full bg-secondary-700 ">
           <p className="text-white">
             {review.title[0] + review.description[0]}
           </p>
         </div>
       </div>
-      <div className=" flex flex-col ">
+      <div className="flex flex-col ">
         <p className={`font-bold text-base text-[${theme?.primary_color}]`}>
           {review.title}
         </p>
@@ -233,8 +233,10 @@ function ReviewCard(props: { review: any }) {
               />
             ))}
           </div>
-          <p className="">{moment(review.updatedAt).format("Do MMMM YYYY")}</p>
         </div>
+        <p className="mt-2">
+          {moment(review.updatedAt).format("Do MMMM YYYY")}
+        </p>
         <p className="leading-8">{review.description}</p>
       </div>
     </div>

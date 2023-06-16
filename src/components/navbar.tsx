@@ -2,10 +2,13 @@ import { Dialog, Transition } from "@headlessui/react";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Avatar } from "@mui/material";
 import { Fragment, useContext, useState } from "react";
-import { Container, Image, Navbar } from "react-bootstrap";
+import { Container, Image, Navbar, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import GeneralContext from "../context/gen";
 import { StorageBox } from "../core/storage";
+import ChangeCurrency from "./elements/change_currency";
+import MessageBadge from "./elements/message_badge";
+import NotificationBadge from "./elements/notification_badge";
 
 export default function NavBar() {
   const { theme, corpid } = useContext(GeneralContext);
@@ -46,8 +49,8 @@ export default function NavBar() {
             <Image
               src={theme?.img}
               alt="company name"
-              className="d-inline-block align-top me-2"
-              style={{ width: "200px", height: "50px", objectFit: "cover" }}
+              className="d-inline-block align-top me-2 lg:h-[50px] lg:w-[200px] h-[20px] w-[100px] "
+              style={{ width: "150px", height: "40px", objectFit: "cover" }}
               fluid
             />
           </Navbar.Brand>
@@ -62,6 +65,11 @@ export default function NavBar() {
             >
               {theme?.name}
             </span>
+            <div className="mx-2 flex items-center justify-center">
+              <ChangeCurrency />
+              <MessageBadge />
+              <NotificationBadge />
+            </div>
             <Avatar onClick={() => setOpen(true)} style={{ cursor: "pointer" }}>
               {StorageBox.retrieveUserData()?.first_name[0]}
               {StorageBox.retrieveUserData()?.last_name[0]}
@@ -69,7 +77,6 @@ export default function NavBar() {
           </div>
         </Container>
       </Navbar>
-
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={setOpen}>
           <Transition.Child

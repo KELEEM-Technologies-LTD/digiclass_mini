@@ -220,7 +220,7 @@ export default function COurse() {
       </div>
       <div style={{ minHeight: "100vh" }}>
         <div className="flex flex-wrap">
-          <div className="w-full md:w-8/12">
+          <div className="w-full md:w-8/12 border">
             {graded ? (
               <div className="w-full h-[60vh] flex items-center justify-center">
                 {grade_message}
@@ -297,7 +297,7 @@ export default function COurse() {
               </Fragment>
             )}
           </div>
-          <div className="w-full md:w-4/12">
+          <div className="w-full md:w-4/12 border">
             <div className="px-4 py-3 bg-white">
               <p className={`text-[${theme?.primary_color}] text-lg`}>
                 Course content
@@ -315,31 +315,37 @@ export default function COurse() {
             </div>
           </div>
         </div>
-        <Container fluid>
-          <Tabs
-            value={value}
-            onChange={(e: any, newValue: any) => setValue(newValue)}
-          >
-            <Tab label="Overview" />
-            <Tab label="Reviews" />
-            <Tab label="FAQ" />
-            <Tab label="Files" />
-          </Tabs>
-          <div style={{ minHeight: "50vh" }} className="px-5 mt-4">
-            {value === 0 ? (
-              <OverView
-                data={course}
-                completed={completed}
-                setCompleted={setCompleted}
-              />
-            ) : null}
-            {value === 1 ? <Review data={reviews} reload={getDetails} /> : null}
-            {/* {value === 2 ? <>Author</> : null} */}
-            {value === 2 ? <Faq data={faq} /> : null}
-            {value === 3 ? <Files course_id={course_id} /> : null}
-          </div>
-        </Container>
+        <div>
+          <Container fluid>
+            <Tabs
+              value={value}
+              onChange={(e: any, newValue: any) => setValue(newValue)}
+            >
+              <Tab label="Overview" />
+              <Tab label="Reviews" />
+              <Tab label="FAQ" />
+              <Tab label="Files" />
+            </Tabs>
+            <div style={{ minHeight: "50vh" }} className="px-1 mt-4">
+              {value === 0 ? (
+                <OverView
+                  data={course}
+                  completed={completed}
+                  setCompleted={setCompleted}
+                />
+              ) : null}
+              {value === 1 ? (
+                <Review data={reviews} reload={getDetails} />
+              ) : null}
+              {value === 2 ? <Faq data={faq} /> : null}
+              {value === 3 ? <Files course_id={course_id} /> : null}
+            </div>
+          </Container>
+        </div>
       </div>
     </>
   );
+}
+{
+  /* {value === 2 ? <>Author</> : null} */
 }

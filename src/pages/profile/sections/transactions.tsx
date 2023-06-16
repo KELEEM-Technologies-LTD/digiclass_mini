@@ -5,50 +5,64 @@ import { formatCedis } from "../../../components/helpers";
 import { Container } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import CourseName from "./getCourseNameById";
+import {
+  DataGrid,
+  GridColDef,
+  GridRenderCellParams,
+  GridValueGetterParams,
+} from "@mui/x-data-grid";
+import { useContext } from "react";
+import { CurrencyContext } from "../../../context/CurrencyContext";
 
 export default function Transactions(props: {
   loading: boolean;
   transactions: any;
   theme: any;
 }) {
+  const { convertValue } = useContext(CurrencyContext);
   const { loading, theme, transactions } = props;
   const { corp_id } = useParams();
 
   // console.log(transactions);
 
-  const columns = [
+  const columns: GridColDef[] = [
     {
-      name: "Amount",
-      cell: (row: any) => formatCedis(parseInt(row.amount)),
-      width: "15%",
+      field: "amount",
+      headerName: "Amount",
+      width: 180,
+      valueGetter: (params: GridValueGetterParams) =>
+        formatCedis(parseInt(params.row.amount), "GHS"),
     },
     {
-      name: "Course(s) purchase",
-      cell: (row: any) => (
-        <ul>
-          {row.items?.map((_item: any, index: number) => {
-            return (
+      field: "items",
+      headerName: "Course(s) purchase",
+      width: 320,
+      renderCell: (params: GridRenderCellParams) => {
+        const ids = params.row.items;
+        return (
+          <ul>
+            {params.row.items?.map((_item: any, index: number) => (
               <li className="mb-3 list-disc" key={index}>
                 <Link to={`/my-course/${_item}/${corp_id}`}>
                   <CourseName course_id={_item} />
-                  {/* <CourseNameById id={_item} /> <OpenInNewIcon /> */}
                 </Link>
               </li>
-            );
-          })}
-        </ul>
-      ),
-      width: "35%",
+            ))}
+          </ul>
+        );
+      },
     },
     {
-      name: "Transaction Ref",
-      cell: (row: any) => row.reference,
-      width: "15%",
+      field: "reference",
+      headerName: "Transaction Ref",
+      width: 200,
     },
     {
-      name: "Date",
-      cell: (row: any) => moment(row.add_date).format("LLL"),
-      width: "15%",
+      field: "date",
+      headerName: "Date",
+      width: 200,
+      valueGetter: (params: GridValueGetterParams) =>
+        moment(params.row.add_date).format("LLL"),
     },
   ];
 
@@ -59,13 +73,19 @@ export default function Transactions(props: {
       }}
     />
   ) : (
-    <Container className="p-3 mt-5">
-      <DataTable
+    <div style={{ width: "100%" }} className="min-h-[50vh] w-full mt-5 p-3">
+      <DataGrid
+        rows={transactions}
         columns={columns}
-        data={transactions}
-        progressPending={loading}
-        // noDataComponent="no transa"
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 5 },
+          },
+        }}
+        pageSizeOptions={[5, 10, 15, 20]}
+        sx={{ width: "100%" }}
+        // checkboxSelection
       />
-    </Container>
+    </div>
   );
 }

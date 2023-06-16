@@ -4,12 +4,13 @@ import LoadingOverLay from "../../components/loader";
 import NavBar from "../../components/navbar";
 import GeneralContext from "../../context/gen";
 import { StorageBox } from "../../core/storage";
-import { Tab, Tabs, styled } from "@mui/material";
+import { Tabs, styled } from "@mui/material";
 import baseService from "../../core/baseServices";
 import urls from "../../core/base.url";
 import AccountSettings from "./sections/account_settings";
 import Notifications from "./sections/notifications";
 import Transactions from "./sections/transactions";
+import { Nav, Tab } from "react-bootstrap";
 
 export default function Account() {
   const { loading, corpid, setCorpId, theme } = useContext(GeneralContext);
@@ -74,55 +75,55 @@ export default function Account() {
   ) : (
     <>
       <NavBar />
-      <MyTabs
-        value={tab}
-        onChange={(e: any, newValue: any) => setTab(newValue)}
-        // sx={{ color: theme?.primary_color }}
-      >
-        <Tab
-          sx={{
-            color: theme?.primary_color,
-            "&.Mui-selected": {
-              color: theme?.primary_color,
-            },
-          }}
-          label="Account"
-        />
-        <Tab
-          sx={{
-            color: theme?.primary_color,
-            "&.Mui-selected": {
-              color: theme?.primary_color,
-            },
-          }}
-          label="Notification"
-        />
-        <Tab
-          sx={{
-            color: theme?.primary_color,
-            "&.Mui-selected": {
-              color: theme?.primary_color,
-            },
-          }}
-          label="Transactions"
-        />
-      </MyTabs>
-      {tab === 0 ? (
-        <AccountSettings
-          user={userData}
-          loading={dataLoading}
-          theme={theme}
-          getData={getData}
-        />
-      ) : null}
-      {tab === 1 ? <Notifications /> : null}
-      {tab === 2 ? (
-        <Transactions
-          loading={dataLoading}
-          transactions={transactions}
-          theme={theme}
-        />
-      ) : null}
+      <Tab.Container defaultActiveKey="account">
+        <Nav variant="tabs">
+          <Nav.Item>
+            <Nav.Link
+              eventKey="account"
+              style={{ fontSize: "14px", color: theme?.primary_color }}
+            >
+              Account
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              eventKey="notification"
+              style={{ fontSize: "14px", color: theme?.primary_color }}
+            >
+              Notification
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              eventKey="transactions"
+              style={{ fontSize: "14px", color: theme?.primary_color }}
+            >
+              Transactions
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+        <Tab.Content>
+          <Tab.Pane eventKey="account">
+            <AccountSettings
+              user={userData}
+              loading={dataLoading}
+              theme={theme}
+              getData={getData}
+            />
+          </Tab.Pane>
+          <Tab.Pane eventKey="notification">
+            <Notifications />
+          </Tab.Pane>
+          <Tab.Pane eventKey="transactions">
+            {" "}
+            <Transactions
+              loading={dataLoading}
+              transactions={transactions}
+              theme={theme}
+            />
+          </Tab.Pane>
+        </Tab.Content>
+      </Tab.Container>
     </>
   );
 }
