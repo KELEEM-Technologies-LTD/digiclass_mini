@@ -1,6 +1,8 @@
 const base = "http://109.205.180.74";
 const urls = {
   user: `${base}:1904/api/v1/users`,
+  getUser: `${base}:1904/api/v1/users`,
+  updateProfile: `${base}:1904/api/v1/users`,
   transactions: `${base}:1098/transactions/list`,
   notifications: `${base}:1099/notification/list`,
   postNotification: `${base}:1099/notification/send-notification`,

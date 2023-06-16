@@ -119,7 +119,18 @@ const Signin = () => {
                     />
                   </FloatingLabel>
 
-                  <div className="text-end">
+                  <div className=" flex justify-between">
+                    <div className="flex lg:text-base text-sm">
+                      <p>
+                        Do have an account?{" "}
+                        <Link
+                          to={`/sign-up/${corpid}`}
+                          className="text-decoration-none"
+                        >
+                          Signup here
+                        </Link>
+                      </p>
+                    </div>
                     <Link
                       to={`/redeem/${corpid}`}
                       className="text-decoration-none"

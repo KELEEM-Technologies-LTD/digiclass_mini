@@ -16,6 +16,8 @@ import OverView from "./components/overview";
 import Review from "./components/reviews";
 import SingleSection from "./components/sections";
 import moment from "moment";
+import Author from "./components/author";
+import { displayWarning } from "../../components/alert";
 
 export default function COurse() {
   const { course_id } = useParams();
@@ -43,6 +45,7 @@ export default function COurse() {
 
   const [reviews, setReviews] = useState<any>([]);
   const [faq, setFaq] = useState<any>([]);
+  const [instructor, setInstructor] = useState([]);
 
   const [graded, setGraded] = useState(false);
   const [grade_message, setGrade_message] = useState(<></>);
@@ -54,6 +57,17 @@ export default function COurse() {
       );
       //   console.log(course_data.data?.data);
       setCourseDetail(course_data.data?.data);
+
+      try {
+        const instructor_res: any = await baseService.get(
+          urls.getUser + `/${course_data?.data?.data?.instructor}`
+        );
+        setInstructor(instructor_res.data?.data);
+      } catch (error: any) {
+        console.log(error);
+        displayWarning(error.response?.data?.message);
+        navigate(-1);
+      }
 
       const res: any = await baseService.get(urls.get_single + `/${course_id}`);
       // console.log(res.data);
@@ -323,6 +337,7 @@ export default function COurse() {
             >
               <Tab label="Overview" />
               <Tab label="Reviews" />
+              <Tab label="Author" />
               <Tab label="FAQ" />
               <Tab label="Files" />
             </Tabs>
@@ -337,8 +352,11 @@ export default function COurse() {
               {value === 1 ? (
                 <Review data={reviews} reload={getDetails} />
               ) : null}
-              {value === 2 ? <Faq data={faq} /> : null}
-              {value === 3 ? <Files course_id={course_id} /> : null}
+              {value === 2 ? (
+                <Author instructor={instructor} course_detail={course} />
+              ) : null}
+              {value === 3 ? <Faq data={faq} /> : null}
+              {value === 4 ? <Files course_id={course_id} /> : null}
             </div>
           </Container>
         </div>

@@ -1,6 +1,10 @@
 import { LinearProgress } from "@mui/material";
 import { useState } from "react";
 import { Container } from "react-bootstrap";
+import baseService from "../../../core/baseServices";
+import urls from "../../../core/base.url";
+import { StorageBox } from "../../../core/storage";
+import { displaySuccess } from "../../../components/alert";
 
 export default function AccountSettings(props: {
   user: any;
@@ -20,12 +24,41 @@ export default function AccountSettings(props: {
     msisdn,
   } = user;
 
-  const [fname, setFname] = useState(first_name);
-  const [lname, setlanme] = useState(last_name);
+  console.log(user);
+
+  const [fname, setFname] = useState<string>(first_name);
+  const [lname, setlanme] = useState<string>(last_name);
   const [formdob, setDob] = useState(dob ? dob : "2000-01-01");
   const [formresume, setResume] = useState(resume ? resume : "");
   const [loc, setLoc] = useState(location ? location : "");
   const [phone, setPhone] = useState(msisdn ? msisdn : "");
+
+  const saveChanges = async () => {
+    const payload = {
+      first_name: fname || first_name,
+      last_name: lname || last_name,
+      dob: formdob || dob,
+      resume: formresume || resume,
+      location: loc || location,
+      msisdn: phone || msisdn,
+    };
+    console.log(payload);
+    try {
+      const user: any = StorageBox.retrieveUserData();
+
+      const response: any = await baseService.put(
+        urls.updateProfile + `/${user.user_id}`,
+        payload
+      );
+
+      if (response?.data?.data) {
+        displaySuccess(response?.data?.data?.message);
+        console.log(response?.data?.data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return loading ? (
     <LinearProgress
@@ -47,53 +80,57 @@ export default function AccountSettings(props: {
         <div className="md:col-span-8 col-span-12  grid md:grid-cols-2 grid-cols-1  gap-12 my-8">
           <div className="">
             <p>First Name</p>
-            <InputWithIcon
+            <input
               placeholder="First name"
               type="text"
-              name="firstName"
+              name="fname"
               value={fname}
               onChange={(e: any) => setFname(e.target.value)}
-              className="py-2 border-primary-600 border rounded-5 w-full  flex  bg-primary-100  justify-between"
+              className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
           <div className="">
             <p>Last Name</p>
-            <InputWithIcon
+            <input
               placeholder="Last name"
               type="text"
               name="lastName"
               value={lname}
               onChange={(e: any) => setlanme(e.target.value)}
-              className="py-2 border-primary-600 border rounded-5 w-full  flex bg-primary-100  justify-between"
+              className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
           <div className="">
             <p>Phone</p>
-            <InputWithIcon
+            <input
               placeholder="Phone number"
               type="tel"
+              name="phone"
               value={phone}
               onChange={(e: any) => setPhone(e.target.value)}
-              className="py-2 border-primary-600 border rounded-5 w-full  flex bg-primary-100  justify-between"
+              className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
           <div className="">
             <p>Location</p>
-            <InputWithIcon
+            <input
               placeholder="Location"
               type="text"
+              name="loc"
               value={loc}
               onChange={(e: any) => setLoc(e.target.value)}
-              className="py-2 border-primary-600 border rounded-5 w-full  flex bg-primary-100  justify-between"
+              className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
           <div>
             <p>Date of birth</p>
-            <InputWithIcon
+            <input
+              placeholder="Location"
               type="date"
-              className="py-2 border-primary-600 border rounded-5 w-full  flex bg-primary-100  justify-between"
+              name="formdob"
               value={formdob}
               onChange={(e: any) => setDob(e.target.value)}
+              className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
           <div>
@@ -101,6 +138,7 @@ export default function AccountSettings(props: {
             <textarea
               id="message"
               rows={3}
+              cols={6}
               className="py-5  border rounded-5 w-full  justify-between focus:outline-none font-serif border-primary-600 px-4 bg-primary-100"
               placeholder="Write a short description about yourself"
               value={formresume}
@@ -110,7 +148,7 @@ export default function AccountSettings(props: {
 
           <div className="text-right">
             <button
-              //   onClick={saveChanges}
+              onClick={saveChanges}
               className={`hover:bg-[${theme?.primary_color}] hover:text-[${theme?.secondary_color}] h-10 flex-col items-center flex rounded-5 border-[${theme?.primary_color}] border py-2 px-8 bg-transparent`}
               //   disabled={updating}
             >

@@ -131,7 +131,7 @@ export default function MessagesScreen(props: {
                 <Avatar src={user?.profile_pic} alt="" />
               </div>
               <div className="flex flex-col leading-tight">
-                <div className="text-2xl mt-1 flex items-center">
+                <div className="md:text-2xl text-xl mt-1 flex items-center">
                   <span className="text-gray-700 mr-3">
                     {user?.first_name} {user?.last_name}
                   </span>
@@ -203,22 +203,22 @@ export default function MessagesScreen(props: {
               <input
                 type="text"
                 placeholder="Write your message!"
-                className="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
+                className="w-full focus:outline-none lg:text-base text-xs focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"
                 value={txt}
                 onChange={(e) => setTxt(e.target.value)}
                 disabled={sending}
               />
-              <div className="absolute right-0 items-center inset-y-0 hidden sm:flex">
+              <div className="absolute right-0 items-center inset-y-0 flex justify-between">
                 <button
                   type="submit"
-                  className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                  className="inline-flex items-center justify-center rounded-lg lg:px-4 lg:py-3 px-2 py-2 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
                 >
-                  <span className="font-bold">Send</span>
+                  <span className="font-bold lg:text-base text-xs">Send</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 20 20"
                     fill="currentColor"
-                    className="h-6 w-6 ml-2 transform rotate-90"
+                    className="lg:h-6 lg:w-6 h-3 w-3 lg:ml-2 ml-0.5 transform rotate-90"
                   >
                     <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
                   </svg>

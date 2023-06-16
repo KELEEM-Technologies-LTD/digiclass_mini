@@ -10,7 +10,7 @@ const ContactCardNew = (props: {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center w-full px-5 py-2 transition-colors duration-200 gap-x-2 hover:bg-blue-100 focus:outline-none ${
+      className={`flex items-center w-full px-3 py-2 transition-colors duration-200 gap-x-2 hover:bg-blue-100 focus:outline-none ${
         thisCurrent === current ? "bg-blue-100" : ""
       }`}
     >
@@ -19,10 +19,15 @@ const ContactCardNew = (props: {
       ) : (
         <Avatar />
       )}
-      <div className="text-left rtl:text-right">
-        <h1 className="text-sm font-medium text-blue-700 capitalize dark:text-white">
-          {current?.first_name}
-        </h1>
+      <div className="text-left flex justify-between rtl:text-right">
+        <div>
+          <h1 className="text-sm font-medium text-blue-700 capitalize dark:text-white">
+            {current?.first_name}
+          </h1>
+          <p className="text-xs text-primary-500 dark:text-primary-400">
+            Instructor
+          </p>
+        </div>
         {current?.unread_count !== 0 ? (
           <Badge>{current?.unread_count}</Badge>
         ) : null}

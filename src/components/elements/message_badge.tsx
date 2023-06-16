@@ -1,13 +1,42 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GeneralContext from "../../context/gen";
+import { StorageBox } from "../../core/storage";
+import baseService from "../../core/baseServices";
+import urls from "../../core/base.url";
 
 export default function MessageBadge() {
   const navigate = useNavigate();
-  const { theme } = useContext(GeneralContext);
+  const { theme, corpid } = useContext(GeneralContext);
+  const [count, setCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function getChats() {
+    const user = StorageBox.retrieveUserData();
+    setLoading(true);
+    try {
+      const res: any = await baseService.get(
+        urls.chatlist + `/${user?.user_id}`
+      );
+      const chatlist = res.data?.payload;
+      const totalCount = chatlist.reduce(
+        (total: number, chat: any) => total + chat.unread_count,
+        0
+      );
+      setCount(totalCount);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getChats();
+  }, []);
+
   return (
     <div
-      // onClick={() => navigate("/messages")}
+      onClick={() => navigate(`/messages/${corpid}`)}
       className="position-relative  ml-4"
       style={{ cursor: "pointer" }}
     >
@@ -35,7 +64,7 @@ export default function MessageBadge() {
         style={{ fontSize: "11px", background: theme?.primary_color }}
         className="position-absolute top-0 start-0 translate-middle rounded-circle text-white px-1"
       >
-        {/* {count} */}0
+        {count}
       </span>
     </div>
   );

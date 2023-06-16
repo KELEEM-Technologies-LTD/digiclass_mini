@@ -7,6 +7,7 @@ import { LinearProgress } from "@mui/material";
 import baseService from "../../core/baseServices";
 import urls from "../../core/base.url";
 import MessagesScreen from "./message-screen";
+import MessageMobileDrawer from "./components/message-mobile-drawer";
 
 export default function Messages() {
   const { corpid, setCorpId } = useContext(GeneralContext);
@@ -49,13 +50,54 @@ export default function Messages() {
     getContactList();
   }, []);
 
+  const handleNavigateBack = () => {
+    navigate(-1); // Navigates back one step in the history
+  };
+
   return (
     <Fragment>
       <div
-        className="flex w-full h-full bg-[#f5f5f5]"
+        className="flex lg:flex-row flex-col w-full h-full bg-[#f5f5f5]"
         style={{ overflow: "hidden" }}
       >
-        <aside className="flex">
+        <div className="w-full h-14 lg:hidden flex justify-between items-center shadow-secondary-100 px-4 bg-white">
+          <div>
+            <button
+              onClick={handleNavigateBack}
+              type="button"
+              className="p-1.5 text-primary-500 focus:outline-nones transition-colors duration-200 rounded-lg  hover:bg-primary-100"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+                />
+              </svg>
+            </button>
+          </div>
+          <div className="">
+            <p className="sm:text-xl text-lg">Messages</p>
+          </div>
+          <div>
+            <MessageMobileDrawer
+              show={show}
+              setShow={setShow}
+              contactLoading={contactLoading}
+              contactList={contactList}
+              current={current}
+              setCurrent={setCurrent}
+            />
+          </div>
+        </div>
+        <aside className="lg:flex hidden">
           <div className="flex flex-col items-center w-16 h-screen py-8 space-y-8 bg-white ">
             <Link
               to="#"
