@@ -64,7 +64,7 @@ export default function COurse() {
         );
         setInstructor(instructor_res.data?.data);
       } catch (error: any) {
-        console.log(error);
+        // console.log(error);
         displayWarning(error.response?.data?.message);
         navigate(-1);
       }
@@ -363,7 +363,4 @@ export default function COurse() {
       </div>
     </>
   );
-}
-{
-  /* {value === 2 ? <>Author</> : null} */
 }

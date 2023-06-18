@@ -14,6 +14,7 @@ const urls = {
   resetPwd: `${base}:2000/api/v1/auth/reset/verify`,
 
   courses: `${base}:3001/adcourse/corporate-courses`,
+  course: `${base}:1906/api/v1/courses`,
   getCourses: `${base}:1906/api/v1/courses`,
   get_single: `${base}:3001/adcourse/free_courses`,
   getmypaidc: `${base}:1098/transactions/listpaid`,
