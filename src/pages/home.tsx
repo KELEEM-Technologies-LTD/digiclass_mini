@@ -98,7 +98,7 @@ export default function Home() {
                 }}
                 className={`${
                   tab === i
-                    ? `bg-[${theme?.primary_color}] text-white hover:bg-[${theme?.primary_color}] hover:bg-opacity-80  py-2 px-4`
+                    ? `bg-[${theme?.primary_color}] text-[${theme?.primary_color}] hover:bg-[${theme?.primary_color}] hover:text-white hover:bg-opacity-80  py-2 px-4`
                     : `border-y-[2px] border-x-[1px] border-[${theme?.primary_color}] hover:bg-[${theme?.primary_color}]  hover:text-white py-2 px-4`
                 } ${i === 0 ? `rounded-l-lg` : i === 2 ? "rounded-r-lg" : ""}`}
               >

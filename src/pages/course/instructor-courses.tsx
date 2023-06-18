@@ -57,7 +57,7 @@ export default function InstructorCourses() {
       try {
         const res: any = await baseService.get(
           urls.course +
-            `?filter=instructor=${instructor_id},status=active&page=${page}&size=11`
+            `?filter=instructor=${instructor_id},status=active&page=${page}&size=8`
         );
         // console.log(res);
         // console.log(res.data?.data);
