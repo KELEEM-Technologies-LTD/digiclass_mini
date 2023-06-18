@@ -117,7 +117,7 @@ export default function Home() {
           />
           <button
             type="submit"
-            className={`bg-[${theme?.primary_color}] hover:bg-[${theme?.primary_color}] hover:bg-opacity-80 text-white py-2 px-4 rounded-r-lg`}
+            className={`border border-gray-300  hover:bg-[${theme?.primary_color}] hover:bg-opacity-80 text-black py-2 px-4 rounded-r-lg`}
           >
             <Search className="w-6 h-6" />
           </button>
