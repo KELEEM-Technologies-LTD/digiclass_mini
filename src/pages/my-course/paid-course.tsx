@@ -20,6 +20,7 @@ import SingleSection from "../course/components/sections";
 import { is_course_completed } from "./section_helper";
 import Files from "./components/Files";
 import moment from "moment";
+import Author from "../course/components/author";
 
 export default function PaidCourse() {
   const { current, theme, setCurrent, player, setPlayer, corpid, setCorpId } =
@@ -42,6 +43,7 @@ export default function PaidCourse() {
   const [videos, setVideos] = useState<any>([]);
   const [sections, setSections] = useState<any>([]);
   const [faq, setFaq] = useState<any>([]);
+  const [instructor, setInstructor] = useState([]);
 
   const [graded, setGraded] = useState<boolean>(false);
   const [grade_message, setGrade_message] = useState<any>(<></>);
@@ -53,6 +55,11 @@ export default function PaidCourse() {
       );
       //   console.log(course_data.data?.data);
       setCourseDetail(course_data.data?.data);
+
+      const instructor_res: any = await baseService.get(
+        urls.getUser + `/${course_data?.data?.data?.instructor}`
+      );
+      setInstructor(instructor_res.data?.data);
 
       if (course_data.data?.data?.configurations?.quiz_required) {
         const user: any = StorageBox.retrieveUserData();
@@ -344,6 +351,7 @@ export default function PaidCourse() {
           >
             <Tab label="Overview" />
             <Tab label="Reviews" />
+            <Tab label="Author" />
             <Tab label="FAQ" />
             <Tab label="Files" />
           </Tabs>
@@ -356,8 +364,11 @@ export default function PaidCourse() {
               />
             ) : null}
             {value === 1 ? <Review data={reviews} reload={getData} /> : null}
-            {value === 2 ? <Faq data={faq} /> : null}
-            {value === 3 ? <Files course_id={course_id} /> : null}
+            {value === 2 ? (
+              <Author instructor={instructor} course_detail={courseDetail} />
+            ) : null}
+            {value === 3 ? <Faq data={faq} /> : null}
+            {value === 4 ? <Files course_id={course_id} /> : null}
           </div>
         </Container>
       </div>

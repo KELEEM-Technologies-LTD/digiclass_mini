@@ -11,7 +11,7 @@ export default function Error404() {
   const get_data = async () => {
     try {
       const response: any = await baseService.get(urls.corporate_ids);
-      console.log(response.data?.payload);
+      // console.log(response.data?.payload);
       setCorporateIds(response.data?.payload);
       setLoading(false);
     } catch (error) {

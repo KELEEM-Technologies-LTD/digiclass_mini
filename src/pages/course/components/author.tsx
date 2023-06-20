@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import GeneralContext from "../../../context/gen";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 export default function Author(props: any) {
+  const { corp_id } = useParams();
   const { theme } = useContext(GeneralContext);
   const { instructor, course_detail } = props;
-    const { first_name, last_name, resume, user_role } = instructor;
-    console.log(resume);
+  const { first_name, last_name, resume, user_role } = instructor;
 
   return (
     <>
@@ -26,7 +26,9 @@ export default function Author(props: any) {
               <div className="ml-4">
                 <p className="font-bold text-lg text-black">
                   {first_name + " " + last_name}{" "}
-                  <Link to={`/instructor/${course_detail.instructor}`}>
+                  <Link
+                    to={`/instructor/${corp_id}/${course_detail.instructor}`}
+                  >
                     <OpenInNewIcon />
                   </Link>
                 </p>
