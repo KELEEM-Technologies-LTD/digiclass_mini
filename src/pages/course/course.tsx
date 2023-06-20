@@ -18,6 +18,7 @@ import SingleSection from "./components/sections";
 import moment from "moment";
 import Author from "./components/author";
 import { displayWarning } from "../../components/alert";
+import CourseMedia from "./components/course_media";
 
 export default function COurse() {
   const { course_id } = useParams();
@@ -233,7 +234,45 @@ export default function COurse() {
         </button>
       </div>
       <div style={{ minHeight: "100vh" }}>
-        <div className="flex flex-wrap">
+        <div className="bg-white grid md:grid-cols-12 grid-cols-1 gap-0">
+          <div
+            className="col-span-9"
+            style={{
+              backgroundImage: `url(${course.thumbnail})`,
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <CourseMedia
+              course_detail={courseDetail}
+              instructor={instructor}
+              loading={loading}
+              reviews={reviews}
+            />
+          </div>
+          <div
+            className="col-span-3"
+            style={{ maxHeight: "70vh", overflowY: "hidden" }}
+          >
+            <div className="px-4 py-3 bg-white">
+              <p className={`text-[${theme?.primary_color}] text-lg`}>
+                Course content
+              </p>
+            </div>
+            <hr className="my-1 mx-5 border-t border-blue-400" />
+            <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
+              {sections.map((_d: any, i: number) => (
+                <SingleSection
+                  data={_d}
+                  key={i}
+                  checkStatus={() => checkStatus(sections.length)}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* <div className="flex flex-wrap">
           <div className="w-full md:w-8/12 border">
             {graded ? (
               <div className="w-full h-[60vh] flex items-center justify-center">
@@ -328,7 +367,7 @@ export default function COurse() {
               ))}
             </div>
           </div>
-        </div>
+        </div> */}
         <div>
           <Container fluid>
             <Tabs
