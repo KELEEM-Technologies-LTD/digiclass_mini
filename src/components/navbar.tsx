@@ -66,7 +66,7 @@ export default function NavBar() {
               {theme?.name}
             </span>
             <div className="mx-2 flex items-center justify-center">
-              <ChangeCurrency />
+              {/* <ChangeCurrency /> */}
               <MessageBadge />
               <NotificationBadge />
             </div>

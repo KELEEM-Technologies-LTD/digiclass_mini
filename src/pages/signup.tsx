@@ -15,10 +15,10 @@ import baseService from "../core/baseServices";
 import urls from "../core/base.url";
 import { Link, useParams } from "react-router-dom";
 import { StorageBox } from "../core/storage";
-import { displayWarning } from "../components/alert";
+import { displaySuccess, displayWarning } from "../components/alert";
 
 export default function Signup() {
-  const { loading, theme, corpid, setCorpId } = useContext(GeneralContext);
+  const { loading, theme, corpid } = useContext(GeneralContext);
   document.title = `${theme?.name} - DigiClass`;
   //   const { corp_id } = useParams();
 
@@ -56,7 +56,21 @@ export default function Signup() {
 
     setAuth(true);
     try {
-    } catch (error) {}
+      const payload = {
+        first_name: fname,
+        last_name: lname,
+        email,
+        password,
+      };
+      await baseService.post(urls.signup + `/${corpid}`, payload);
+
+      displaySuccess("Sign up successfully");
+      setAuth(false);
+      window.location.href = `/sign-in/${corpid}`;
+    } catch (error) {
+      setAuth(false);
+      console.log(error);
+    }
   };
 
   return loading ? (
@@ -160,8 +174,9 @@ export default function Signup() {
                     <button
                       onClick={signup}
                       disabled={auth}
+                      style={{ backgroundColor: theme?.primary_color }}
                       type="submit"
-                      className={`bg-[${theme?.primary_color}] text-white px-9 py-2`}
+                      className={`bg-[${theme?.primary_color}] text-white px-9 py-2 mt-3`}
                     >
                       {auth ? <Spinner /> : "Sign Up"}
                     </button>
