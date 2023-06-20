@@ -18,6 +18,7 @@ import calender from "../../../assets/svg/wallet.svg";
 import languageicon from "../../../assets/svg/voice.svg";
 import { formatCedis } from "../../../components/helpers";
 import GeneralContext from "../../../context/gen";
+import imgplay from "../../../assets/img/play.png";
 
 export default function CourseMedia(props: any) {
   const [adding, setAdding] = useState(false);
@@ -204,7 +205,7 @@ export default function CourseMedia(props: any) {
             style={{ cursor: "pointer" }}
             onClick={() => setIsOpen(true)}
           >
-            <img src="../img/play.png" alt="play" />
+            <img src={imgplay} alt="play" />
             <p className="text-white mt-2">Play course overview</p>
           </div>
         </div>
