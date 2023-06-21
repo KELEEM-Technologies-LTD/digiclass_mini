@@ -13,14 +13,14 @@ import LoadingOverLay from "../components/loader";
 import GeneralContext from "../context/gen";
 import baseService from "../core/baseServices";
 import urls from "../core/base.url";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { StorageBox } from "../core/storage";
 import { displaySuccess, displayWarning } from "../components/alert";
 
 export default function Signup() {
   const { loading, theme, corpid } = useContext(GeneralContext);
   document.title = `${theme?.name} - DigiClass`;
-  //   const { corp_id } = useParams();
+  const navigate = useNavigate();
 
   const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
@@ -37,12 +37,12 @@ export default function Signup() {
   };
 
   const signup = async () => {
-    if (isChecked === false) {
+    if (!isChecked) {
       displayWarning("Please accept the terms and conditions");
       return;
     }
     if (!password) {
-      displayWarning("Please enter password!");
+      displayWarning("Please enter a password!");
       return;
     }
     if (!fname) {
@@ -62,11 +62,33 @@ export default function Signup() {
         email,
         password,
       };
-      await baseService.post(urls.signup + `/${corpid}`, payload);
+      const usr: any = await baseService.post(
+        urls.signup + `/${corpid}`,
+        payload
+      );
+      const user = usr.data?.data;
+      console.log(user);
+      StorageBox.saveUserData(user.user);
+      StorageBox.saveAccessToken(user.token);
 
-      displaySuccess("Sign up successfully");
-      setAuth(false);
-      window.location.href = `/sign-in/${corpid}`;
+      const res: any = await baseService.get(
+        urls.get_signup_questions + `/${corpid}`
+      );
+      const d = res.data?.data;
+
+      if (d.length >= 1) {
+        setAuth(false);
+        const data = {
+          questions: d,
+          user: user.user,
+        };
+        displaySuccess("Sign up successfully");
+        navigate(`/sign-up/questions/${corpid}`, { state: data });
+      } else {
+        setAuth(false);
+        displaySuccess("Sign up successfully");
+        navigate(`/sign-in/${corpid}`);
+      }
     } catch (error) {
       setAuth(false);
       console.log(error);

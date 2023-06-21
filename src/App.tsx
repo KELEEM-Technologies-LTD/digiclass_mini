@@ -10,6 +10,7 @@ import Certificate from "./pages/quiz/ceritificate";
 
 const SigninPage = React.lazy(() => import("./pages/signin"));
 const Signup = React.lazy(() => import("./pages/signup"));
+const SignupQuestions = React.lazy(() => import("./pages/signup_questions"));
 const EnterEmail = React.lazy(() => import("./pages/enter-email"));
 const EnterPWd = React.lazy(() => import("./pages/enter-pwd"));
 const HomePage = React.lazy(() => import("./pages/home"));
@@ -35,6 +36,10 @@ function App() {
             {/* <Route path="/:corp_id" element={<SigninPage />} /> */}
             <Route path="/sign-in/:corp_id" element={<SigninPage />} />
             <Route path="/sign-up/:corp_id" element={<Signup />} />
+            <Route
+              path="/sign-up/questions/:corp_id"
+              element={<SignupQuestions />}
+            />
             <Route path="/redeem/:corp_id" element={<EnterEmail />} />
             <Route path="/reset-pwd/:token/:corp_id" element={<EnterPWd />} />
 

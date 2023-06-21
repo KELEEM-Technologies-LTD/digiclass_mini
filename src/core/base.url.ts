@@ -10,6 +10,7 @@ const urls = {
   theme: `${base}:3002/additional-instructor/theme`,
   signin: `${base}:2000/api/v1/auth/login`,
   signup: `${base}:2003/api/v1/corp/signup`,
+  get_signup_questions: `${base}:2003/api/v1/fields`,
   resetemail: `${base}:3002/additional-instructor/corporate/redeem`,
   verify: `${base}:2000/api/v1/auth/reset/verify`,
   resetPwd: `${base}:2000/api/v1/auth/reset/verify`,
