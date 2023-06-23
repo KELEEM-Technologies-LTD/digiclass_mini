@@ -30,7 +30,7 @@ export default function CourseCard(props: { course: any }) {
               configurations?.paid
                 ? myCourseArray.includes(course_id)
                   ? `/my-course/${course_id}/${corpid}`
-                  : `/buy-now/${course_id}/${corpid}`
+                  : `/paid-course/${course_id}/${corpid}`
                 : `/course/${course_id}/${corpid}`
             )
           }

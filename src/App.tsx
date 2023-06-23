@@ -15,6 +15,7 @@ const EnterEmail = React.lazy(() => import("./pages/enter-email"));
 const EnterPWd = React.lazy(() => import("./pages/enter-pwd"));
 const HomePage = React.lazy(() => import("./pages/home"));
 const CoursesPage = React.lazy(() => import("./pages/course/course"));
+const PaidCourse = React.lazy(() => import("./pages/course/paid_coures"));
 const MyCourse = React.lazy(() => import("./pages/my-courses"));
 const MyAccount = React.lazy(() => import("./pages/profile/account"));
 const MyBuyNow = React.lazy(() => import("./pages/buy-now"));
@@ -55,6 +56,10 @@ function App() {
               <Route
                 path="/course/:course_id/:corp_id"
                 element={<CoursesPage />}
+              />
+              <Route
+                path="/paid-course/:course_id/:corp_id"
+                element={<PaidCourse />}
               />
               <Route
                 path="/my-course/:course_id/:corp_id"

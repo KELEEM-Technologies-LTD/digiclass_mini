@@ -1,12 +1,20 @@
 import { LinearProgress } from "@mui/material";
 import moment from "moment";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import GeneralContext from "../../../context/gen";
 import { Cancel } from "@mui/icons-material";
+import { useFetcher } from "react-router-dom";
 
 export default function Notifications() {
   const { read, unread, theme } = useContext(GeneralContext);
+  useEffect(() => {
+    const ntfs = {
+      read: read,
+      unread: unread,
+    };
+    console.log(ntfs);
+  }, []);
 
   return (
     <Container>
@@ -57,3 +65,10 @@ function NotificationCard(props: { notif: any; theme: any; read: boolean }) {
     </div>
   );
 }
+
+// function NtfPad(props: { notif: any; theme: any; read: boolean }) {
+//   const { notif, theme, read } = props;
+//   const { heading, message, date } = notif;
+
+//   return <div className=""></div>;
+// }

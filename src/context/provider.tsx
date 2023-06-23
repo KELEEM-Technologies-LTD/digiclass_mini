@@ -131,6 +131,14 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
     get_hidden_course();
   }, []);
 
+  const [pop, setPop] = useState(false);
+  function openNotification() {
+    setPop(!pop);
+    if (pop) {
+      get_notifications();
+    }
+  }
+
   return (
     <GeneralContext.Provider
       value={{
@@ -162,6 +170,8 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
         //Hidden Courses
         hiddenLoading,
         hiddenCourses,
+        openNotification,
+        pop,
       }}
     >
       {children}

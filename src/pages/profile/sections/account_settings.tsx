@@ -1,48 +1,41 @@
-import { LinearProgress } from "@mui/material";
-import { useState } from "react";
+import { CircularProgress, LinearProgress } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import baseService from "../../../core/baseServices";
 import urls from "../../../core/base.url";
 import { StorageBox } from "../../../core/storage";
 import { displaySuccess } from "../../../components/alert";
+import GeneralContext from "../../../context/gen";
 
-export default function AccountSettings(props: {
-  user: any;
-  loading: boolean;
-  theme: any;
-  getData: () => void;
-}) {
-  const { user, loading, theme, getData } = props;
-  const {
-    first_name,
-    last_name,
-    profile_pic,
-    dob,
-    resume,
-    user_id,
-    location,
-    msisdn,
-  } = user;
+export default function AccountSettings() {
+  const { corpid, setCorpId, theme } = useContext(GeneralContext);
 
-  console.log(user);
+  const [user, setUser] = useState<any>([]);
+  useEffect(() => {
+    const usr: any = StorageBox.retrieveUserData();
+    setUser(usr);
+    console.log(user);
+  }, []);
 
-  const [fname, setFname] = useState<string>(first_name);
-  const [lname, setlanme] = useState<string>(last_name);
-  const [formdob, setDob] = useState(dob ? dob : "2000-01-01");
-  const [formresume, setResume] = useState(resume ? resume : "");
-  const [loc, setLoc] = useState(location ? location : "");
-  const [phone, setPhone] = useState(msisdn ? msisdn : "");
+  const [fname, setFname] = useState<string>(user.first_name);
+  const [lname, setlanme] = useState<string>(user.last_name);
+  const [formdob, setDob] = useState(user.dob ? user.dob : "2000-01-01");
+  const [formresume, setResume] = useState(user.resume ? user.resume : "");
+  const [loc, setLoc] = useState(user.location ? user.location : "");
+  const [phone, setPhone] = useState(user.msisdn ? user.msisdn : "");
+  const [loading, setLoading] = useState(false);
 
   const saveChanges = async () => {
+    setLoading(true);
     const payload = {
-      first_name: fname || first_name,
-      last_name: lname || last_name,
-      dob: formdob || dob,
-      resume: formresume || resume,
-      location: loc || location,
-      msisdn: phone || msisdn,
+      first_name: fname || user.first_name,
+      last_name: lname || user.last_name,
+      dob: formdob || user.dob,
+      resume: formresume || user.resume,
+      location: loc || user.location,
+      msisdn: phone || user.msisdn,
     };
-    console.log(payload);
+    // console.log(payload);
     try {
       const user: any = StorageBox.retrieveUserData();
 
@@ -53,9 +46,11 @@ export default function AccountSettings(props: {
 
       if (response?.data?.data) {
         displaySuccess(response?.data?.data?.message);
-        console.log(response?.data?.data?.message);
+        console.log(response?.data?.data);
       }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -152,11 +147,7 @@ export default function AccountSettings(props: {
               className={`hover:bg-[${theme?.primary_color}] hover:text-[${theme?.secondary_color}] h-10 flex-col items-center flex rounded-5 border-[${theme?.primary_color}] border py-2 px-8 bg-transparent`}
               //   disabled={updating}
             >
-              {/* {updating ? (
-                        <CircularProgress size={24} />
-                      ) : (
-                          )} */}
-              Save changes
+              {loading ? <CircularProgress size={24} /> : "Save changes"}
             </button>
           </div>
         </div>

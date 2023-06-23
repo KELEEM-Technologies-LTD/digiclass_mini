@@ -56,7 +56,7 @@ export default function COurse() {
         urls.getCourses +
           `/${course_id}?query_fields=title,status,about,caption,short_description,description,about,skill_level,language,price,caption,instructor,configurations,certificate,contract_percentage,status,view_status,updatedAt,thumbnail`
       );
-      //   console.log(course_data.data?.data);
+      console.log(course_data.data?.data);
       setCourseDetail(course_data.data?.data);
 
       try {
@@ -234,140 +234,143 @@ export default function COurse() {
         </button>
       </div>
       <div style={{ minHeight: "100vh" }}>
-        <div className="bg-white grid md:grid-cols-12 grid-cols-1 gap-0">
-          <div
-            className="col-span-9"
-            style={{
-              backgroundImage: `url(${course.thumbnail})`,
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <CourseMedia
-              course_detail={courseDetail}
-              instructor={instructor}
-              loading={loading}
-              reviews={reviews}
-            />
-          </div>
-          <div
-            className="col-span-3"
-            style={{ maxHeight: "70vh", overflowY: "hidden" }}
-          >
-            <div className="px-4 py-3 bg-white">
-              <p className={`text-[${theme?.primary_color}] text-lg`}>
-                Course content
-              </p>
+        {courseDetail.configurations.paid ? (
+          <div className="bg-white grid md:grid-cols-12 grid-cols-1 gap-0">
+            <div
+              className="col-span-9"
+              style={{
+                backgroundImage: `url(${course.thumbnail})`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+              }}
+            >
+              <CourseMedia
+                course_detail={courseDetail}
+                instructor={instructor}
+                loading={loading}
+                reviews={reviews}
+              />
             </div>
-            <hr className="my-1 mx-5 border-t border-blue-400" />
-            <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
-              {sections.map((_d: any, i: number) => (
-                <SingleSection
-                  data={_d}
-                  key={i}
-                  checkStatus={() => checkStatus(sections.length)}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* <div className="flex flex-wrap">
-          <div className="w-full md:w-8/12 border">
-            {graded ? (
-              <div className="w-full h-[60vh] flex items-center justify-center">
-                {grade_message}
+            <div
+              className="col-span-3"
+              style={{ maxHeight: "70vh", overflowY: "hidden" }}
+            >
+              <div className="px-4 py-3 bg-white">
+                <p className={`text-[${theme?.primary_color}] text-lg`}>
+                  Course content
+                </p>
               </div>
-            ) : completed ? (
-              <Fragment>
+              <hr className="my-1 mx-5 border-t border-blue-400" />
+              <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
+                {sections.map((_d: any, i: number) => (
+                  <SingleSection
+                    data={_d}
+                    key={i}
+                    checkStatus={() => checkStatus(sections.length)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-wrap">
+            <div className="w-full md:w-8/12 border">
+              {graded ? (
                 <div className="w-full h-[60vh] flex items-center justify-center">
-                  {courseDetail.configurations?.quiz_required ? (
-                    <div>
-                      <p>
-                        You have completed {courseDetail?.title} please take a
-                        quiz now
-                      </p>
-                      <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
-                        <button
-                          // to="#"
-                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
-                          onClick={() => setCompleted(false)}
-                        >
-                          Continue watching
-                        </button>
-                        <button
-                          onClick={() =>
-                            navigate(`/start-quiz/${corp_id}/${course_id}`)
-                          }
-                          className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
-                        >
-                          Start quiz
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div>
-                      <p>
-                        You have completed {courseDetail?.title} your
-                        certificate is ready here
-                      </p>
-                      <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
-                        <button
-                          // to="#"
-                          className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
-                          onClick={() => setCompleted(false)}
-                        >
-                          Continue watching
-                        </button>
-                        <button
-                          onClick={() =>
-                            navigate(
-                              `/certifications/${corp_id}/${courseDetail.course_id}`
-                            )
-                          }
-                          className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
-                        >
-                          Certificate
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  {grade_message}
                 </div>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <ReactPlayer
-                  width="100%"
-                  height="70vh"
-                  url={current?.url}
-                  playing={false}
-                  controls={true}
-                />
-                <PhotoSizeSelectSmall
-                  style={{ color: theme?.primary_color, cursor: "pointer" }}
-                  onClick={() => setPlayer(true)}
-                />
-              </Fragment>
-            )}
-          </div>
-          <div className="w-full md:w-4/12 border">
-            <div className="px-4 py-3 bg-white">
-              <p className={`text-[${theme?.primary_color}] text-lg`}>
-                Course content
-              </p>
+              ) : completed ? (
+                <Fragment>
+                  <div className="w-full h-[60vh] flex items-center justify-center">
+                    {courseDetail.configurations?.quiz_required ? (
+                      <div>
+                        <p>
+                          You have completed {courseDetail?.title} please take a
+                          quiz now
+                        </p>
+                        <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
+                          <button
+                            // to="#"
+                            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
+                            onClick={() => setCompleted(false)}
+                          >
+                            Continue watching
+                          </button>
+                          <button
+                            onClick={() =>
+                              navigate(`/start-quiz/${corp_id}/${course_id}`)
+                            }
+                            className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                          >
+                            Start quiz
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div>
+                        <p>
+                          You have completed {courseDetail?.title} your
+                          certificate is ready here
+                        </p>
+                        <div className="mt-2 flex flex-col md:flex-row p-2 justify-between">
+                          <button
+                            // to="#"
+                            className="ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[#f54242] px-10 py-2 text-base font-medium text-white shadow-xl hover:bg-[#e87979] mb-2"
+                            onClick={() => setCompleted(false)}
+                          >
+                            Continue watching
+                          </button>
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/certifications/${corp_id}/${courseDetail.course_id}`
+                              )
+                            }
+                            className={`ml-8 inline-flex items-center justify-center whitespace-nowrap rounded-2 border border-transparent bg-[${theme?.primary_color}] px-5 py-2 text-base font-medium text-white shadow-xl w-10 hover:bg-secondary-800`}
+                          >
+                            Certificate
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </Fragment>
+              ) : (
+                <Fragment>
+                  <ReactPlayer
+                    width="100%"
+                    height="70vh"
+                    url={current?.url}
+                    playing={false}
+                    controls={true}
+                  />
+                  <PhotoSizeSelectSmall
+                    style={{ color: theme?.primary_color, cursor: "pointer" }}
+                    onClick={() => setPlayer(true)}
+                  />
+                </Fragment>
+              )}
             </div>
-            <hr className="my-1 mx-5 border-t border-blue-400" />
-            <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
-              {sections.map((_d: any, i: number) => (
-                <SingleSection
-                  data={_d}
-                  key={i}
-                  checkStatus={() => checkStatus(sections.length)}
-                />
-              ))}
+            <div className="w-full md:w-4/12 border">
+              <div className="px-4 py-3 bg-white">
+                <p className={`text-[${theme?.primary_color}] text-lg`}>
+                  Course content
+                </p>
+              </div>
+              <hr className="my-1 mx-5 border-t border-blue-400" />
+              <div className="px-4 pt-4 pb-2 text-sm text-secondary-500">
+                {sections.map((_d: any, i: number) => (
+                  <SingleSection
+                    data={_d}
+                    key={i}
+                    checkStatus={() => checkStatus(sections.length)}
+                  />
+                ))}
+              </div>
             </div>
           </div>
-        </div> */}
+        )}
+
         <div>
           <Container fluid>
             <Tabs

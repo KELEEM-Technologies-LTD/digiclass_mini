@@ -9,6 +9,7 @@ import { StorageBox } from "../core/storage";
 import ChangeCurrency from "./elements/change_currency";
 import MessageBadge from "./elements/message_badge";
 import NotificationBadge from "./elements/notification_badge";
+import NotificationDrawer from "./elements/notification_drawer";
 
 export default function NavBar() {
   const { theme, corpid } = useContext(GeneralContext);
@@ -28,10 +29,10 @@ export default function NavBar() {
       name: `Account`,
       url: `/account/${corpid}?tab=0`,
     },
-    {
-      name: `Notification`,
-      url: `/account/${corpid}?tab=1`,
-    },
+    // {
+    //   name: `Notification`,
+    //   url: `/account/${corpid}?tab=1`,
+    // },
     {
       name: `Transactions`,
       url: `/account/${corpid}?tab=2`,
@@ -68,7 +69,8 @@ export default function NavBar() {
             <div className="mx-2 flex items-center justify-center">
               {/* <ChangeCurrency /> */}
               <MessageBadge />
-              <NotificationBadge />
+              {/* <NotificationBadge /> */}
+              <NotificationDrawer />
             </div>
             <Avatar onClick={() => setOpen(true)} style={{ cursor: "pointer" }}>
               {StorageBox.retrieveUserData()?.first_name[0]}

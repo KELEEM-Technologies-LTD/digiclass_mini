@@ -4,10 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 export default function NotificationBadge() {
   const navigate = useNavigate();
-  const { theme, corpid } = useContext(GeneralContext);
+  const { theme, corpid, openNotification } = useContext(GeneralContext);
+
   return (
     <div
-      onClick={() => navigate(`/account/${corpid}?tab=1`)}
+      // onClick={() => navigate(`/account/${corpid}?tab=1`)}
+      onClick={() => openNotification()}
       className="position-relative ml-1"
       style={{ cursor: "pointer" }}
     >

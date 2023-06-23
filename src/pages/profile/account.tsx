@@ -4,13 +4,13 @@ import LoadingOverLay from "../../components/loader";
 import NavBar from "../../components/navbar";
 import GeneralContext from "../../context/gen";
 import { StorageBox } from "../../core/storage";
-import { Tabs, styled } from "@mui/material";
+import { Tabs, styled, Tab } from "@mui/material";
 import baseService from "../../core/baseServices";
 import urls from "../../core/base.url";
 import AccountSettings from "./sections/account_settings";
 import Notifications from "./sections/notifications";
 import Transactions from "./sections/transactions";
-import { Nav, Tab } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 
 export default function Account() {
   const { loading, corpid, setCorpId, theme } = useContext(GeneralContext);
@@ -51,14 +51,12 @@ export default function Account() {
   }, []);
 
   const [dataLoading, setDataLoading] = useState<boolean>(true);
-  const [userData, setUserData] = useState<any>([]);
   const [transactions, setTransactions] = useState<any>([]);
 
   const getData = async () => {
     setDataLoading(true);
     try {
       const user: any = StorageBox.retrieveUserData();
-      setUserData(user);
 
       const trans: any = await baseService.get(
         urls.transactions + `/${user.user_id}`
@@ -75,55 +73,27 @@ export default function Account() {
   ) : (
     <>
       <NavBar />
-      <Tab.Container defaultActiveKey="account">
-        <Nav variant="tabs">
-          <Nav.Item>
-            <Nav.Link
-              eventKey="account"
-              style={{ fontSize: "14px", color: theme?.primary_color }}
-            >
-              Account
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              eventKey="notification"
-              style={{ fontSize: "14px", color: theme?.primary_color }}
-            >
-              Notification
-            </Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link
-              eventKey="transactions"
-              style={{ fontSize: "14px", color: theme?.primary_color }}
-            >
-              Transactions
-            </Nav.Link>
-          </Nav.Item>
-        </Nav>
-        <Tab.Content>
-          <Tab.Pane eventKey="account">
-            <AccountSettings
-              user={userData}
-              loading={dataLoading}
-              theme={theme}
-              getData={getData}
-            />
-          </Tab.Pane>
-          <Tab.Pane eventKey="notification">
-            <Notifications />
-          </Tab.Pane>
-          <Tab.Pane eventKey="transactions">
-            {" "}
-            <Transactions
-              loading={dataLoading}
-              transactions={transactions}
-              theme={theme}
-            />
-          </Tab.Pane>
-        </Tab.Content>
-      </Tab.Container>
+      <Container fluid>
+        <Tabs
+          value={tab}
+          onChange={(e: any, newValue: any) => setTab(newValue)}
+        >
+          <Tab label="Account" />
+          <Tab label="Notification" />
+          <Tab label="Transactions" />
+        </Tabs>
+      </Container>
+      <div style={{ minHeight: "50vh" }} className="px-5">
+        {tab === 0 ? <AccountSettings /> : null}
+        {tab === 1 ? <Notifications /> : null}
+        {tab === 2 ? (
+          <Transactions
+            loading={dataLoading}
+            transactions={transactions}
+            theme={theme}
+          />
+        ) : null}
+      </div>
     </>
   );
 }
