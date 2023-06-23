@@ -13,16 +13,22 @@ export default function AccountSettings() {
   const [user, setUser] = useState<any>([]);
   useEffect(() => {
     const usr: any = StorageBox.retrieveUserData();
+
+    setFname(usr.first_name);
+    setlanme(usr.last_name);
+    setPhone(usr?.msisdn);
+    setLoc(usr?.location);
+    setDob(user?.dob ?? "2000-01-01");
+
     setUser(usr);
-    console.log(user);
+    console.log(usr);
   }, []);
 
-  const [fname, setFname] = useState<string>(user.first_name);
-  const [lname, setlanme] = useState<string>(user.last_name);
-  const [formdob, setDob] = useState(user.dob ? user.dob : "2000-01-01");
-  const [formresume, setResume] = useState(user.resume ? user.resume : "");
-  const [loc, setLoc] = useState(user.location ? user.location : "");
-  const [phone, setPhone] = useState(user.msisdn ? user.msisdn : "");
+  const [fname, setFname] = useState<string>("");
+  const [lname, setlanme] = useState<string>("");
+  const [formdob, setDob] = useState("");
+  const [loc, setLoc] = useState("");
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
 
   const saveChanges = async () => {
@@ -31,7 +37,6 @@ export default function AccountSettings() {
       first_name: fname || user.first_name,
       last_name: lname || user.last_name,
       dob: formdob || user.dob,
-      resume: formresume || user.resume,
       location: loc || user.location,
       msisdn: phone || user.msisdn,
     };
@@ -128,7 +133,7 @@ export default function AccountSettings() {
               className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
-          <div>
+          {/* <div>
             <p>Bio</p>
             <textarea
               id="message"
@@ -139,7 +144,7 @@ export default function AccountSettings() {
               value={formresume}
               onChange={(e: any) => setResume(e.target.value)}
             ></textarea>
-          </div>
+          </div> */}
 
           <div className="text-right">
             <button
