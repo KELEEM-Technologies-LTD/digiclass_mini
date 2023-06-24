@@ -45,11 +45,12 @@ export default function InstructorCourses() {
     };
 
     get_data();
-  }, []);
+  }, [corp_id, corpid, instructor_id, navigate, setCorpId]);
 
   const [loading, setLoading] = useState<boolean>(true);
   const [courses, setCourses] = useState<any>([]);
   const [page, setPage] = useState<number>(1);
+  const [filter, setFilter] = useState<"public" | "private">("public");
 
   useEffect(() => {
     const get_data = async () => {
@@ -57,7 +58,7 @@ export default function InstructorCourses() {
       try {
         const res: any = await baseService.get(
           urls.course +
-            `?filter=instructor=${instructor_id},status=active&page=${page}&size=8`
+            `?filter=instructor=${instructor_id},status=active,view_status=${filter}&page=${page}&size=8`
         );
         // console.log(res);
         // console.log(res.data?.data);
@@ -69,7 +70,12 @@ export default function InstructorCourses() {
     };
 
     get_data();
-  }, [instructor_id, page]);
+  }, [filter, instructor_id, page]);
+
+  const tabs: any[] = [
+    { label: `Public Courses`, filter: "public" },
+    { label: `Available only on ${theme?.name}`, filter: "private" },
+  ];
 
   return pageLoading ? (
     <LoadingOverLay />
@@ -91,7 +97,23 @@ export default function InstructorCourses() {
           </div>
         </div>
       </div>
-      {/* {JSON.stringify(theme)} */}
+      <div className="flex justify-end gap-3 mt-4">
+        {tabs.map((_d: any, i: number) => {
+          return (
+            <button
+              key={i}
+              className={
+                _d.filter === filter
+                  ? `bg-[${theme?.primary_color}] text-white font-bold py-2 px-4 rounded`
+                  : `bg-transparent hover:bg-[${theme?.primary_color}] text-[${theme?.primary_color}] font-semibold hover:text-[${theme?.primary_color}] py-2 px-4 border border-[${theme?.primary_color}] hover:border-transparent rounded`
+              }
+              onClick={() => setFilter(_d.filter)}
+            >
+              {_d.label}
+            </button>
+          );
+        })}
+      </div>
       <Container className="mt-5" fluid>
         <Row className="mt-3">
           {loading ? (
