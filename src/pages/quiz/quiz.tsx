@@ -208,6 +208,12 @@ export default function Quiz() {
               subject: `Quiz results, ${course_configuration?.data?.data?.title}`,
               text: `Congratulations, Your results for ${course_configuration?.data?.data?.title} has been submitted. The course was passed, the results are available on your course page`,
             });
+
+            await baseService.post(urls.postNotification, {
+              target: user.user_id,
+              heading: `Quiz results, ${course_configuration?.data?.data?.title}`,
+              message: `Congratulations, Your results for ${course_configuration?.data?.data?.title} has been submitted. The course was passed, the results are available on your course page`,
+            });
           } else if (objOnly && percentage <= passmark) {
             resultStats = "failed";
 
@@ -215,6 +221,12 @@ export default function Quiz() {
               to: user.email,
               subject: `Quiz results, ${course_configuration?.data?.data?.title}`,
               text: `Your results for ${course_configuration?.data?.data?.title} has been reviewed. The course was failed, please await instructor approval to retake the course`,
+            });
+
+            await baseService.post(urls.postNotification, {
+              target: user.user_id,
+              heading: `Quiz results, ${course_configuration?.data?.data?.title}`,
+              message: `Your results for ${course_configuration?.data?.data?.title} has been reviewed. The course was failed, please await instructor approval to retake the course`,
             });
           }
 
@@ -224,7 +236,7 @@ export default function Quiz() {
           // console.log(objOnly);
 
           const numberOfATypes = questions.filter(
-            (question:any) => question.q_type === "type_a"
+            (question: any) => question.q_type === "type_a"
           );
           await baseService.post(urls.results, {
             user_id: user?.user_id,
