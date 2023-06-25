@@ -49,6 +49,7 @@ const urls = {
   getMsgName: `${base}:3000/messages/name`,
 
   preview: `${base}:3001/adcourse/course-preview`,
+  cert: `${base}:3002/additional-instructor/single-certificate`,
 };
 
 export default urls;
