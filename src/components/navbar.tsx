@@ -73,8 +73,8 @@ export default function NavBar() {
               <NotificationDrawer />
             </div>
             <Avatar onClick={() => setOpen(true)} style={{ cursor: "pointer" }}>
-              {StorageBox.retrieveUserData()?.first_name[0]}
-              {StorageBox.retrieveUserData()?.last_name[0]}
+              {StorageBox.retrieveUserData()?.first_name?.[0]}
+              {StorageBox.retrieveUserData()?.last_name?.[0]}
             </Avatar>
           </div>
         </Container>

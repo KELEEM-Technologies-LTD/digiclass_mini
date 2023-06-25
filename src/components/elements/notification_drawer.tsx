@@ -10,7 +10,7 @@ export default function NotificationDrawer(props: any) {
 
   useEffect(() => {
     setNotifications([...read, ...unread]);
-    console.log(read);
+    // console.log(read);
   }, [read, unread]);
 
   return (
