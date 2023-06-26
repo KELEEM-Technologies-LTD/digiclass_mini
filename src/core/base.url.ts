@@ -17,6 +17,7 @@ const urls = {
 
   courses: `${base}:3001/adcourse/corporate-courses`,
   course: `${base}:1906/api/v1/courses`,
+  categories: `${base}:1906/api/v1/categories`,
   getCourses: `${base}:1906/api/v1/courses`,
   get_single: `${base}:3001/adcourse/free_courses`,
   getmypaidc: `${base}:1098/transactions/listpaid`,
