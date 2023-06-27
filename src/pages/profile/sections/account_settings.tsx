@@ -4,7 +4,7 @@ import { Container } from "react-bootstrap";
 import baseService from "../../../core/baseServices";
 import urls from "../../../core/base.url";
 import { StorageBox } from "../../../core/storage";
-import { displaySuccess } from "../../../components/alert";
+import { displaySuccess, displayWarning } from "../../../components/alert";
 import GeneralContext from "../../../context/gen";
 
 export default function AccountSettings() {
@@ -27,11 +27,21 @@ export default function AccountSettings() {
   const [fname, setFname] = useState<string>("");
   const [lname, setlanme] = useState<string>("");
   const [formdob, setDob] = useState("");
-  const [loc, setLoc] = useState("");
-  const [phone, setPhone] = useState("");
+  const [loc, setLoc] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const saveChanges = async () => {
+    if (loc === "" && user?.location.length < 3) {
+      displayWarning("Phone number must not be empty!");
+      return;
+    }
+
+    if (phone === "" && user?.msisdn.length < 8) {
+      displayWarning("Phone number must not be empty!");
+      return;
+    }
+
     setLoading(true);
     const payload = {
       first_name: fname || user.first_name,
@@ -50,6 +60,11 @@ export default function AccountSettings() {
       );
 
       if (response?.data?.data) {
+        const usr: any = await baseService.get(
+          urls.getUser + `/${user.user_id}`
+        );
+        await StorageBox.saveUserData(usr?.data?.data);
+        // console.log(usr.data.data);
         displaySuccess(response?.data?.data?.message);
         console.log(response?.data?.data);
       }
