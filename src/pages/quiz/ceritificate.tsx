@@ -30,7 +30,8 @@ export default function Certificate() {
   const [loading, setLoading] = useState<boolean>(true);
   const [course, setCourse] = useState<any>([]);
   const [cert, setCert] = useState<any>([]);
-  const [cert_url, setCert_url] = useState<any>("/cert.png");
+  const [cert_url, setCert_url] = useState<any>(null);
+  const [positions, setPositions] = useState<any>(null);
 
   const [ins_name, setName] = useState("");
   const get_data = async () => {
@@ -42,10 +43,15 @@ export default function Certificate() {
       );
 
       if (course_res.data?.data?.certificate !== null) {
-        setCert_url(course_res.data?.data?.certificate.replace(/"/g, ""));
-      } else {
-        const image = process.env.PUBLIC_URL + "/cert.png";
-        setCert_url(image);
+        const cert_id = course_res.data?.data?.certificate;
+        const certificate_response: any = await baseService.get(
+          // urls.cert + `/8`
+          urls.cert + `/${cert_id}`
+        );
+        if (certificate_response.data?.payload) {
+          setPositions(certificate_response.data?.payload?.positions);
+          setCert_url(certificate_response.data?.payload?.cert_link);
+        }
       }
 
       // console.log(course_res.data?.data?.certificate.replace(/"/g, ""));
@@ -91,6 +97,7 @@ export default function Certificate() {
         course={course}
         ins_name={ins_name}
         cert_url={cert_url}
+        position={positions}
       />
     </>
   );

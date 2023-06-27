@@ -8,6 +8,8 @@ import LoadingOverLay from "../components/loader";
 import NavBar from "../components/navbar";
 import GeneralContext from "../context/gen";
 import { StorageBox } from "../core/storage";
+import baseService from "../core/baseServices";
+import urls from "../core/base.url";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -19,8 +21,6 @@ export default function Home() {
     corpid,
     setCorpId,
     theme,
-    setCourses,
-    setCourseLoading,
     hiddenCourses,
     hiddenLoading,
   } = useContext(GeneralContext);
@@ -50,22 +50,45 @@ export default function Home() {
 
   const tabs = ["All", "Paid", "Free"];
   const [tab, setTab] = useState<number>(0);
-  const filterTab = (currrent_tab: number) => {
-    if (currrent_tab === 0) {
+  const filterTab = (current_tab: number) => {
+    if (current_tab === 0) {
       setQuery("");
-    } else if (currrent_tab === 1) {
-      setQuery(tabs[currrent_tab]);
+    } else if (current_tab === 1) {
+      setQuery(tabs[current_tab]);
       const filteredCourses = courses.filter(
         (course: any) => course.configurations.paid
       );
       setResults(filteredCourses);
-    } else if (currrent_tab === 2) {
-      setQuery(tabs[currrent_tab]);
+    } else if (current_tab === 2) {
+      setQuery(tabs[current_tab]);
       const filteredCourses = courses.filter(
         (course: any) => !course.configurations.paid
       );
       setResults(filteredCourses);
     }
+  };
+
+  const [categories, setCategories] = useState<any>([]);
+  const [currentCategory, setCurrentCategory] = useState<string>("");
+  useEffect(() => {
+    const get_categories = async () => {
+      try {
+        const res: any = await baseService.get(urls.categories + `?size=6`);
+        setCategories(res.data?.data?.data);
+        // console.log(res.data?.data?.data);
+      } catch (error) {}
+    };
+    get_categories();
+  }, []);
+
+  const filterTabCategory = (cat: string, name: string) => {
+    setCurrentCategory(cat);
+    setQuery(name);
+    const filteredCourses = courses.filter(
+      (course: any) => course.category === cat
+    );
+    setResults(filteredCourses);
+    // console.log(filteredCourses);
   };
 
   return loading ? (
@@ -85,7 +108,24 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col md:flex-row justify-between my-5">
+      <div className="my-2 px-2 md:grid hidden md:grid-cols-8 gap-1">
+        {categories?.map((_d: any, i: number) => {
+          return (
+            <button
+              className={
+                currentCategory === _d.category_id
+                  ? `bg-[${theme?.primary_color}] hover:bg-[${theme?.primary_color}] text-white font-bold py-1 px-2 border border-[${theme?.primary_color}] rounded`
+                  : "bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow"
+              }
+              key={i}
+              onClick={() => filterTabCategory(_d.category_id, _d.name)}
+            >
+              {_d.name}
+            </button>
+          );
+        })}
+      </div>
+      <div className="flex flex-col md:flex-row justify-between my-2">
         <div className="text-center">
           <ButtonGroup className="px-3">
             {tabs.map((_d, i) => (
