@@ -181,7 +181,8 @@ export default function Signup() {
                       </label>
                       By clicking "Sign up", you agree to{" "}
                       <Link
-                        to="/privacy-policy"
+                        to="http://kelemm-digiclass.herokuapp.com/privacy-policy"
+                        target="_blank"
                         className="text-secondary-600 text-base"
                       >
                         DigiClass Terms & Conditions

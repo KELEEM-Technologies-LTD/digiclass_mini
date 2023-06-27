@@ -20,7 +20,7 @@ export default function Author(props: any) {
   const [sending, setSending] = useState(false);
   const cancelButtonRef = useRef(null);
 
-  console.log(instructor);
+  console.log(course_detail);
 
   const sendmessage = async () => {
     setSending(true);
@@ -73,11 +73,13 @@ export default function Author(props: any) {
                     >
                       <OpenInNewIcon />
                     </Link>
-                    <div className="text-black">
-                      <Link to="#" onClick={() => setOpen(true)}>
-                        <MessageOutlined />
-                      </Link>
-                    </div>
+                    {course_detail?.configurations?.paid && (
+                      <div className="text-black">
+                        <Link to="#" onClick={() => setOpen(true)}>
+                          <MessageOutlined />
+                        </Link>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="flex justify-between">

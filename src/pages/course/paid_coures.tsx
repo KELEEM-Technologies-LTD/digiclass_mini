@@ -39,7 +39,7 @@ export default function PaidCourse() {
           `/${course_id}?query_fields=title,status,about,caption,short_description,description,about,skill_level,language,price,caption,instructor,configurations,certificate,contract_percentage,status,view_status,updatedAt,thumbnail`
       );
 
-      // console.log(res.data.data);
+      console.log(course_data.data?.data);
       setCourse(course_data.data?.data);
 
       const token = StorageBox.getAccessToken();
