@@ -4,6 +4,10 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    fontFamily: {
+      sans: ["SF Pro Display"],
+      serif: ["Work Sans"],
+    },
     extend: {},
   },
   plugins: [],

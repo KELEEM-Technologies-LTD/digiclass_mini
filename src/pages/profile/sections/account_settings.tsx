@@ -10,48 +10,60 @@ import GeneralContext from "../../../context/gen";
 export default function AccountSettings() {
   const { corpid, setCorpId, theme } = useContext(GeneralContext);
 
-  const [user, setUser] = useState<any>([]);
-  useEffect(() => {
-    const usr: any = StorageBox.retrieveUserData();
-
-    setFname(usr.first_name);
-    setlanme(usr.last_name);
-    setPhone(usr?.msisdn);
-    setLoc(usr?.location);
-    setDob(user?.dob ?? "2000-01-01");
-
-    setUser(usr);
-    console.log(usr);
-  }, []);
-
   const [fname, setFname] = useState<string>("");
   const [lname, setlanme] = useState<string>("");
   const [formdob, setDob] = useState("");
   const [loc, setLoc] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  // const [user, setUser] = useState<any>([]);
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  async function getUser() {
+    setLoading(true);
+    try {
+      const user: any = StorageBox.retrieveUserData();
+      const usr: any = await baseService.get(urls.getUser + `/${user.user_id}`);
+
+      if (usr?.data?.data) {
+        const load = usr?.data?.data;
+        setFname(load.first_name || "");
+        setlanme(load.last_name || "");
+        setPhone(load?.msisdn || "");
+        setLoc(load?.location || "");
+        setDob(load?.dob || "2000-01-01");
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  }
 
   const saveChanges = async () => {
-    if (loc === "" && user?.location.length < 3) {
-      displayWarning("Phone number must not be empty!");
+    if (loc.length < 1) {
+      displayWarning("Location must not be empty!");
       return;
     }
 
-    if (phone === "" && user?.msisdn.length < 8) {
-      displayWarning("Phone number must not be empty!");
+    if (phone.length < 10) {
+      displayWarning("Phone number must be 10 digit!");
       return;
     }
 
-    setLoading(true);
     const payload = {
-      first_name: fname || user.first_name,
-      last_name: lname || user.last_name,
-      dob: formdob || user.dob,
-      location: loc || user.location,
-      msisdn: phone || user.msisdn,
+      first_name: fname,
+      last_name: lname,
+      dob: formdob,
+      location: loc,
+      msisdn: phone,
     };
     // console.log(payload);
     try {
+      setLoading(true);
       const user: any = StorageBox.retrieveUserData();
 
       const response: any = await baseService.put(
@@ -63,10 +75,14 @@ export default function AccountSettings() {
         const usr: any = await baseService.get(
           urls.getUser + `/${user.user_id}`
         );
-        await StorageBox.saveUserData(usr?.data?.data);
-        // console.log(usr.data.data);
+        const load = usr?.data?.data;
+        setFname(load.first_name || "");
+        setlanme(load.last_name || "");
+        setPhone(load?.msisdn || "");
+        setLoc(load?.location || "");
+        setDob(load?.dob || "2000-01-01");
         displaySuccess(response?.data?.data?.message);
-        console.log(response?.data?.data);
+        // console.log(response?.data?.data);
       }
       setLoading(false);
     } catch (error) {
@@ -148,18 +164,6 @@ export default function AccountSettings() {
               className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
-          {/* <div>
-            <p>Bio</p>
-            <textarea
-              id="message"
-              rows={3}
-              cols={6}
-              className="py-5  border rounded-5 w-full  justify-between focus:outline-none font-serif border-primary-600 px-4 bg-primary-100"
-              placeholder="Write a short description about yourself"
-              value={formresume}
-              onChange={(e: any) => setResume(e.target.value)}
-            ></textarea>
-          </div> */}
 
           <div className="text-right">
             <button

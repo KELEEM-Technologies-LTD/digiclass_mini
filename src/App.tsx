@@ -14,6 +14,7 @@ const SignupQuestions = React.lazy(() => import("./pages/signup_questions"));
 const EnterEmail = React.lazy(() => import("./pages/enter-email"));
 const EnterPWd = React.lazy(() => import("./pages/enter-pwd"));
 const HomePage = React.lazy(() => import("./pages/home"));
+const Main = React.lazy(() => import("./pages/main/main"));
 const CoursesPage = React.lazy(() => import("./pages/course/course"));
 const PaidCourse = React.lazy(() => import("./pages/course/paid_coures"));
 const MyCourse = React.lazy(() => import("./pages/my-courses"));
@@ -45,6 +46,7 @@ function App() {
             <Route path="/reset-pwd/:token/:corp_id" element={<EnterPWd />} />
 
             <Route element={<PrivateRoute />}>
+              <Route path="/main/:corp_id" element={<Main />} />
               <Route path="/home/:corp_id" element={<HomePage />} />
               <Route path="/my-courses/:corp_id" element={<MyCourse />} />
               <Route path="/account/:corp_id" element={<MyAccount />} />

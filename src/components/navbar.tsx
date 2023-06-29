@@ -14,6 +14,7 @@ import NotificationDrawer from "./elements/notification_drawer";
 export default function NavBar() {
   const { theme, corpid } = useContext(GeneralContext);
   const navigate = useNavigate();
+  const user: any = StorageBox.retrieveUserData();
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -44,12 +45,14 @@ export default function NavBar() {
       <Navbar bg="light">
         <Container>
           <Navbar.Brand
-            onClick={() => navigate(`/home/${corpid}`)}
+            onClick={() =>
+              navigate(`/main/${user ? user.corporate_id : corpid}`)
+            }
             style={{ cursor: "pointer" }}
           >
             <Image
               src={theme?.img}
-              alt="company name"
+              alt="logo"
               className="d-inline-block align-top me-2 lg:h-[50px] lg:w-[200px] h-[20px] w-[100px] "
               style={{ width: "150px", height: "40px", objectFit: "cover" }}
               fluid

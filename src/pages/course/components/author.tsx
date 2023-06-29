@@ -1,4 +1,10 @@
-import React, { useContext, Fragment, useRef, useState } from "react";
+import React, {
+  useContext,
+  Fragment,
+  useRef,
+  useState,
+  useEffect,
+} from "react";
 import GeneralContext from "../../../context/gen";
 import { Link, useParams } from "react-router-dom";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -21,6 +27,34 @@ export default function Author(props: any) {
   const cancelButtonRef = useRef(null);
 
   console.log(course_detail);
+  const [loading, setLoading] = useState(true);
+  const [iscourse, setIsCourse] = useState(false);
+
+  useEffect(() => {
+    getmypaid();
+  }, []);
+
+  const getmypaid = async () => {
+    setLoading(true);
+    const user: any = StorageBox.retrieveUserData();
+    try {
+      const res: any = await baseService.get(
+        urls.getmypaidc + `/${user.user_id}`
+      );
+      const crse = res.data.payload;
+      if (crse.length < 1) {
+        setIsCourse(false);
+      } else if (
+        crse.filter((_it: any) => _it.course_id === course_detail?.course_id)
+      ) {
+        setIsCourse(true);
+      }
+      // console.log("course:", res.data.payload);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const sendmessage = async () => {
     setSending(true);
@@ -73,7 +107,7 @@ export default function Author(props: any) {
                     >
                       <OpenInNewIcon />
                     </Link>
-                    {course_detail?.configurations?.paid && (
+                    {iscourse && (
                       <div className="text-black">
                         <Link to="#" onClick={() => setOpen(true)}>
                           <MessageOutlined />
