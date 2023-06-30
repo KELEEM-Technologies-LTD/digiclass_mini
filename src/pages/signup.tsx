@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Spinner } from "react-bootstrap";
+import { Spinner, Image } from "react-bootstrap";
 import LoadingOverLay from "../components/loader";
 import GeneralContext from "../context/gen";
 import baseService from "../core/baseServices";
@@ -191,9 +191,19 @@ export default function Signup() {
       <div className="bg-light" style={{ minHeight: "100vh" }}>
         <div
           style={{}}
-          className="flex flex-col justify-center  md:items-center py-16"
+          className="flex flex-col justify-center  md:items-center py-8"
         >
           <div className=" md:w-3/12 md:p-0 px-6">
+            <div className="flex flex-col">
+              <div className="flex justify-center items-center mb-3">
+                <Image
+                  fluid
+                  src={theme?.img}
+                  alt="Logo"
+                  style={{ height: "100px" }}
+                />
+              </div>
+            </div>
             <p className="text-2xl mb-3 font-bold text-dark">
               Sign up and start learning
             </p>

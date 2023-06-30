@@ -151,12 +151,22 @@ const Signin = () => {
     <LoadingOverLay />
   ) : (
     <>
-      <div className="bg-gray-100 pt-12" style={{ minHeight: "100vh" }}>
+      <div className="bg-gray-100" style={{ minHeight: "100vh" }}>
         <div
           style={{}}
-          className="flex flex-col justify-center  md:items-center py-16"
+          className="flex flex-col justify-center  md:items-center pt-8"
         >
           <div className=" md:w-3/12 md:p-0 px-6">
+            <div className="flex flex-col">
+              <div className="flex justify-center items-center mb-3">
+                <Image
+                  fluid
+                  src={theme?.img}
+                  alt="Logo"
+                  style={{ height: "100px" }}
+                />
+              </div>
+            </div>
             <p className="text-2xl mb-3 font-semibold text-dark text-center">
               Log into your account
             </p>
