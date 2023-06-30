@@ -206,7 +206,7 @@ export default function Signup() {
                   type="text"
                   name="fname"
                   className="py-3 px-4 w-full placeholder:text-sm border border-black rounded bg-white outline-none"
-                  placeholder="Enter your email"
+                  placeholder="Enter your first name"
                   value={fname}
                   onChange={(e) => setFname(e.target.value)}
                 />
@@ -215,7 +215,7 @@ export default function Signup() {
                 <input
                   type="text"
                   className="py-3 px-4 w-full placeholder:text-sm border border-black rounded bg-white outline-none"
-                  placeholder="Enter your email"
+                  placeholder="Enter your last name"
                   name="lname"
                   value={lname}
                   onChange={(e) => setLname(e.target.value)}
@@ -234,7 +234,7 @@ export default function Signup() {
                 <PasswordInput
                   placeholder="Enter your password"
                   style={{ borderWidth: "2px" }}
-                  className="flex py-3 border-black border rounded bg-white justify-between"
+                  className="flex py-3 placeholder:text-sm border-black border rounded bg-white justify-between"
                   name="password"
                   value={password}
                   onChange={(e: any) => setPassword(e.target.value)}
@@ -244,12 +244,13 @@ export default function Signup() {
                 <PasswordInput
                   placeholder="Confirm Password"
                   style={{ borderWidth: "2px" }}
-                  className="flex py-3 border-black border rounded bg-white justify-between"
+                  className="flex py-3 placeholder:text-sm border-black border rounded bg-white justify-between"
                   name="cpassword"
                   value={cpassword}
                   onChange={(e: any) => setCPassword(e.target.value)}
                 />
               </div>
+
               <div className="flex flex-col items-center mt-3 justify-center">
                 <div className="text-center text-sm">
                   <label className="cursor-pointer mr-2">
