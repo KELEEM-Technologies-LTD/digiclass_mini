@@ -28,9 +28,19 @@ const ContactCardNew = (props: {
             Instructor
           </p>
         </div>
-        {current?.unread_count !== 0 ? (
-          <Badge>{current?.unread_count}</Badge>
-        ) : null}
+        <div>
+          {current?.unread_count !== 0 ? (
+            <Badge
+              style={{
+                fontSize: "9px",
+                marginLeft: "15px",
+                padding: "1px 1px 1px 1px",
+              }}
+            >
+              {current?.unread_count}
+            </Badge>
+          ) : null}
+        </div>
       </div>
     </button>
   );

@@ -44,7 +44,7 @@ export default function NavBar() {
     <>
       <Navbar bg="light">
         <Container>
-          <Navbar.Brand
+          {/* <Navbar.Brand
             onClick={() =>
               navigate(`/main/${user ? user.corporate_id : corpid}`)
             }
@@ -57,7 +57,15 @@ export default function NavBar() {
               style={{ width: "150px", height: "40px", objectFit: "cover" }}
               fluid
             />
-          </Navbar.Brand>
+          </Navbar.Brand> */}
+          <div
+            className="h-12 w-16 cursor-pointer"
+            onClick={() =>
+              navigate(`/main/${user ? user.corporate_id : corpid}`)
+            }
+          >
+            <img src={theme?.img} alt="logo" className="h-full w-full" />
+          </div>
           <div className="d-flex">
             <span
               style={{
@@ -121,7 +129,7 @@ export default function NavBar() {
                                       <li className="mt-2">
                                         <Link
                                           to={_d?.url}
-                                          className={`text-decoration-none text-[${theme?.secondary_color}] hover:text-[${theme?.primary_color}]`}
+                                          className={`text-decoration-none text-[${theme?.primary_color}] hover:text-[${theme?.primary_color}]`}
                                         >
                                           {_d.name}
                                         </Link>

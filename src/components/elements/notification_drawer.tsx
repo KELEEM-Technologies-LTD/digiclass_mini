@@ -33,7 +33,7 @@ export default function NotificationDrawer(props: any) {
             }}
           >
             <div className="flex items-center justify-between">
-              <p className="text-2xl font-semibold leading-6 text-gray-800">
+              <p className="text-lg font-semibold leading-6 text-gray-800">
                 Notifications
               </p>
               <div

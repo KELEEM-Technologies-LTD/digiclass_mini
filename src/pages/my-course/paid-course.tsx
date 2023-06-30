@@ -37,7 +37,7 @@ export default function PaidCourse() {
     }
   }, []);
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [courseDetail, setCourseDetail] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
   const [videos, setVideos] = useState<any>([]);

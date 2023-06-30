@@ -18,7 +18,7 @@ import Author from "./components/author";
 import Review from "./components/reviews";
 
 export default function PaidCourse() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState<any>([]);
   const [instructor, setInstructor] = useState([]);
   const [review, setReviews] = useState([]);
