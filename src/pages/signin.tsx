@@ -166,9 +166,9 @@ const Signin = () => {
             <form action="" onSubmit={signin}>
               <div className="mt-3">
                 <input
-                  type="email"
+                  type="text"
                   className="py-3 px-4 w-full border border-black rounded bg-gray-50 outline-none"
-                  placeholder="Enter your email"
+                  placeholder="Enter your user id"
                   value={email}
                   onChange={(e: any) => setEmail(e.target.value)}
                 />
