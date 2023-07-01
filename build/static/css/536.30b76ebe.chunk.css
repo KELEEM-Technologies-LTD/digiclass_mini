@@ -1,0 +1,2 @@
+.rating{display:flex;flex-direction:row-reverse;justify-content:center}.rating>input{display:none}.rating>label{cursor:pointer;font-size:40px;position:relative;width:40px}.rating>label:before{content:"\2605";opacity:0;position:absolute}.rating>label:hover:before,.rating>label:hover~label:before{opacity:1!important}.rating>input:checked~label:before{opacity:1}.rating:hover>input:checked~label:before{opacity:.4}
+/*# sourceMappingURL=536.30b76ebe.chunk.css.map*/
