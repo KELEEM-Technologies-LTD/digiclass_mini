@@ -44,6 +44,14 @@ export default function Signup() {
       displayWarning("Please enter a password!");
       return;
     }
+    if (password.length < 6) {
+      displayWarning("Password must be more than 6!");
+      return;
+    }
+    if (!password) {
+      displayWarning("Please enter a password!");
+      return;
+    }
     if (password !== cpassword) {
       displayWarning("Passwords dose not match!");
       return;
@@ -55,6 +63,10 @@ export default function Signup() {
     }
     if (!lname) {
       displayWarning("Please enter last name!");
+      return;
+    }
+    if (!validateEmail(email)) {
+      displayWarning("Please enter correct email with @");
       return;
     }
 
@@ -183,6 +195,11 @@ export default function Signup() {
       await StorageBox.clearStorage();
     }
   };
+
+  function validateEmail(email: string) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailPattern.test(email);
+  }
 
   return loading ? (
     <LoadingOverLay />
