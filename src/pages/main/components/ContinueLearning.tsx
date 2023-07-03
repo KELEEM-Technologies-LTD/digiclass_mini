@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useRef } from "react";
 import { Skeleton } from "@mui/material";
 import LectureCard from "./LectureCard";
-import urls from "../../../core/base.url";
-import baseService from "../../../core/baseServices";
-import { StorageBox } from "../../../core/storage";
 import chevronLeft from "../../../assets/svg/chevron-left.svg";
 import chevronRight from "../../../assets/svg/chevron-right.svg";
+import GeneralContext from "../../../context/gen";
 
 export default function ContinueLearning() {
+  const { courses, loading } = useContext(GeneralContext);
   const sliderRef = useRef<HTMLDivElement>(null);
   const handlePrev = () => {
     if (sliderRef.current) {
@@ -20,27 +19,6 @@ export default function ContinueLearning() {
       sliderRef.current.scrollLeft += 300;
     }
   };
-
-  const [loading, setLoading] = useState(true);
-  const [top5, setTop5] = useState([]);
-  const get5Courses = async () => {
-    setLoading(true);
-    try {
-      const res: any = await baseService.get(
-        urls.getCourses +
-          `?size=5&query_fields=id,title,language,status,airtime,short_description,price,configurations&filter=status=active,view_status=public`
-      );
-      // console.log("paid_course::", res.data);
-      setTop5(res.data?.data?.data);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    get5Courses();
-  }, []);
   return (
     <div className="py-2 px-5 w-full flex-col overflow-x-hidden md:flex hidden">
       <div className="flex justify-between">
@@ -68,7 +46,7 @@ export default function ContinueLearning() {
               style={{ marginRight: "30px" }}
             />
           ) : (
-            top5.map((item, index) => (
+            courses.map((item: any, index: any) => (
               <div
                 key={index}
                 style={{ marginRight: "20px", minWidth: "380px" }}

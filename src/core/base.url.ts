@@ -6,6 +6,7 @@ const urls = {
   transactions: `${base}:1098/transactions/list`,
   notifications: `${base}:1099/notification/list`,
   postNotification: `${base}:1099/notification/send-notification`,
+  get_corporate: `${base}:1904/api/v1/corporates`,
 
   theme: `${base}:3002/additional-instructor/theme`,
   signin: `${base}:2000/api/v1/auth/login`,

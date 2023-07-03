@@ -32,9 +32,9 @@ const ContactCardNew = (props: {
           {current?.unread_count !== 0 ? (
             <Badge
               style={{
-                fontSize: "9px",
+                fontSize: "13px",
                 marginLeft: "15px",
-                padding: "1px 1px 1px 1px",
+                padding: "4px 6px 4px 6px",
               }}
             >
               {current?.unread_count}

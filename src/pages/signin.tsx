@@ -50,16 +50,35 @@ const Signin = () => {
       });
       // console.log(res.data?.data);
       const response: any = res.data?.data;
+
       if (
         response?.user?.is_corporate &&
         response?.user?.corporate_id === corpid
       ) {
         const token = response.token;
-        const user = response.user;
-        StorageBox.saveUserData(user);
         StorageBox.saveAccessToken(token);
 
-        window.location.href = `/main/${corpid}`;
+        const res: any = await baseService.get(
+          urls.get_corporate + `/${corpid}?`
+        );
+        const corp = res.data?.data;
+        const user = response.user;
+
+        if (!corp.verify_auth) {
+          // const token = response.token;
+          StorageBox.saveUserData(user);
+          // StorageBox.saveAccessToken(token);
+          window.location.href = `/main/${corpid}`;
+        } else if (user.user_state === "pending") {
+          setErr(
+            "This organization has not approved your account to view content on their page."
+          );
+        } else {
+          const user = response.user;
+          StorageBox.saveUserData(user);
+          // StorageBox.saveAccessToken(token);
+          window.location.href = `/main/${corpid}`;
+        }
       } else {
         setErr(
           "This organization has not authorized you to view content on their page."
