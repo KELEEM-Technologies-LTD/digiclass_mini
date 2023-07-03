@@ -11,6 +11,7 @@ import baseService from "../core/baseServices";
 import urls from "../core/base.url";
 import { displaySuccess, displayWarning } from "../components/alert";
 import { Spinner } from "react-bootstrap";
+import { StorageBox } from "../core/storage";
 
 interface Question {
   question: string;
@@ -68,9 +69,26 @@ export default function SignupQuestions() {
         questions: JSON.stringify(answers),
       };
       await baseService.put(urls.updateProfile + `/${user.user_id}`, payload);
-      setLoading(false);
-      displaySuccess("Account set up successful");
-      navigate(`/home/${corpid}`);
+
+      const res: any = await baseService.get(
+        urls.get_corporate + `/${corpid}?`
+      );
+      const corp = res.data?.data;
+
+      if (!corp.verify_auth) {
+        setLoading(false);
+        navigate(`/main/${corpid}`);
+      } else if (user.user_state === "pending") {
+        StorageBox.clearStorage();
+        displaySuccess(
+          "Account set up successfully! However, it will need approval. "
+        );
+        setLoading(false);
+        navigate(`/sign-in/${corpid}`);
+      } else {
+        setLoading(false);
+        navigate(`/main/${corpid}`);
+      }
     } catch (error) {
       setLoading(false);
       console.log(error);
