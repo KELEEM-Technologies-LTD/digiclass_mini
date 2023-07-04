@@ -49,6 +49,7 @@ const urls = {
   chatlist: `${base}:9110/simple-chat/chats`,
   conversations: `${base}:9110/simple-chat/messages`,
   getMsgName: `${base}:3000/messages/name`,
+  unreadConvo: `${base}:9110/simple-chat/unread`,
 
   preview: `${base}:3001/adcourse/course-preview`,
   cert: `${base}:3002/additional-instructor/single-certificate`,

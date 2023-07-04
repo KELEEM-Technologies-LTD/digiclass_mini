@@ -40,6 +40,10 @@ export default function Signup() {
       displayWarning("Please accept the terms and conditions");
       return;
     }
+    if (!validateEmail(email)) {
+      displayWarning("Please enter correct email with");
+      return;
+    }
     if (!password) {
       displayWarning("Please enter a password!");
       return;
@@ -63,10 +67,6 @@ export default function Signup() {
     }
     if (!lname) {
       displayWarning("Please enter last name!");
-      return;
-    }
-    if (!validateEmail(email)) {
-      displayWarning("Please enter correct email with @");
       return;
     }
 

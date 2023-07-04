@@ -16,14 +16,10 @@ export default function MessageBadge() {
     setLoading(true);
     try {
       const res: any = await baseService.get(
-        urls.chatlist + `/${user?.user_id}`
+        urls.unreadConvo + `/${user?.user_id}`
       );
-      const chatlist = res.data?.payload;
-      const totalCount = chatlist.reduce(
-        (total: number, chat: any) => total + chat.unread_count,
-        0
-      );
-      setCount(totalCount);
+      const num = res.data?.payload;
+      setCount(num);
       setLoading(false);
     } catch (error) {
       console.log(error);
