@@ -26,7 +26,7 @@ export default function Author(props: any) {
   const [sending, setSending] = useState(false);
   const cancelButtonRef = useRef(null);
 
-  console.log(course_detail);
+  // console.log(course_detail);
   const [loading, setLoading] = useState(true);
   const [iscourse, setIsCourse] = useState(false);
 
