@@ -179,10 +179,11 @@ export default function PaidCourse() {
       let sec = videos_section.data?.data?.sections;
       setVideos(vid);
       setSections(sec);
-
+      const secOne = sec[0];
+      const url = vid[sec[0]?.section_id][0].url;
       const current = {
-        url: vid[sec[0]?.section_id][0].url,
-        section_name: sec[0]?.name,
+        url: url,
+        section_name: secOne?.name,
         course_id: course_id,
         paid: true,
       };

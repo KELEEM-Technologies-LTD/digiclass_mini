@@ -10,6 +10,7 @@ export default function CertificateCanvas(props: {
 }) {
   const { cert, course, ins_name, cert_url, position } = props;
   const canvasRef: any = useRef(null);
+  // console.log("position::", position);
 
   useEffect(() => {
     if (!cert.user_name) {
