@@ -16,20 +16,20 @@ const urls = {
   verify: `${base}:2000/api/v1/auth/reset/verify`,
   resetPwd: `${base}:2000/api/v1/auth/reset/verify`,
 
-  courses: `${base}:3001/adcourse/corporate-courses`,
+  courses: `${base}:3001/additional-course-service/corporate-courses`,
   course: `${base}:1906/api/v1/courses`,
   categories: `${base}:1906/api/v1/categories`,
   getCourses: `${base}:1906/api/v1/courses`,
-  get_single: `${base}:3001/adcourse/free_courses`,
+  get_single: `${base}:3001/additional-course-service/free_courses`,
   getmypaidc: `${base}:1098/transactions/listpaid`,
   initiatePyament: `${base}:1098/transactions/initialize`,
   verifyTransactions: `${base}:1098/transactions/verify`,
 
   getReviews: `${base}:1908/api/v1/reviews`,
-  updateSection: `${base}:3001/adcourse/sections/complete`,
-  getSectionStatus: `${base}:3001/adcourse/sections`,
+  updateSection: `${base}:3001/additional-course-service/sections/complete`,
+  getSectionStatus: `${base}:3001/additional-course-service/sections`,
   faq: `${base}:3031/faq`,
-  getAllCompletedSections: `${base}:3001/adcourse/sections/all`,
+  getAllCompletedSections: `${base}:3001/additional-course-service/sections/all`,
 
   //quiz
   results: `${base}:3031/quiz/quiz-results`,
@@ -37,7 +37,7 @@ const urls = {
   quiz_asnwers: `${base}:3031/quiz/answers`,
   secondary_upload: `${base}:1101/upload`,
   scores: `${base}:3031/quiz/scores`,
-  getCerts: `${base}:3001/adcourse/certs`,
+  getCerts: `${base}:3001/additional-course-service/certs`,
   sendEmail: `${base}:1100/send-email`,
   request_reseat: `${base}:3031/quiz/request-reseat`,
 
@@ -51,7 +51,7 @@ const urls = {
   getMsgName: `${base}:3000/messages/name`,
   unreadConvo: `${base}:9110/simple-chat/unread`,
 
-  preview: `${base}:3001/adcourse/course-preview`,
+  preview: `${base}:3001/additional-course-service/course-preview`,
   cert: `${base}:3002/additional-instructor/single-certificate`,
 };
 
