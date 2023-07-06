@@ -65,26 +65,27 @@ const BuyNow = () => {
     getData();
   }, []);
 
-  const startPayemnt = async () => {
+  const startPayment = async () => {
     displayLoading("Initializing.....");
     const init_data = {
       email: email,
       amount: item.price,
       courses: [courseid],
-      return: window.location.origin + `/check/${corp_id}`,
+      return_url: window.location.origin + `/check/${corp_id}`,
+      location_of_purchase: "public",
     };
 
     try {
       const userdata = StorageBox.retrieveUserData();
       const res: any = await baseService.post(
-        urls.initiatePyament + `/${userdata.user_id}`,
+        urls.initiatePayment + `/${userdata.user_id}`,
         init_data
       );
-      console.log(res.data?.payload);
+      // console.log(res.data?.payload);
       window.location.href = res.data?.payload?.authorization_url;
     } catch (error) {
-      console.log(error);
-      displayWarning("Error! ! ! ");
+      // console.log(error);
+      displayWarning("Error initializing payment, please try again later");
     }
   };
 
@@ -194,7 +195,7 @@ const BuyNow = () => {
             endIcon={<Payment />}
             className="ml-auto"
             disabled={loading}
-            onClick={startPayemnt}
+            onClick={startPayment}
           >
             Complete purchase
           </Button>

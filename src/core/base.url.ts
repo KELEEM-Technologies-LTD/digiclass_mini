@@ -22,7 +22,7 @@ const urls = {
   getCourses: `${base}:1906/api/v1/courses`,
   get_single: `${base}:3001/additional-course-service/free_courses`,
   getmypaidc: `${base}:1098/transactions/listpaid`,
-  initiatePyament: `${base}:1098/transactions/initialize`,
+  initiatePayment: `${base}:1098/transactions/initialize`,
   verifyTransactions: `${base}:1098/transactions/verify`,
 
   getReviews: `${base}:1908/api/v1/reviews`,
