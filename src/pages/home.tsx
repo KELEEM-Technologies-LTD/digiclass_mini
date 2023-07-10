@@ -10,6 +10,7 @@ import GeneralContext from "../context/gen";
 import { StorageBox } from "../core/storage";
 import baseService from "../core/baseServices";
 import urls from "../core/base.url";
+import { FolderMinusIcon, TagIcon } from "@heroicons/react/20/solid";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -82,12 +83,17 @@ export default function Home() {
   }, []);
 
   const filterTabCategory = (cat: string, name: string) => {
-    setCurrentCategory(cat);
-    setQuery(name);
-    const filteredCourses = courses.filter(
-      (course: any) => course.category === cat
-    );
-    setResults(filteredCourses);
+    if (cat === "all-unfiltered") {
+      setCurrentCategory("");
+      setQuery("");
+    } else {
+      setCurrentCategory(cat);
+      setQuery(name);
+      const filteredCourses = courses.filter(
+        (course: any) => course.category === cat
+      );
+      setResults(filteredCourses);
+    }
     // console.log(filteredCourses);
   };
 
@@ -108,44 +114,53 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="my-2 px-2 md:grid hidden md:grid-cols-8 gap-1">
-        {categories?.map((_d: any, i: number) => {
-          return (
-            <button
-              className={
-                currentCategory === _d.category_id
-                  ? `bg-[${theme?.primary_color}] hover:bg-[${theme?.primary_color}] text-white font-bold py-1 px-2 border border-[${theme?.primary_color}] rounded`
-                  : "bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-2 border border-gray-400 rounded shadow"
-              }
-              key={i}
-              onClick={() => filterTabCategory(_d.category_id, _d.name)}
-            >
-              {_d.name}
-            </button>
-          );
-        })}
-      </div>
       <div className="flex flex-col md:flex-row justify-between my-2">
         <div className="text-center">
-          <ButtonGroup className="px-3">
-            {tabs.map((_d, i) => (
-              <button
-                key={i}
-                type="submit"
-                onClick={() => {
-                  setTab(i);
-                  filterTab(i);
-                }}
-                className={`${
-                  tab === i
-                    ? `bg-[${theme?.primary_color}] text-white hover:bg-[${theme?.primary_color}] hover:text-white hover:bg-opacity-80  py-2 px-4`
-                    : `border-y-[2px] border-x-[1px] border-[${theme?.primary_color}] hover:bg-[${theme?.primary_color}]  hover:text-white py-2 px-4`
-                } ${i === 0 ? `rounded-l-lg` : i === 2 ? "rounded-r-lg" : ""}`}
-              >
-                {_d}
-              </button>
-            ))}
-          </ButtonGroup>
+          <div className="relative inline-flex">
+            <select
+              className="block appearance-none w-full py-2 px-4 pr-8 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                filterTabCategory(e.target.value, "filter by category")
+              }
+            >
+              <option value="all-unfiltered">All categories</option>
+              {categories?.map((_d: any, i: number) => {
+                return (
+                  <option
+                    key={i}
+                    onChange={() => {
+                      filterTabCategory(_d.category_id, _d.name);
+                      console.log(_d.category_id, _d.name);
+                    }}
+                    value={_d.category_id}
+                  >
+                    {_d.name}
+                  </option>
+                );
+              })}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <TagIcon className="h-4 w-4 text-gray-400" />
+            </div>
+          </div>
+          <div className="relative inline-flex">
+            <select
+              className="block appearance-none w-full py-2 px-4 pr-8 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                setTab(parseInt(e.target.value));
+                filterTab(parseInt(e.target.value));
+              }}
+            >
+              {tabs.map((_d, i) => (
+                <option key={i} value={i}>
+                  {_d}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+              <FolderMinusIcon className="h-4 w-4 text-gray-400" />
+            </div>
+          </div>
         </div>
         <div className="flex mt-2 md:mt-0 items-center">
           <input

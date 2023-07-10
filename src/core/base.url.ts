@@ -1,4 +1,4 @@
-const base = "http://109.205.180.74";
+const base = "http://161.97.137.252";
 const urls = {
   user: `${base}:1904/api/v1/users`,
   getUser: `${base}:1904/api/v1/users`,
