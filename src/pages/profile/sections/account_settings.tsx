@@ -8,7 +8,7 @@ import { displaySuccess, displayWarning } from "../../../components/alert";
 import GeneralContext from "../../../context/gen";
 
 export default function AccountSettings() {
-  const { corpid, setCorpId, theme } = useContext(GeneralContext);
+  const { theme } = useContext(GeneralContext);
 
   const [fname, setFname] = useState<string>("");
   const [lname, setlanme] = useState<string>("");
@@ -87,7 +87,7 @@ export default function AccountSettings() {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -99,14 +99,6 @@ export default function AccountSettings() {
     />
   ) : (
     <Container className="mt-5">
-      {/* <Row>
-        <Col md={5}>
-          <ProfilePicChange
-            getUserInformation={getData}
-            profile_pic={user?.profile_pic}
-          />
-        </Col>
-      </Row> */}
       <div className="grid grid-cols-12">
         <div className="md:col-span-8 col-span-12  grid md:grid-cols-2 grid-cols-1  gap-12 my-8">
           <div className="">
@@ -180,7 +172,7 @@ export default function AccountSettings() {
   );
 }
 
-function InputWithIcon(props: any) {
+export function InputWithIcon(props: any) {
   const {
     icon,
     icon1,

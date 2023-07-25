@@ -1,10 +1,10 @@
-import { Fragment, useEffect, useState } from "react";
-import { StorageBox } from "../../core/storage";
-import baseService from "../../core/baseServices";
-import urls from "../../core/base.url";
 import { Avatar, CircularProgress } from "@mui/material";
-import { Left, Right } from "./components/message-pills";
+import { Fragment, useEffect, useState } from "react";
 import { displayWarning } from "../../components/alert";
+import urls from "../../core/base.url";
+import baseService from "../../core/baseServices";
+import { StorageBox } from "../../core/storage";
+import { Left, Right } from "./components/message-pills";
 
 export default function MessagesScreen(props: {
   current: any;
@@ -14,40 +14,34 @@ export default function MessagesScreen(props: {
   const [loading, setLoading] = useState<boolean>(false);
   const [me, setMe] = useState<string>("");
   const [chats, setchats] = useState<any>([]);
-  const [user, setUser] = useState<any>([]);
 
-  const chatid = current?.user_id;
+  const chat_id = current?.user_id;
 
   useEffect(() => {
+    const makeRead = async () => {
+      try {
+        await baseService.put(
+          urls.conversations + `/${current?.user_id}/${my_user.user_id}/read`,
+          {}
+        );
+      } catch (error) {}
+    };
     makeRead();
+
     getChats();
-    getUser();
+
     const intervalId = setInterval(() => {
-      relaodChats();
+      reloadChats();
     }, 10000); // 1 minute in milliseconds
 
     return () => clearInterval(intervalId);
   }, [current]);
 
-  const my_user = StorageBox.retrieveUserData();
-  const getUser = async () => {
-    setLoading(true);
-    try {
-      const instructor_res: any = await baseService.get(
-        urls.getMsgName + `/${chatid}`
-      );
-      setUser(instructor_res.data?.payload[0]);
-      //   console.log(instructor_res.data?.payload[0]);
-    } catch (error) {
-      //   console.log(error);
-    }
-  };
-
-  const relaodChats = async () => {
-    if (chatid) {
+  const reloadChats = async () => {
+    if (chat_id) {
       try {
         const res: any = await baseService.get(
-          urls.conversations + `/${chatid}/${my_user.user_id}`
+          urls.conversations + `/${chat_id}/${my_user.user_id}`
         );
 
         setchats(res.data?.payload);
@@ -56,13 +50,14 @@ export default function MessagesScreen(props: {
     }
   };
 
+  const my_user = StorageBox.retrieveUserData();
   const getChats = async () => {
     setMe(my_user?.user_id);
 
-    if (chatid) {
+    if (chat_id) {
       try {
         const res: any = await baseService.get(
-          urls.conversations + `/${chatid}/${my_user.user_id}`
+          urls.conversations + `/${chat_id}/${my_user.user_id}`
         );
         setchats(res.data?.payload);
         setLoading(false);
@@ -77,15 +72,6 @@ export default function MessagesScreen(props: {
     }
   };
 
-  const makeRead = async () => {
-    try {
-      await baseService.put(
-        urls.conversations + `/${current?.user_id}/${my_user.user_id}/read`,
-        {}
-      );
-    } catch (error) {}
-  };
-
   const [txt, setTxt] = useState<string>("");
   const [sending, setSending] = useState<boolean>(false);
 
@@ -98,8 +84,8 @@ export default function MessagesScreen(props: {
       setSending(false);
     } else {
       try {
-        const res = await baseService.post(urls.conversations, {
-          receiverId: chatid,
+        await baseService.post(urls.conversations, {
+          receiverId: chat_id,
           senderId: my_user.user_id,
           message: txt,
         });
@@ -117,7 +103,7 @@ export default function MessagesScreen(props: {
 
   return (
     <Fragment>
-      {!chatid ? (
+      {!chat_id ? (
         <></>
       ) : loading ? (
         <div className="flex items-center justify-center h-screen">
@@ -128,12 +114,12 @@ export default function MessagesScreen(props: {
           <div className="flex sm:items-center justify-between py-3 border-b-2 border-gray-200">
             <div className="relative flex items-center space-x-4">
               <div className="relative">
-                <Avatar src={user?.profile_pic} alt="" />
+                <Avatar src={current?.profile_pic} alt="" />
               </div>
               <div className="flex flex-col leading-tight">
                 <div className="md:text-2xl text-xl mt-1 flex items-center">
                   <span className="text-gray-700 mr-3">
-                    {user?.first_name} {user?.last_name}
+                    {current?.first_name} {current?.last_name}
                   </span>
                 </div>
                 {/* <span className="text-lg text-gray-600">Junior Developer</span> */}

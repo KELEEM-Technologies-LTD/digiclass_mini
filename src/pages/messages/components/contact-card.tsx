@@ -37,7 +37,7 @@ const ContactCardNew = (props: {
                 padding: "4px 6px 4px 6px",
               }}
             >
-              {current?.unread_count}
+              !
             </Badge>
           ) : null}
         </div>

@@ -10,6 +10,7 @@ import urls from "../../core/base.url";
 import AccountSettings from "./sections/account_settings";
 import Notifications from "./sections/notifications";
 import Transactions from "./sections/transactions";
+import ChangePassword from "./sections/change_pwd";
 import { Container } from "react-bootstrap";
 
 export default function Account() {
@@ -81,6 +82,7 @@ export default function Account() {
           <Tab label="Account" />
           <Tab label="Notification" />
           <Tab label="Transactions" />
+          <Tab label="Security" />
         </Tabs>
       </Container>
       <div style={{ minHeight: "50vh" }} className="px-5">
@@ -93,6 +95,7 @@ export default function Account() {
             theme={theme}
           />
         ) : null}
+        {tab === 3 ? <ChangePassword /> : null}
       </div>
     </>
   );

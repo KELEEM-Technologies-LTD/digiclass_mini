@@ -87,7 +87,7 @@ const Signin = () => {
       setAuth(false);
     } catch (error: any) {
       // setErr("There was an error");
-      console.log(error?.response?.data?.message);
+      // console.log(error?.response?.data?.message);
       setErr(error?.response?.data?.message ?? "There was an error");
       setAuth(false);
     }

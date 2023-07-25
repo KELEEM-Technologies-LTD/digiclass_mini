@@ -38,7 +38,7 @@ export default function Messages() {
       const res: any = await baseService.get(
         urls.chatlist + `/${user?.user_id}`
       );
-      //   console.log(res.data?.payload);
+      // console.log(res.data);
       setContactList(res.data?.payload);
       setContactLoading(false);
     } catch (error) {
