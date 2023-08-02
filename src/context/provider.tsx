@@ -33,10 +33,10 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
   const [courseLoading, setCourseLoading] = useState<boolean>(true);
   const [courses, setCourses] = useState<any>([]);
   const get_course = async () => {
-    if (corpid !== "") {
+    if (corpid !== "" && StorageBox.retrieveUserData()) {
       try {
         const res: any = await baseService.get(urls.courses + `/${corpid}?`);
-        console.log(res.data?.payload);
+        // console.log(res.data?.payload);
         setCourses(res.data?.payload);
         setCourseLoading(false);
       } catch (error) {
@@ -45,8 +45,20 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
     }
   };
   useEffect(() => {
+    const get_course = async () => {
+      if (corpid !== "" && StorageBox.retrieveUserData()) {
+        try {
+          const res: any = await baseService.get(urls.courses + `/${corpid}?`);
+          // console.log(res.data?.payload);
+          setCourses(res.data?.payload);
+          setCourseLoading(false);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
     get_course();
-  }, [corpid]);
+  }, [corpid, StorageBox.getAccessToken()]);
 
   const [read, setRead] = useState<any>([]);
   const [unread, setUnread] = useState<any>([]);
