@@ -40,10 +40,10 @@ export default function PaidCourse() {
   const [loading, setLoading] = useState<boolean>(true);
   const [courseDetail, setCourseDetail] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
-  const [videos, setVideos] = useState<any>([]);
   const [sections, setSections] = useState<any>([]);
   const [faq, setFaq] = useState<any>([]);
   const [instructor, setInstructor] = useState([]);
+  const [quiz, setQuiz] = useState<any>([]);
 
   const [graded, setGraded] = useState<boolean>(false);
   const [grade_message, setGrade_message] = useState<any>(<></>);
@@ -61,7 +61,15 @@ export default function PaidCourse() {
       );
       setInstructor(instructor_res.data?.data);
 
-      if (course_data.data?.data?.configurations?.quiz_required) {
+      const res_quiz: any = await baseService.get(
+        urls.quiz_questions + `/${course_id}`
+      );
+      setQuiz(res_quiz.data?.payload);
+
+      if (
+        course_data.data?.data?.configurations?.quiz_required &&
+        res_quiz.data?.payload?.length !== 0
+      ) {
         const user: any = StorageBox.retrieveUserData();
 
         const res_result: any = await baseService.get(
@@ -177,7 +185,7 @@ export default function PaidCourse() {
       //   console.log(videos_section.data?.data);
       let vid = videos_section.data?.data?.videos;
       let sec = videos_section.data?.data?.sections;
-      setVideos(vid);
+      // setVideos(vid);
       setSections(sec);
       const secOne = sec[0];
       const url = vid[sec[0]?.section_id][0].url;
@@ -244,7 +252,8 @@ export default function PaidCourse() {
             ) : completed ? (
               <Fragment>
                 <div className="w-full h-[60vh] flex flex-col md:flex-row items-center justify-center">
-                  {courseDetail.configurations?.quiz_required ? (
+                  {courseDetail.configurations?.quiz_required &&
+                  quiz?.length !== 0 ? (
                     <div>
                       <p>
                         You have completed {courseDetail?.title} please take a

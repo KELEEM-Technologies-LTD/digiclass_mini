@@ -39,13 +39,7 @@ export default function Account() {
     if (corpid === "") {
       setCorpId(corp_id);
     }
-  }, []);
-
-  const MyTabs = styled(Tabs)({
-    "& .MuiTabs-indicator": {
-      backgroundColor: theme?.primary_color,
-    },
-  });
+  }, [corp_id, corpid, setCorpId, tabindex]);
 
   useEffect(() => {
     getData();
@@ -85,16 +79,16 @@ export default function Account() {
           <Tab label="Security" />
         </Tabs>
       </Container>
+      {tab === 2 ? (
+        <Transactions
+          loading={dataLoading}
+          transactions={transactions}
+          theme={theme}
+        />
+      ) : null}
       <div style={{ minHeight: "50vh" }} className="px-5">
         {tab === 0 ? <AccountSettings /> : null}
         {tab === 1 ? <Notifications /> : null}
-        {tab === 2 ? (
-          <Transactions
-            loading={dataLoading}
-            transactions={transactions}
-            theme={theme}
-          />
-        ) : null}
         {tab === 3 ? <ChangePassword /> : null}
       </div>
     </>

@@ -27,7 +27,7 @@ export default function EnterEmail() {
     }
   }, []);
 
-  const send_eamil = async (e: any) => {
+  const send_email = async (e: any) => {
     e.preventDefault();
     setAuth(true);
     try {
@@ -64,7 +64,7 @@ export default function EnterEmail() {
                   to redeem your corporate account
                 </small>
               </div>
-              <Form className="mt-4" onSubmit={send_eamil}>
+              <Form className="mt-4" onSubmit={send_email}>
                 <FloatingLabel
                   controlId="floatingEmail"
                   className="mb-3"

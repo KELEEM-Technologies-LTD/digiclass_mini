@@ -50,6 +50,8 @@ export default function COurse() {
 
   const [graded, setGraded] = useState(false);
   const [grade_message, setGrade_message] = useState(<></>);
+  const [quiz, setQuiz] = useState<any>([]);
+
   const getDetails = async () => {
     try {
       const course_data: any = await baseService.get(
@@ -82,7 +84,15 @@ export default function COurse() {
       setCurrent(current);
       setPlayer(false);
 
-      if (res.data?.payload?.details?.configurations?.quiz_required) {
+      const res_quiz: any = await baseService.get(
+        urls.quiz_questions + `/${course_id}`
+      );
+      setQuiz(res_quiz.data?.payload);
+
+      if (
+        res.data?.payload?.details?.configurations?.quiz_required &&
+        res_quiz.data?.payload?.length !== 0
+      ) {
         const user: any = StorageBox.retrieveUserData();
 
         const res_result: any = await baseService.get(
@@ -205,10 +215,6 @@ export default function COurse() {
     getDetails();
   }, []);
 
-  useEffect(() => {
-    checkStatus(sections.length);
-  }, [sections]);
-
   const [completed, setCompleted] = useState<boolean>(false);
   const checkStatus = async (section_count: number) => {
     const result = await is_course_completed(
@@ -218,6 +224,18 @@ export default function COurse() {
     // console.log(result);
     setCompleted(result);
   };
+
+  useEffect(() => {
+    const checkStatus = async (section_count: number) => {
+      const result = await is_course_completed(
+        course_id as string,
+        section_count
+      );
+      // console.log(result);
+      setCompleted(result);
+    };
+    checkStatus(sections.length);
+  }, [course_id, sections]);
 
   const [value, setValue] = useState<number>(0);
   return loading ? (
@@ -282,7 +300,8 @@ export default function COurse() {
               ) : completed ? (
                 <Fragment>
                   <div className="w-full h-[60vh] flex items-center justify-center">
-                    {courseDetail.configurations?.quiz_required ? (
+                    {courseDetail.configurations?.quiz_required &&
+                    quiz?.length !== 0 ? (
                       <div>
                         <p>
                           You have completed {courseDetail?.title} please take a

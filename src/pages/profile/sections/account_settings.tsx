@@ -9,6 +9,15 @@ import GeneralContext from "../../../context/gen";
 
 export default function AccountSettings() {
   const { theme } = useContext(GeneralContext);
+  const currentDate = new Date();
+  const minDateOfBirthValue = new Date(
+    currentDate.getFullYear() - 16,
+    currentDate.getMonth(),
+    currentDate.getDate()
+  );
+  const minDateOfBirthFormatted = minDateOfBirthValue
+    .toISOString()
+    .split("T")[0];
 
   const [fname, setFname] = useState<string>("");
   const [lname, setlanme] = useState<string>("");
@@ -36,6 +45,7 @@ export default function AccountSettings() {
         setLoc(load?.location || "");
         setDob(load?.dob || "2000-01-01");
       }
+
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -61,7 +71,7 @@ export default function AccountSettings() {
       location: loc,
       msisdn: phone,
     };
-    // console.log(payload);
+
     try {
       setLoading(true);
       const user: any = StorageBox.retrieveUserData();
@@ -76,12 +86,22 @@ export default function AccountSettings() {
           urls.getUser + `/${user.user_id}`
         );
         const load = usr?.data?.data;
+
         setFname(load.first_name || "");
         setlanme(load.last_name || "");
         setPhone(load?.msisdn || "");
         setLoc(load?.location || "");
         setDob(load?.dob || "2000-01-01");
-        displaySuccess(response?.data?.data?.message);
+
+        displaySuccess(response?.data?.data?.message, () => {
+          const userNew: any = StorageBox.retrieveUserData();
+          userNew.first_name = fname;
+          userNew.last_name = lname;
+          userNew.dob = formdob;
+          userNew.location = loc;
+          userNew.msisdn = phone;
+          StorageBox.saveUserData(userNew);
+        });
         // console.log(response?.data?.data);
       }
       setLoading(false);
@@ -152,6 +172,7 @@ export default function AccountSettings() {
               type="date"
               name="formdob"
               value={formdob}
+              max={minDateOfBirthFormatted}
               onChange={(e: any) => setDob(e.target.value)}
               className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />

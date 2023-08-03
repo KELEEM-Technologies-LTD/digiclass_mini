@@ -64,7 +64,11 @@ export default function NavBar() {
               navigate(`/main/${user ? user.corporate_id : corpid}`)
             }
           >
-            <img src={theme?.img} alt="logo" className="h-full w-full" />
+            <img
+              src={theme?.img ?? `/logo.png`}
+              alt="logo"
+              className="h-full w-full"
+            />
           </div>
           <div className="d-flex">
             <span
