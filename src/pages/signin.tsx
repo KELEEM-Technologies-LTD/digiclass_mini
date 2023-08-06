@@ -180,7 +180,7 @@ const Signin = () => {
               <div className="flex justify-center items-center mb-3">
                 <Image
                   fluid
-                  src={theme?.img}
+                  src={theme?.img ?? `/logo.png`}
                   alt="Logo"
                   style={{ height: "100px" }}
                 />
@@ -249,7 +249,7 @@ const Signin = () => {
                 <div className="flex justify-center items-center mb-3">
                   <Image
                     fluid
-                    src={theme?.img}
+                    src={theme?.img?? `/logo.png`}
                     alt="Logo"
                     style={{ height: "100px" }}
                   />
