@@ -10,9 +10,9 @@ export default function CertificateCanvas(props: {
 }) {
   const { cert, course, ins_name, cert_url, position } = props;
   const canvasRef: any = useRef(null);
-  // console.log("position::", position);
 
   useEffect(() => {
+    // console.log("position::", position);
     if (!cert.user_name) {
       window.location.reload();
     } else {
@@ -45,46 +45,68 @@ export default function CertificateCanvas(props: {
           context.font = `bold ${fontSize}px Arial`;
         }
 
-        // console.log(canvas.width);
-
         // Write the text onto the canvas
+        /**course name */
         context.fillText(
           course.title,
-          position === null ? canvas.width / 2 : position?.course?.width,
-          position === null ? canvas.height / 1.4 : position?.course?.height
+          position === null
+            ? canvas.width / 2
+            : canvas.width * (position?.course_name?.x / 100),
+          position === null
+            ? canvas.height / 1.4
+            : canvas.height * (position?.course_name?.y / 100)
         );
+        /**
+         * Student Name
+         */
         context.font = "bold 24px Arial";
         context.fillText(
           cert.user_name,
-          position === null ? canvas.width / 2 : position?.student?.width,
-          position === null ? canvas.height / 2.1 : position?.student?.height
+          position === null
+            ? canvas.width / 2
+            : canvas.width * (position?.student_name?.x / 100),
+          position === null
+            ? canvas.height / 2.1
+            : canvas.height * (position?.student_name?.y / 100)
         );
 
+        /**
+         * Certificate code
+         */
         context.fillText(
           cert.certificate_code,
           position === null
             ? canvas.width / 1.17
-            : position?.cert_number?.width,
+            : canvas.width * (position?.certificate_number?.x / 100),
           position === null
             ? canvas.height / 1.12
-            : position?.cert_number?.height
+            : canvas.height * (position?.certificate_number?.y / 100)
         );
+
+        /**
+         * Date generated
+         */
         context.fillText(
           moment(cert.date_generated).format("MMM Do, YYYY"),
           position === null
             ? canvas.width / 1.615
-            : position?.date_signed?.width,
+            : canvas.width * (position?.date?.x / 100),
           position === null
             ? canvas.height / 1.12
-            : position?.date_signed?.height
+            : canvas.height * (position?.date?.y / 100)
         );
 
+        /**
+         * Instructor Name
+         */
         context.fillText(
           ins_name,
-          position === null ? canvas.width / 2.58 : position?.instructor?.width,
+          position === null
+            ? canvas.width / 2.58
+            : canvas.width * (position?.instructor_name?.x / 100),
           position === null
             ? canvas.height / 1.12
-            : position?.instructor?.height
+            : canvas.height * (position?.instructor_name?.y / 100)
         );
 
         // Convert the canvas to a PNG image and set the src attribute of an <img> tag
@@ -99,7 +121,7 @@ export default function CertificateCanvas(props: {
   return (
     <>
       <div className="w-full h-full hidden md:flex justify-center items-center mb-2">
-        <canvas ref={canvasRef} width={"995 px"} height={"689"} />
+        <canvas ref={canvasRef} width={"995"} height={"689"} />
       </div>
       <div className="w-full h-full flex md:hidden justify-center items-center mb-3">
         <div id="image-container" className="w-full h-full mflex"></div>
