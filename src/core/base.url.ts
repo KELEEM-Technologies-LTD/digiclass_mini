@@ -53,6 +53,8 @@ const urls = {
 
   preview: `${base}:3001/additional-course-service/course-preview`,
   cert: `${base}:3002/additional-instructor/single-certificate`,
+
+  site_configurations: `${base}:4040/site-configuration`,
 };
 
 export default urls;

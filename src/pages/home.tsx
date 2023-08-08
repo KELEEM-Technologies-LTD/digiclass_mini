@@ -1,19 +1,18 @@
+import { FolderMinusIcon, TagIcon } from "@heroicons/react/20/solid";
 import { Search } from "@mui/icons-material";
 import { Pagination } from "@mui/material";
 import { Fragment, useContext, useEffect, useState } from "react";
-import { ButtonGroup, Col, Container, Row, Spinner } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { useParams } from "react-router-dom";
 import CourseCard from "../components/course_card";
 import LoadingOverLay from "../components/loader";
 import NavBar from "../components/navbar";
 import GeneralContext from "../context/gen";
-import { StorageBox } from "../core/storage";
-import baseService from "../core/baseServices";
 import urls from "../core/base.url";
-import { FolderMinusIcon, TagIcon } from "@heroicons/react/20/solid";
+import baseService from "../core/baseServices";
+import { StorageBox } from "../core/storage";
 
 export default function Home() {
-  const navigate = useNavigate();
   const {
     loading,
     user,
@@ -74,12 +73,21 @@ export default function Home() {
   useEffect(() => {
     const get_categories = async () => {
       try {
-        const res: any = await baseService.get(urls.categories + `?size=6`);
-        setCategories(res.data?.data?.data);
+        const response: any = await baseService.get(
+          urls.site_configurations + `/get/top-categories`
+        );
+        const payload = JSON.parse(response.data?.payload);
+        setCategories(payload);
+        console.log(payload);
+
+        // const res: any = await baseService.get(urls.categories + `?size=6`);
+        // setCategories(res.data?.data?.data);
         // console.log(res.data?.data?.data);
       } catch (error) {}
     };
     get_categories();
+
+    // console.log("lol");
   }, []);
 
   const filterTabCategory = (cat: string, name: string) => {
@@ -130,11 +138,11 @@ export default function Home() {
                     key={i}
                     onChange={() => {
                       filterTabCategory(_d.category_id, _d.name);
-                      console.log(_d.category_id, _d.name);
+                      // console.log(_d.category_id, _d.name);
                     }}
-                    value={_d.category_id}
+                    value={_d.value}
                   >
-                    {_d.name}
+                    {_d.label}
                   </option>
                 );
               })}
