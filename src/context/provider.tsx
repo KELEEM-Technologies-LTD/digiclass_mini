@@ -40,10 +40,11 @@ export default function ContextProvider(props: { children: React.ReactNode }) {
         setCourses(res.data?.payload);
         setCourseLoading(false);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
   };
+
   useEffect(() => {
     const get_course = async () => {
       if (corpid !== "" && StorageBox.retrieveUserData()) {

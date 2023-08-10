@@ -15,7 +15,6 @@ import { StorageBox } from "../core/storage";
 export default function Home() {
   const {
     loading,
-    user,
     courseLoading,
     courses,
     corpid,

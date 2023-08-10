@@ -19,42 +19,12 @@ import { CircularProgress } from "@mui/material";
 export default function Author(props: any) {
   const { corp_id } = useParams();
   const { theme } = useContext(GeneralContext);
-  const { instructor, course_detail } = props;
+  const { instructor, course_detail, hideMessage } = props;
   const { first_name, last_name, resume, user_role } = instructor;
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const cancelButtonRef = useRef(null);
-
-  // console.log(course_detail);
-  const [loading, setLoading] = useState(true);
-  const [iscourse, setIsCourse] = useState(false);
-
-  useEffect(() => {
-    getmypaid();
-  }, []);
-
-  const getmypaid = async () => {
-    setLoading(true);
-    const user: any = StorageBox.retrieveUserData();
-    try {
-      const res: any = await baseService.get(
-        urls.getmypaidc + `/${user.user_id}`
-      );
-      const crse = res.data.payload;
-      if (crse.length < 1) {
-        setIsCourse(false);
-      } else if (
-        crse.filter((_it: any) => _it.course_id === course_detail?.course_id)
-      ) {
-        setIsCourse(true);
-      }
-      // console.log("course:", res.data.payload);
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const sendmessage = async () => {
     setSending(true);
@@ -107,7 +77,7 @@ export default function Author(props: any) {
                     >
                       <OpenInNewIcon />
                     </Link>
-                    {iscourse && (
+                    {hideMessage ? null : (
                       <div className="text-black">
                         <Link to="#" onClick={() => setOpen(true)}>
                           <MessageOutlined />

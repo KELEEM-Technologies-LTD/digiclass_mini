@@ -16,7 +16,7 @@ const EnterPWd = React.lazy(() => import("./pages/enter-pwd"));
 const HomePage = React.lazy(() => import("./pages/home"));
 const Main = React.lazy(() => import("./pages/main/main"));
 const CoursesPage = React.lazy(() => import("./pages/course/course"));
-const PaidCourse = React.lazy(() => import("./pages/course/paid_coures"));
+const PaidCourse = React.lazy(() => import("./pages/course/paid_course"));
 const MyCourse = React.lazy(() => import("./pages/my-courses"));
 const MyAccount = React.lazy(() => import("./pages/profile/account"));
 const MyBuyNow = React.lazy(() => import("./pages/buy-now"));

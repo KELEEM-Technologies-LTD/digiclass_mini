@@ -4,23 +4,23 @@ import {
   PlayCircleOutline,
 } from "@mui/icons-material";
 import { Tab, Tabs } from "@mui/material";
+import moment from "moment";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import ReactPlayer from "react-player";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import LoadingOverLay from "../../components/loader";
 import GeneralContext from "../../context/gen";
 import urls from "../../core/base.url";
 import baseService from "../../core/baseServices";
 import { StorageBox } from "../../core/storage";
+import Author from "../course/components/author";
 import Faq from "../course/components/faq";
 import OverView from "../course/components/overview";
 import Review from "../course/components/reviews";
 import SingleSection from "../course/components/sections";
-import { is_course_completed } from "./section_helper";
 import Files from "./components/Files";
-import moment from "moment";
-import Author from "../course/components/author";
+import { is_course_completed } from "./section_helper";
 
 export default function PaidCourse() {
   const { current, theme, setCurrent, player, setPlayer, corpid, setCorpId } =

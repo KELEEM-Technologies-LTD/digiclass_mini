@@ -1,29 +1,21 @@
-import React, {
-  Fragment,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Link, useNavigate } from "react-router-dom";
-import baseService from "../../../core/baseServices";
-import urls from "../../../core/base.url";
-import { displayWarning } from "../../../components/alert";
-import ReactPlayer from "react-player";
 import { Dialog, Transition } from "@headlessui/react";
-import moment from "moment";
-import { Star, StarBorder, StarHalf } from "@mui/icons-material";
 import { PlayIcon } from "@heroicons/react/20/solid";
-import calender from "../../../assets/svg/wallet.svg";
-import languageicon from "../../../assets/svg/voice.svg";
-import { formatCedis } from "../../../components/helpers";
-import GeneralContext from "../../../context/gen";
+import { Star, StarBorder, StarHalf } from "@mui/icons-material";
+import moment from "moment";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import ReactPlayer from "react-player";
 import imgplay from "../../../assets/img/play.png";
+import languageicon from "../../../assets/svg/voice.svg";
+import calender from "../../../assets/svg/wallet.svg";
+import { displayWarning } from "../../../components/alert";
+import GeneralContext from "../../../context/gen";
+import urls from "../../../core/base.url";
+import baseService from "../../../core/baseServices";
 
 export default function CourseMedia(props: any) {
-  const [adding, setAdding] = useState(false);
+  // const [adding, setAdding] = useState(false);
   const [rating, setRating] = useState(5);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const {
     title,
     short_description,
@@ -33,7 +25,7 @@ export default function CourseMedia(props: any) {
     thumbnail,
     price,
   } = props.course_detail;
-  const { first_name, last_name } = props.instructor;
+  // const { first_name, last_name } = props.instructor;
   const { corpid } = useContext(GeneralContext);
 
   let [isOpen, setIsOpen] = useState(false);
@@ -41,18 +33,6 @@ export default function CourseMedia(props: any) {
   /**
    * This side is for showing ratings
    */
-  const checkRating = () => {
-    const sum = props.reviews.reduce(
-      (acc: any, item: any) => acc + item.rating,
-      0
-    );
-    if (sum === 0) {
-      setRating(5);
-    } else {
-      const mean = sum / props.reviews.length;
-      setRating(mean);
-    }
-  };
 
   /**
    * Get previews
@@ -60,19 +40,31 @@ export default function CourseMedia(props: any) {
   const [preview, setPreview] = useState(
     "https://www.youtube.com/embed/5oH9Nr3bKfw"
   );
-  const get_preview = async () => {
-    try {
-      const res: any = await baseService.get(urls.preview + `/${course_id}`);
-
-      console.log(res.data?.video?.url);
-      setPreview(res.data?.video?.url);
-    } catch (error) {}
-  };
 
   useEffect(() => {
+    const checkRating = () => {
+      const sum = props.reviews.reduce(
+        (acc: any, item: any) => acc + item.rating,
+        0
+      );
+      if (sum === 0) {
+        setRating(5);
+      } else {
+        const mean = sum / props.reviews.length;
+        setRating(mean);
+      }
+    };
+    const get_preview = async () => {
+      try {
+        const res: any = await baseService.get(urls.preview + `/${course_id}`);
+
+        // console.log(res.data?.video?.url);
+        setPreview(res.data?.video?.url);
+      } catch (error) {}
+    };
     checkRating();
     get_preview();
-  }, []);
+  }, [course_id, props.reviews]);
 
   // Calculate the number of full stars
   const fullStars = Math.floor(rating);
@@ -133,16 +125,6 @@ export default function CourseMedia(props: any) {
             </p>
           </div>
 
-          {/* {isLogged && (
-            <div className="flex items-center mt-2">
-              <p className="mr-2">Created by</p>
-              <Link to={`/instructor/${props.course_detail.instructor}`}>
-                <p className="underline cursor-pointer">
-                  {first_name + " " + last_name}
-                </p>
-              </Link>
-            </div>
-          )} */}
           <div className="flex gap-4">
             <div className="flex items-center mt-3">
               <img src={calender} alt="wallet" className="mr-2 text-white" />
@@ -156,40 +138,11 @@ export default function CourseMedia(props: any) {
             </div>
           </div>
           <div className=" grid md:grid-cols-2 grid-cols-1  gap-3 mt-6">
-            {/* <button
-              // size="big"
-              className="outlineLg py-4 bg-secondary-600"
-              // onClick={
-              //   isLogged
-              //     ? addCourseToCart
-              //     : () => {
-              //         displayErrMsg(
-              //           "Please login to add item to cart",
-              //           () => {
-              //             navigate("/login");
-              //           }
-              //         );
-              //       }
-              // }
-              disabled={adding}
-            >
-              {adding ? (
-                <div className="flex justify-center items-center">
-                  <div className="w-8 h-8 border-2 border-primary-800 rounded-full border-t-2 border-t-secondary-500 animate-spin"></div>
-                </div>
-              ) : (
-                <p className="text-white">
-                  {" "}
-                  {formatCedis(props.course_detail.price, "GHS")} Add to cart
-                </p>
-              )}
-            </button> */}
             <button
-              //   size="big"
               className="outlineLg border-2 py-4 border-secondary-600"
               onClick={() => {
                 window.location.href = `/buy-now/${course_id}/${corpid}`;
-              }} ///buy-now/:courseid/:corp_id
+              }}
             >
               <p className="text-white">Buy course now</p>
             </button>
