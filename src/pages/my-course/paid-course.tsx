@@ -187,8 +187,8 @@ export default function PaidCourse() {
       let sec = videos_section.data?.data?.sections;
       // setVideos(vid);
       setSections(sec);
-      const secOne = sec[0];
-      const url = vid[sec[0]?.section_id][0].url;
+      const secOne = sec?.[0];
+      const url = vid?.[sec?.[0]?.section_id]?.[0]?.url;
       const current = {
         url: url,
         section_name: secOne?.name,
