@@ -13,30 +13,14 @@ import urls from "../../../core/base.url";
 import baseService from "../../../core/baseServices";
 
 export default function CourseMedia(props: any) {
-  // const [adding, setAdding] = useState(false);
   const [rating, setRating] = useState(5);
-  // const navigate = useNavigate();
-  const {
-    title,
-    short_description,
-    course_id,
-    language,
-    updatedAt,
-    thumbnail,
-    price,
-  } = props.course_detail;
+  const { title, short_description, course_id, language, updatedAt } =
+    props.course_detail;
+
   // const { first_name, last_name } = props.instructor;
   const { corpid } = useContext(GeneralContext);
 
   let [isOpen, setIsOpen] = useState(false);
-
-  /**
-   * This side is for showing ratings
-   */
-
-  /**
-   * Get previews
-   */
   const [preview, setPreview] = useState(
     "https://www.youtube.com/embed/5oH9Nr3bKfw"
   );
@@ -56,28 +40,29 @@ export default function CourseMedia(props: any) {
     };
     const get_preview = async () => {
       try {
-        const res: any = await baseService.get(urls.preview + `/${course_id}`);
-
-        // console.log(res.data?.video?.url);
-        setPreview(res.data?.video?.url);
-      } catch (error) {}
+        if (props?.course_detail?.course_id) {
+          const res: any = await baseService.get(
+            urls.preview + `/${props?.course_detail?.course_id}`
+          );
+          setPreview(res.data?.video?.url);
+        }
+      } catch (error) {
+        // console.log(error);
+      }
     };
     checkRating();
     get_preview();
-  }, [course_id, props.reviews]);
+  }, [course_id, props?.course_detail?.course_id, props.reviews]);
 
   // Calculate the number of full stars
   const fullStars = Math.floor(rating);
 
   // Calculate the number of empty stars
   const emptyStars = 5 - Math.ceil(rating);
-
-  // Calculate whether there should be a half star
   const hasHalfStar = rating % 1 !== 0;
 
   const playerRef = useRef<ReactPlayer | null>(null);
   const handleProgress = (state: any) => {
-    // Pause the video after 1 minute (60 seconds)
     if (state.playedSeconds >= 60 && playerRef.current) {
       playerRef.current.seekTo(60);
       displayWarning(
