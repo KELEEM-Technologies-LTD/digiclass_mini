@@ -72,7 +72,7 @@ const BuyNow = () => {
       amount: item.price,
       courses: [courseid],
       return_url: window.location.origin + `/check/${corp_id}`,
-      location_of_purchase: "public",
+      location_of_purchase: "private",
     };
 
     try {
