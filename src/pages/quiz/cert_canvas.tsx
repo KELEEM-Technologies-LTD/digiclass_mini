@@ -33,6 +33,8 @@ export default function CertificateCanvas(props: {
         // Draw the image onto the canvas
         context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
+        console.log(canvas.width, canvas.height);
+
         // Set the font and text alignment
         context.font = "bold 24px Arial";
         context.textAlign = "center";
@@ -45,16 +47,22 @@ export default function CertificateCanvas(props: {
           context.font = `bold ${fontSize}px Arial`;
         }
 
+        // console.log(position);
+
+        // console.log(canvas.width * (position?.course_name?.x / 100));
+        // console.log(canvas.height * (position?.course_name?.y / 100));
+
         // Write the text onto the canvas
         /**course name */
         context.fillText(
           course.title,
           position === null
             ? canvas.width / 2
-            : canvas.width * (position?.course_name?.x / 100),
+            : canvas.width * (position?.course_name?.x / 100) + 170,
           position === null
             ? canvas.height / 1.4
-            : canvas.height * (position?.course_name?.y / 100)
+            : canvas.height * (position?.course_name?.y / 100) + 35
+          // position.course_name?.width
         );
         /**
          * Student Name
@@ -64,10 +72,10 @@ export default function CertificateCanvas(props: {
           cert.user_name,
           position === null
             ? canvas.width / 2
-            : canvas.width * (position?.student_name?.x / 100),
+            : canvas.width * (position?.student_name?.x / 100) + 170,
           position === null
             ? canvas.height / 2.1
-            : canvas.height * (position?.student_name?.y / 100)
+            : canvas.height * (position?.student_name?.y / 100) + 35
         );
 
         /**
@@ -77,10 +85,10 @@ export default function CertificateCanvas(props: {
           cert.certificate_code,
           position === null
             ? canvas.width / 1.17
-            : canvas.width * (position?.certificate_number?.x / 100),
+            : canvas.width * (position?.certificate_number?.x / 100) + 170,
           position === null
             ? canvas.height / 1.12
-            : canvas.height * (position?.certificate_number?.y / 100)
+            : canvas.height * (position?.certificate_number?.y / 100) + 35
         );
 
         /**
@@ -90,10 +98,10 @@ export default function CertificateCanvas(props: {
           moment(cert.date_generated).format("MMM Do, YYYY"),
           position === null
             ? canvas.width / 1.615
-            : canvas.width * (position?.date?.x / 100),
+            : canvas.width * (position?.date?.x / 100) + 170,
           position === null
             ? canvas.height / 1.12
-            : canvas.height * (position?.date?.y / 100)
+            : canvas.height * (position?.date?.y / 100) + 35
         );
 
         /**
@@ -103,10 +111,10 @@ export default function CertificateCanvas(props: {
           ins_name,
           position === null
             ? canvas.width / 2.58
-            : canvas.width * (position?.instructor_name?.x / 100),
+            : canvas.width * (position?.instructor_name?.x / 100) + 170,
           position === null
             ? canvas.height / 1.12
-            : canvas.height * (position?.instructor_name?.y / 100)
+            : canvas.height * (position?.instructor_name?.y / 100) + 35
         );
 
         // Convert the canvas to a PNG image and set the src attribute of an <img> tag
@@ -121,7 +129,7 @@ export default function CertificateCanvas(props: {
   return (
     <>
       <div className="w-full h-full hidden md:flex justify-center items-center mb-2">
-        <canvas ref={canvasRef} width={"995"} height={"689"} />
+        <canvas ref={canvasRef} width={"995px"} height={"689px"} />
       </div>
       <div className="w-full h-full flex md:hidden justify-center items-center mb-3">
         <div id="image-container" className="w-full h-full mflex"></div>
