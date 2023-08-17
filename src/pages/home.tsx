@@ -72,15 +72,15 @@ export default function Home() {
   useEffect(() => {
     const get_categories = async () => {
       try {
-        const response: any = await baseService.get(
-          urls.site_configurations + `/get/top-categories`
-        );
-        const payload = JSON.parse(response.data?.payload);
-        setCategories(payload);
-        console.log(payload);
+        // const response: any = await baseService.get(
+        //   urls.site_configurations + `/get/top-categories`
+        // );
+        // const payload = JSON.parse(response.data?.payload);
+        // setCategories(payload);
+        // console.log(payload);
 
-        // const res: any = await baseService.get(urls.categories + `?size=6`);
-        // setCategories(res.data?.data?.data);
+        const res: any = await baseService.get(urls.categories + `?size=60000`);
+        setCategories(res.data?.data?.data);
         // console.log(res.data?.data?.data);
       } catch (error) {}
     };
@@ -139,9 +139,9 @@ export default function Home() {
                       filterTabCategory(_d.category_id, _d.name);
                       // console.log(_d.category_id, _d.name);
                     }}
-                    value={_d.value}
+                    value={_d.category_id}
                   >
-                    {_d.label}
+                    {_d.name}
                   </option>
                 );
               })}
