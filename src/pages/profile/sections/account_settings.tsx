@@ -57,20 +57,18 @@ export default function AccountSettings() {
     if (loc.length < 1) {
       displayWarning("Location must not be empty!");
       return;
-    }
-
-    if (phone.length < 10) {
+    } else if (phone && /^\+233\d{9,}$/.test(phone)) {
       displayWarning("Phone number must be 10 digit!");
       return;
     }
-
-    const payload = {
+    const payload: any = {
       first_name: fname,
       last_name: lname,
-      dob: formdob,
-      location: loc,
-      msisdn: phone,
     };
+
+    if (formdob) payload.dob = formdob;
+    if (phone) payload.msisdn = phone;
+    if (loc) payload.location = loc;
 
     try {
       setLoading(true);
@@ -108,6 +106,22 @@ export default function AccountSettings() {
     } catch (error) {
       setLoading(false);
       // console.log(error);
+    }
+  };
+
+  const handlePhoneNumberChange = (event: any) => {
+    let inputNumber = event.target.value;
+    if (inputNumber.length >= 13) {
+    } else {
+      // Remove all non-digit characters
+      inputNumber = inputNumber.replace(/\D/g, "");
+
+      // Add +233 prefix if input starts with 0
+      if (inputNumber.startsWith("0")) {
+        inputNumber = "+233" + inputNumber.substring(1);
+      }
+
+      setPhone(inputNumber);
     }
   };
 
@@ -150,7 +164,7 @@ export default function AccountSettings() {
               type="tel"
               name="phone"
               value={phone}
-              onChange={(e: any) => setPhone(e.target.value)}
+              onChange={handlePhoneNumberChange}
               className="py-2 border-primary-600 px-3 outline-none border rounded-5 w-full  flex  bg-primary-100  justify-between"
             />
           </div>
