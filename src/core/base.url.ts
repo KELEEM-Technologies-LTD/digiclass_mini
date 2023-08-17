@@ -55,6 +55,8 @@ const urls = {
   cert: `${base}:3002/additional-instructor/single-certificate`,
 
   site_configurations: `${base}:4040/site-configuration`,
+  sendemail: `${base}:1100/send-email`,
+  send_sms: `${base}:1916/send-sms`,
 };
 
 export default urls;
