@@ -97,18 +97,28 @@ export default function Author(props: any) {
                 {keys?.map((_d, i) => {
                   return (
                     <div className="flex gap-2" key={i}>
-                      <p className="font-bold">{_d}: </p>
-                      <p className="font-bold">{socials?._d}</p>
+                      <p className="font-bold">{_d.toLocaleUpperCase()}: </p>
+                      <p
+                        className="cursor-pointer text-[#6666ea]"
+                        onClick={() => {
+                          window.open(socials?.[_d], "_blank");
+                        }}
+                      >
+                        {socials?.[_d]}
+                      </p>
                     </div>
                   );
                 })}
+                <div className="flex gap-2 mt-4">
+                  <p className="font-bold text-l">Occupation:</p>
+                  <p>{additional_info?.occupation}</p>{" "}
+                </div>
 
-                <p className="font-bold text-l mt-4">
-                  Occupation: {additional_info?.occupation}
-                </p>
-                <p className="font-bold text-l mt-4">
-                  Organization: {additional_info?.organization}
-                </p>
+                <div className="flex gap-2 mt-4">
+                  <p className="font-bold text-l">Organization:</p>
+                  <p>{additional_info?.organization}</p>{" "}
+                </div>
+
                 <p className="font-bold text-l mt-4">
                   Subject Area(s):
                   <span className="flex mt-3">
