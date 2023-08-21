@@ -1,32 +1,30 @@
-import React, {
-  useContext,
-  Fragment,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
-import GeneralContext from "../../../context/gen";
-import { Link, useParams } from "react-router-dom";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { Dialog, Transition } from "@headlessui/react";
 import { MessageOutlined } from "@mui/icons-material";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { CircularProgress } from "@mui/material";
+import { Fragment, useContext, useRef, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { displaySuccess, displayWarning } from "../../../components/alert";
+import GeneralContext from "../../../context/gen";
 import urls from "../../../core/base.url";
 import baseService from "../../../core/baseServices";
 import { StorageBox } from "../../../core/storage";
-import { displaySuccess, displayWarning } from "../../../components/alert";
-import { Dialog, Transition } from "@headlessui/react";
-import { CircularProgress } from "@mui/material";
 
 export default function Author(props: any) {
   const { corp_id } = useParams();
   const { theme } = useContext(GeneralContext);
   const { instructor, course_detail, hideMessage } = props;
-  const { first_name, last_name, resume, user_role } = instructor;
+  const { first_name, last_name, user_role, additional_info, linkedin_url } =
+    instructor;
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
   const cancelButtonRef = useRef(null);
 
-  const sendmessage = async () => {
+  const socials = linkedin_url ? JSON.parse(linkedin_url) : {};
+  const keys = Object.keys(socials);
+
+  const send_message = async () => {
     setSending(true);
     if (message === "") {
       displayWarning("Please type  a message to the course instructor");
@@ -91,13 +89,47 @@ export default function Author(props: any) {
                 </div>
               </div>
             </div>
-            <div className="mt-10">
-              <p className="font-bold text-black">About the author</p>
-              <p className="md:mt-5">{resume}</p>
-            </div>
+            {linkedin_url ? (
+              <div className="mt-10">
+                <p className="font-bold text-black">About the author</p>
+
+                <p className="font-bold text-l my-1">Social media handles:</p>
+                {keys?.map((_d, i) => {
+                  return (
+                    <div className="flex gap-2" key={i}>
+                      <p className="font-bold">{_d}: </p>
+                      <p className="font-bold">{socials?._d}</p>
+                    </div>
+                  );
+                })}
+
+                <p className="font-bold text-l mt-4">
+                  Occupation: {additional_info?.occupation}
+                </p>
+                <p className="font-bold text-l mt-4">
+                  Organization: {additional_info?.organization}
+                </p>
+                <p className="font-bold text-l mt-4">
+                  Subject Area(s):
+                  <span className="flex mt-3">
+                    {additional_info?.subjectArea
+                      .split(",")
+                      ?.map((_d: any, i: number) => (
+                        <small
+                          key={i}
+                          className="bg-[#6666ea] text-white rounded-full px-4 py-2 mr-3"
+                        >
+                          {_d}
+                        </small>
+                      ))}
+                  </span>
+                </p>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
+
       <Transition.Root show={open} as={Fragment}>
         <Dialog
           as="div"
@@ -173,7 +205,7 @@ export default function Author(props: any) {
                       type="button"
                       style={{ backgroundColor: theme?.primary_color }}
                       className=" px-4 rounded md:ml-5 md:w-[6rem] h-9 w-full"
-                      onClick={sendmessage}
+                      onClick={send_message}
                       disabled={sending}
                     >
                       {sending ? (
