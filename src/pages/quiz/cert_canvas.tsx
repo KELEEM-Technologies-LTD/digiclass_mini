@@ -33,7 +33,7 @@ export default function CertificateCanvas(props: {
         // Draw the image onto the canvas
         context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-        console.log(canvas.width, canvas.height);
+        // console.log(canvas.width, canvas.height);
 
         // Set the font and text alignment
         context.font = "bold 24px Arial";
@@ -107,8 +107,16 @@ export default function CertificateCanvas(props: {
         /**
          * Instructor Name
          */
+        const instructorNameArray = ins_name?.split(" ");
+        // console.log(instructorNameArray);
         context.fillText(
-          ins_name,
+          instructorNameArray.length > 2
+            ? instructorNameArray?.[0] +
+                " " +
+                instructorNameArray?.[1]?.[0] +
+                ". " +
+                instructorNameArray?.[2]
+            : instructorNameArray?.[0] + " " + instructorNameArray?.[1],
           position === null
             ? canvas.width / 2.58
             : canvas.width * (position?.instructor_name?.x / 100) + 170,
@@ -121,7 +129,8 @@ export default function CertificateCanvas(props: {
         const dataURL = canvas.toDataURL("image/png");
         const img = new Image();
         img.src = dataURL;
-        //   document.getElementById("image-container").appendChild(img);
+        window.document.getElementById("image-container")?.appendChild(img);
+        // document.getElementById("image-container").appendChild(img);
       };
     }
   }, []);

@@ -445,9 +445,9 @@ export default function Quiz() {
                     >
                       Back
                     </Button>
-                    <Button disabled={submitting} onClick={() => setShow(true)}>
+                    {/* <Button disabled={submitting} onClick={() => setShow(true)}>
                       complete
-                    </Button>
+                    </Button> */}
                   </div>
                   <div className="flex">
                     <div className="flex flex-col">

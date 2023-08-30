@@ -362,6 +362,13 @@ export default function COurse() {
                     url={current?.url}
                     playing={false}
                     controls={true}
+                    config={{
+                      file: {
+                        attributes: {
+                          controlsList: "nodownload",
+                        },
+                      },
+                    }}
                   />
                   <PhotoSizeSelectSmall
                     style={{ color: theme?.primary_color, cursor: "pointer" }}
