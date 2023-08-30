@@ -72,6 +72,9 @@ export default function Account() {
         <Tabs
           value={tab}
           onChange={(e: any, newValue: any) => setTab(newValue)}
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
         >
           <Tab label="Account" />
           <Tab label="Notification" />

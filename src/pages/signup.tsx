@@ -170,16 +170,16 @@ export default function Signup() {
   useEffect(() => {
     /* global google */
 
-    google.accounts.id.initialize({
-      client_id:
-        "880710449497-8k8qttcfig311nqmh16l0qjbd53er8he.apps.googleusercontent.com",
-      callback: handleHandleCallbackResponse,
-    });
+    // google.accounts.id.initialize({
+    //   client_id:
+    //     "880710449497-8k8qttcfig311nqmh16l0qjbd53er8he.apps.googleusercontent.com",
+    //   callback: handleHandleCallbackResponse,
+    // });
 
-    google.accounts.id.renderButton(
-      document.getElementById("google_sign_icon"),
-      { theme: "outline", size: "large" }
-    );
+    // google.accounts.id.renderButton(
+    //   document.getElementById("google_sign_icon"),
+    //   { theme: "outline", size: "large" }
+    // );
 
     // console.log(google);
     checklogin();
@@ -225,7 +225,7 @@ export default function Signup() {
               Sign up and start learning
             </p>
 
-            <div id="google_sign_icon"></div>
+            {/* <div id="google_sign_icon"></div> */}
             <small className="text-danger">{err}</small>
             <form action="" onSubmit={signup}>
               <div className="mt-3">

@@ -402,6 +402,9 @@ export default function COurse() {
             <Tabs
               value={value}
               onChange={(e: any, newValue: any) => setValue(newValue)}
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
             >
               <Tab label="Overview" />
               <Tab label="Reviews" />

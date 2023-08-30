@@ -138,16 +138,16 @@ const Signin = () => {
   useEffect(() => {
     /* global google */
 
-    google.accounts.id.initialize({
-      client_id:
-        "880710449497-8k8qttcfig311nqmh16l0qjbd53er8he.apps.googleusercontent.com",
-      callback: handleHandleCallbackResponse,
-    });
+    // google.accounts.id.initialize({
+    //   client_id:
+    //     "880710449497-8k8qttcfig311nqmh16l0qjbd53er8he.apps.googleusercontent.com",
+    //   callback: handleHandleCallbackResponse,
+    // });
 
-    google.accounts.id.renderButton(
-      document.getElementById("google_sign_icon"),
-      { theme: "outline", size: "large" }
-    );
+    // google.accounts.id.renderButton(
+    //   document.getElementById("google_sign_icon"),
+    //   { theme: "outline", size: "large" }
+    // );
 
     const urlParams = new URLSearchParams(window.location.search);
     const currentUrl = urlParams.get("currentUrl");
@@ -190,7 +190,7 @@ const Signin = () => {
               Log into your account
             </p>
             <div style={{ height: "1.4px" }} className={`my-4 bg-slate-300`} />
-            <div id="google_sign_icon"></div>
+            {/* <div id="google_sign_icon"></div> */}
             <small className="text-danger">{err}</small>
             <form action="" onSubmit={signin}>
               <div className="mt-3">
@@ -242,94 +242,6 @@ const Signin = () => {
             </div>
           </div>
         </div>
-        {/* <Container className="py-4">
-          <Row className="justify-content-center">
-            <Col md={6} sm={12}>
-              <div className="bg-white p-4 text-center">
-                <div className="flex justify-center items-center mb-3">
-                  <Image
-                    fluid
-                    src={theme?.img?? `/logo.png`}
-                    alt="Logo"
-                    style={{ height: "100px" }}
-                  />
-                </div>
-                <h3 className="text-3xl" style={{ fontFamily: "sans-serif" }}>
-                  {theme?.name}
-                </h3>
-                <h5 className="mt-2 text-base">Sign in</h5>
-
-                <small className="text-danger">{err}</small>
-                <Form className="mt-4" onSubmit={signin}>
-                  <FloatingLabel
-                    controlId="floatingEmail"
-                    className="mb-3"
-                    label="username"
-                  >
-                    <Form.Control
-                      type="text"
-                      placeholder="example@gmail.com"
-                      required={true}
-                      value={email}
-                      onChange={(e: any) => setEmail(e.target.value)}
-                    />
-                  </FloatingLabel>
-
-                  <FloatingLabel
-                    controlId="floatingPassword"
-                    className="mb-3"
-                    label="Password"
-                  >
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      required={true}
-                      value={password}
-                      onChange={(e: any) => setPassword(e.target.value)}
-                    />
-                  </FloatingLabel>
-
-                  <div className=" flex justify-between">
-                    <div className="flex lg:text-base text-sm">
-                      <p>
-                        Do have an account?{" "}
-                        <Link
-                          to={`/sign-up/${corpid}`}
-                          className="text-decoration-none"
-                        >
-                          Signup here
-                        </Link>
-                      </p>
-                    </div>
-                    <Link
-                      to={`/redeem/${corpid}`}
-                      className="text-decoration-none"
-                    >
-                      Redeem account
-                    </Link>
-                  </div>
-
-                  <div className="text-center">
-                    <button
-                      type="submit"
-                      style={{
-                        margin: "auto",
-                        padding: "14px 16px",
-                        color: "white",
-                        opacity: 1,
-                        backgroundColor: theme?.primary_color,
-                        border: "none",
-                      }}
-                      disabled={auth}
-                    >
-                      {auth ? <Spinner /> : "Sign In"}
-                    </button>
-                  </div>
-                </Form>
-              </div>
-            </Col>
-          </Row>
-        </Container> */}
       </div>
     </>
   );
