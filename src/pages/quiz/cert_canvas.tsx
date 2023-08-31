@@ -107,16 +107,27 @@ export default function CertificateCanvas(props: {
         /**
          * Instructor Name
          */
-        const instructorNameArray = ins_name?.split(" ");
-        // console.log(instructorNameArray);
+
+        const nameForTesting = ins_name; // "Emil Modzaka Samuel for testing"
+        const nameParts = nameForTesting.split(" ");
+        let renderedName = nameForTesting;
+        if (nameForTesting.length <= 20) {
+          console.log(nameForTesting);
+        } else {
+          renderedName =
+            nameParts[0] +
+            " " +
+            nameParts
+              .slice(1, -1)
+              .map((part: any) => part[0] + ".")
+              .join(" ") +
+            " " +
+            nameParts[nameParts.length - 1][0] +
+            ".";
+        }
+
         context.fillText(
-          instructorNameArray.length > 2
-            ? instructorNameArray?.[0] +
-                " " +
-                instructorNameArray?.[1]?.[0] +
-                ". " +
-                instructorNameArray?.[2]
-            : instructorNameArray?.[0] + " " + instructorNameArray?.[1],
+          renderedName?.substring(0, 20),
           position === null
             ? canvas.width / 2.58
             : canvas.width * (position?.instructor_name?.x / 100) + 170,
