@@ -6,12 +6,20 @@ import GeneralContext from "../../../context/gen";
 import { StorageBox } from "../../../core/storage";
 
 function LectureCard(props: { data: any }) {
-  const { title, thumbnail, price, course_id } = props.data;
-  const { corpid } = useContext(GeneralContext);
+  const { title, thumbnail, price, course_id, configurations } = props.data;
+  const { corpid, myCourseArray } = useContext(GeneralContext);
   const user: any = StorageBox.retrieveUserData();
+  console.log(configurations);
   return (
     <Link
-      to={`/paid-course/${course_id}/${user.corporate_id}`}
+      // onClick={() => navigate()}
+      to={
+        configurations?.paid
+          ? myCourseArray.includes(course_id)
+            ? `/my-course/${course_id}/${corpid}`
+            : `/paid-course/${course_id}/${corpid}`
+          : `/course/${course_id}/${corpid}`
+      }
       className="grid grid-cols-2 gap-3 h-40 mr-4 rounded "
       style={{ border: "1px solid #787878" }}
     >
