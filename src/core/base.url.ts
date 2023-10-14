@@ -1,4 +1,6 @@
-const base = "https://backend.kelemm-digiclass.com";
+// const base = "https://backend.kelemm-digiclass.com";
+const base = "http://109.205.180.74";
+
 const urls = {
   user: `${base}:1904/api/v1/users`,
   getUser: `${base}:1904/api/v1/users`,
